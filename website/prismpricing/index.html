@@ -23,18 +23,17 @@
   <footer><a class="brand" href="/"><img src="../assets/prism-icon.png" alt="">Prism</a><span>Made for focused work in Google Workspace.</span><div><a href="/privacy.html">Privacy</a><a href="mailto:support@getwalksafe.co.uk">Support</a></div></footer>
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script>
-    Paddle.Setup({token:'live_b984682f2c9e400793fb4183162'});
     const WORKER='https://prism-license-worker.purrapi.workers.dev', monthlyPrice='pri_01m0x3127jkpk77srr5zghavgm', annualPrice='pri_01m0x2vae0r41g3n45xfqbw0xw';
     let checkoutIds={}, lastEmail='', isComplete=false;
     const message=document.getElementById('success-email');
     function showKey(key,email){const panel=document.getElementById('success-panel');panel.hidden=false;panel.scrollIntoView({behavior:'smooth',block:'center'});if(key){document.getElementById('success-key').value=key;message.textContent=email?'Linked to '+email+' — paste it into Prism to unlock.':'Key ready — paste it into Prism to unlock.'}else message.textContent='Payment received — generating your key. Please keep this page open.'}
     async function pollKey(ids){for(let i=0;i<8;i++){try{const q=new URLSearchParams(ids);const res=await fetch(WORKER+'/api/get-license?'+q);const data=await res.json();if(data.found&&data.key){showKey(data.key,data.email||ids.email);return}}catch{} message.textContent='Preparing your key… this can take a few seconds.';await new Promise(r=>setTimeout(r,3500))}message.textContent='Your payment is complete, but the key is still being prepared. Use Retry key lookup in a moment or contact support with your Paddle receipt.'}
-    function completed(data={}){if(isComplete)return;isComplete=true;const customer=data.customer||{},transaction=data.transaction||data;lastEmail=customer.email||data.customer_email||data.email||'';checkoutIds={email:lastEmail,transaction_id:transaction.id||data.transaction_id||'',subscription_id:data.subscription_id||''};showKey('',lastEmail);setTimeout(()=>pollKey(checkoutIds),1200)}
+    function completed(data={}){if(isComplete)return;isComplete=true;const customer=data.customer||{},transaction=data.transaction||data;lastEmail=customer.email||data.customer_email||data.email||'';checkoutIds={email:lastEmail,txn:transaction.id||data.transaction_id||'',sub:data.subscription_id||transaction.subscription_id||''};showKey('',lastEmail);setTimeout(()=>pollKey(checkoutIds),1200)}
     function openCheckout(priceId){if(typeof Paddle==='undefined'||!Paddle.Checkout){message.textContent='Checkout could not load. Disable your ad blocker and reload the page.';showKey('','');return}Paddle.Checkout.open({items:[{priceId,quantity:1}]})}
     document.getElementById('paddle-monthly').onclick=e=>{e.preventDefault();openCheckout(monthlyPrice)};document.getElementById('paddle-annual').onclick=e=>{e.preventDefault();openCheckout(annualPrice)};
     document.getElementById('success-copy').onclick=()=>{const input=document.getElementById('success-key');if(!input.value)return;navigator.clipboard.writeText(input.value);const button=document.getElementById('success-copy');button.textContent='Copied ✓';button.classList.add('copied');setTimeout(()=>{button.textContent='Copy';button.classList.remove('copied')},1600)};
     document.getElementById('success-retry').onclick=()=>pollKey(checkoutIds);
-    Paddle.EventCallback=event=>{if(event?.name==='checkout.completed')completed(event.data||event)};
+    Paddle.Initialize({token:'live_b984682f2c9e400793fb4183162',eventCallback:event=>{if(event?.name==='checkout.completed')completed(event.data||event)}});
     window.addEventListener('message',event=>{if(event.data?.event==='checkout.completed')completed(event.data)});
     if(new URL(location).searchParams.get('success')==='1')showKey('','');
   </script>
