@@ -1,0 +1,16 @@
+{
+  "extName": { "message": "Prism — Recherche Drive & Mode Sombre Docs" },
+  "extDescription": { "message": "Recherche intégrale dans vos fichiers Drive (Docs, Sheets, Slides, PDFs) avec saut au paragraphe et Mode Sombre pour Docs." },
+  "popupTitle": { "message": "Prism" },
+  "popupDesc": { "message": "Recherchez à l'intérieur de vos fichiers Drive, pas seulement les titres." },
+  "popupHow": { "message": "Comment utiliser" },
+  "popupStep1": { "message": "Allez sur drive.google.com ou docs.google.com" },
+  "popupStep2": { "message": "Cherchez avec la barre de recherche Drive en haut" },
+  "popupStep3": { "message": "Les résultats apparaissent dans le panneau latéral — dans Docs, Sheets, Slides et PDFs" },
+  "popupOpenDrive": { "message": "Aller à Drive" },
+  "popupOpenDocs": { "message": "Ouvrir Docs" },
+  "popupStatusFree": { "message": "Gratuit — $1/$2 recherches utilisées" },
+  "popupStatusPro": { "message": "Pro — activé" },
+  "popupUpgrade": { "message": "Mettre à niveau" },
+  "popupSettings": { "message": "Licence" }
+}

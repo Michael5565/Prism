@@ -1,0 +1,74 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extName__",
+  "version": "1.0.43",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
+  "permissions": [
+    "storage",
+    "offscreen",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://docs.google.com/*",
+    "https://drive.google.com/*",
+    "https://drive.usercontent.google.com/*",
+    "https://*.googleusercontent.com/*",
+    "https://prism-license-worker.purrapi.workers.dev/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "css": [
+        "styles.css"
+      ],
+      "js": [
+        "content-search.js"
+      ],
+      "matches": [
+        "https://drive.google.com/*",
+        "https://docs.google.com/*"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "css": [
+        "docs-dark.css"
+      ],
+      "js": [
+        "content-doc.js"
+      ],
+      "matches": [
+        "https://docs.google.com/document/*",
+        "https://docs.google.com/spreadsheets/*",
+        "https://docs.google.com/presentation/*",
+        "https://docs.google.com/viewer*",
+        "https://drive.google.com/file/*",
+        "https://drive.google.com/drive/*"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "js": [
+        "docs-canvas-dark.js"
+      ],
+      "matches": [
+        "https://docs.google.com/document/*",
+        "https://docs.google.com/spreadsheets/*"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ],
+  "action": {
+    "default_title": "__MSG_extName__",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

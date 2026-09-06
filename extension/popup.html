@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prism for Google Docs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:            #f6f7f9;
+    --surface:       #ffffff;
+    --surface-2:     #f3f4f6;
+    --border:        #e4e7ec;
+    --border-strong: #d0d5dd;
+    --text:          #101828;
+    --text-2:        #344054;
+    --text-3:        #667085;
+    --text-4:        #98a2b3;
+    --accent:        #155eef;
+    --accent-hover:  #004eeb;
+    --accent-soft:   #eff4ff;
+    --accent-border: #b2ccff;
+    --success:       #027a48;
+    --success-bg:    #ecfdf3;
+    --success-bd:    #abefc6;
+    --warning:       #b54708;
+    --warning-bg:    #fffaeb;
+    --warning-bd:    #fedf89;
+    --error:         #b42318;
+    --error-bg:      #fef3f2;
+    --error-bd:      #fecdca;
+    --radius:        8px;
+    --radius-sm:     6px;
+    --shadow:        0 1px 2px rgba(16, 24, 40, 0.05);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 360px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+  }
+
+  .container { padding: 0 0 0; }
+
+  /* ── Header ─────────────────────────────── */
+  .app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px 12px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+  .logo-wrap {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: #101828;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .logo-wrap svg { width: 15px; height: 15px; color: #fff; }
+  .brand-name { font-size: 13.5px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
+  .brand-tagline { font-size: 11.5px; color: var(--text-3); margin-top: 1px; font-weight: 400; }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 8px; border-radius: 6px;
+    font-size: 11px; font-weight: 600; line-height: 1.5;
+    border: 1px solid transparent;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .status-pill .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .status-pill.trial { background: var(--warning-bg); color: var(--warning); border-color: var(--warning-bd); }
+  .status-pill.trial .dot { background: #f79009; }
+  .status-pill.pro { background: var(--success-bg); color: var(--success); border-color: var(--success-bd); }
+  .status-pill.pro .dot { background: #12b76a; }
+  .status-pill.expired { background: var(--error-bg); color: var(--error); border-color: var(--error-bd); }
+  .status-pill.expired .dot { background: #f04438; }
+
+  .trust-line {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11.5px; color: var(--text-3);
+    padding: 9px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .trust-line .tdot { width: 6px; height: 6px; border-radius: 50%; background: #12b76a; flex-shrink: 0; }
+
+  /* ── Pages ── */
+  .page { display: block; padding: 12px 12px 0; }
+  .page.hidden { display: none; }
+
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--text-3); margin: 2px 4px 8px;
+  }
+
+  /* ── Feature panel ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 13px 14px;
+    margin-bottom: 10px;
+  }
+  .card.disabled { opacity: 1; }
+  .card.disabled .toggle-text .label,
+  .card.disabled .toggle-text .sub { color: var(--text-4); }
+
+  .toggle-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .toggle-info { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 0; }
+  .toggle-icon {
+    width: 30px; height: 30px; border-radius: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    display: grid; place-items: center; flex-shrink: 0;
+    color: var(--text-2);
+  }
+  .toggle-text { min-width: 0; padding-top: 1px; }
+  .toggle-text .label { font-size: 13px; font-weight: 600; letter-spacing: -0.005em; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .toggle-text .sub { font-size: 12px; color: var(--text-3); margin-top: 2px; line-height: 1.45; }
+
+  .badge-pill {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.02em;
+    padding: 1px 6px; border-radius: 4px;
+    background: var(--surface-2); color: var(--text-2);
+    border: 1px solid var(--border);
+    text-transform: none; white-space: nowrap;
+  }
+
+  .switch { position: relative; display: inline-block; width: 34px; height: 19px; flex-shrink: 0; margin-top: 2px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .track {
+    position: absolute; inset: 0; border-radius: 999px;
+    background: #e4e7ec; border: 1px solid #d0d5dd;
+    transition: background 0.15s, border-color 0.15s; cursor: pointer;
+  }
+  .track:before {
+    content: ''; position: absolute; height: 13px; width: 13px;
+    left: 2px; top: 2px; background: #fff; border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(16,24,40,0.2);
+    transition: transform 0.15s;
+  }
+  input:checked + .track { background: var(--accent); border-color: var(--accent); }
+  input:checked + .track:before { transform: translateX(15px); }
+  input:focus-visible + .track { outline: 2px solid var(--accent-border); outline-offset: 2px; }
+
+  .usage-line {
+    font-size: 12px; color: var(--text-3); margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .usage-line strong { color: var(--text); font-weight: 600; }
+
+  .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 7px 12px; border-radius: var(--radius-sm);
+    font-size: 12.5px; font-weight: 500; line-height: 1.4; text-decoration: none;
+    border: 1px solid var(--border-strong); cursor: pointer; transition: background 0.12s, border-color 0.12s;
+    background: var(--surface); color: var(--text-2); font-family: inherit;
+    box-shadow: var(--shadow);
+  }
+  .btn:hover { background: var(--surface-2); border-color: #98a2b3; color: var(--text); }
+  .btn.accent { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: none; }
+  .btn.accent:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #fff; }
+  .btn.full { width: 100%; margin-top: 10px; }
+  .btn.ghost { box-shadow: none; }
+  .btn:focus-visible { outline: 2px solid var(--accent-border); outline-offset: 1px; }
+
+  /* ── Search example ── */
+  .mock-preview {
+    display: none; margin-top: 10px; background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  .mock-preview.visible { display: block; }
+  .mock-badge {
+    display: inline-block; font-size: 10.5px; font-weight: 600;
+    color: var(--text-2);
+    padding: 1px 6px; border-radius: 4px; margin-bottom: 6px;
+    background: var(--surface); border: 1px solid var(--border);
+  }
+  .mock-title { font-size: 12.5px; font-weight: 600; margin-bottom: 2px; }
+  .mock-snippet { font-size: 12px; color: var(--text-2); line-height: 1.55; }
+  .mock-snippet mark { background: #fef0c7; color: #93370d; border-radius: 3px; padding: 0 3px; }
+  .mock-jump { font-size: 11.5px; color: var(--accent); font-weight: 500; margin-top: 6px; }
+
+  /* ── Home preset strip ── */
+  .home-preset-row {
+    display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .home-dots { display: flex; }
+  .home-dots span {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid var(--surface);
+    outline: 1px solid var(--border-strong);
+    margin-left: -5px;
+  }
+  .home-dots span:first-child { margin-left: 0; }
+  .home-preset-name { font-size: 12px; color: var(--text-3); }
+  .home-preset-name strong { color: var(--text); font-weight: 600; }
+
+  /* ── Settings page ── */
+  .nav-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: none; border: none; cursor: pointer;
+    color: var(--text-3); font-family: inherit; font-size: 12.5px; font-weight: 500;
+    padding: 0; margin: 2px 0 10px;
+  }
+  .nav-back:hover { color: var(--text); }
+  .settings-title { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 2px; }
+  .settings-sub { font-size: 12.5px; color: var(--text-3); margin-bottom: 12px; line-height: 1.5; }
+
+  .preset-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+  .preset-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 8px; cursor: pointer;
+    text-align: left; transition: border-color 0.12s, background 0.12s; font-family: inherit; color: var(--text);
+    box-shadow: var(--shadow);
+  }
+  .preset-card:hover { border-color: var(--border-strong); }
+  .preset-card.active { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 1px var(--accent); }
+  /* Composite preview: outer theme background with the document sheet
+     floating on it, so bg-vs-doc differences are visible at a glance. */
+  .preset-swatch {
+    height: 40px; border-radius: 5px; margin-bottom: 7px;
+    border: 1px solid rgba(16,24,40,0.16);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .preset-sheet {
+    width: 58%; height: 26px; border-radius: 2px;
+    outline: 1px solid rgba(255,255,255,0.22);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    display: flex; flex-direction: column; gap: 3px; justify-content: center;
+    padding: 0 5px;
+  }
+  .preset-sheet i { display: block; height: 3px; border-radius: 2px; }
+  .preset-card .pname { font-size: 12px; font-weight: 600; }
+  .preset-card .pdesc { font-size: 11px; color: var(--text-3); margin-top: 1px; line-height: 1.35; }
+
+  .advanced-toggle {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-top: 12px; padding: 9px 11px; cursor: pointer;
+    color: var(--text-2); font-family: inherit; font-size: 12.5px; font-weight: 600;
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .advanced-toggle:hover { border-color: var(--border-strong); background: #eceff3; color: var(--text); }
+  .advanced-toggle .caret {
+    display: grid; place-items: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--surface); border: 1px solid var(--border-strong);
+    color: var(--accent); font-size: 10px; flex-shrink: 0;
+  }
+  .advanced-body { display: none; }
+  .advanced-body.visible { display: block; }
+
+  .palette-label {
+    font-size: 11px; font-weight: 600; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: 0.05em; margin: 14px 0 4px;
+  }
+  .palette-hint { font-size: 11.5px; color: var(--text-3); line-height: 1.5; margin: 0 0 8px; }
+  .color-readout { font-size: 11.5px; color: var(--text-2); margin: 6px 0 0; }
+  .color-readout strong { font-weight: 600; }
+  .color-readout span { color: var(--text-3); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+
+  /* Live combined preview: outer theme background + document sheet + text,
+     so every pick is visible at real size instead of a tiny dark swatch. */
+  .theme-preview { margin: 0 0 4px; }
+  .tp-outer {
+    border-radius: var(--radius-sm); border: 1px solid rgba(16,24,40,0.32);
+    padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 5px;
+    transition: background 0.15s;
+  }
+  .tp-sheet {
+    width: 74%; border-radius: 3px; padding: 10px 11px;
+    outline: 1px solid rgba(255,255,255,0.62);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    display: flex; flex-direction: column; gap: 5px;
+    transition: background 0.15s;
+  }
+  .tp-line { display: block; height: 5px; border-radius: 3px; }
+  .tp-line.short { width: 62%; opacity: 0.55; }
+  .tp-link { display: block; height: 5px; width: 40%; border-radius: 3px; }
+  .tp-label { font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .82; align-self: flex-start; }
+  .tp-theme-label { color: rgba(255,255,255,.88); margin-left: 4px; }
+  .tp-doc-label { color: rgba(255,255,255,.88); }
+  .tp-caption { font-size: 11px; color: var(--text-3); margin-top: 6px; line-height: 1.5; }
+  .palette-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-bottom: 8px; }
+  /* The three presets above are the curated choices. Advanced uses direct
+     color controls instead of a wall of near-black swatches. */
+  .advanced-body .palette-grid { display: none; }
+  .palette-grid.cols-4 { grid-template-columns: repeat(2, 1fr); gap: 7px; }
+  .palette-grid.cols-4 .swatch { aspect-ratio: auto; min-height: 42px; justify-content: flex-start; gap: 8px; padding: 6px 8px; }
+  .palette-grid.cols-4 .mini-sheet { width: 24px; height: 24px; flex: 0 0 24px; }
+  .palette-grid.cols-4 .swatch-label { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .swatch {
+    width: 100%; aspect-ratio: 1; border-radius: 5px; cursor: pointer;
+    border: 1px solid rgba(16,24,40,0.14); transition: transform 0.1s, box-shadow 0.1s; position: relative;
+    padding: 0; background: none;
+    display: grid; place-items: center;
+  }
+  .swatch-label { display: none; font-size: 11px; font-weight: 600; color: var(--text); text-align: left; }
+  /* Mini composite: each Theme cell shows the candidate with your current
+     sheet inside it (and vice versa), so near-blacks read at a glance. */
+  .mini-sheet {
+    width: 60%; height: 60%; border-radius: 2px;
+    outline: 1px solid rgba(255,255,255,0.3);
+    pointer-events: none;
+  }
+  .swatch:hover { transform: scale(1.08); }
+  .swatch.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent); }
+  .swatch.active::after {
+    content: ''; position: absolute; left: 50%; top: 50%; width: 10px; height: 6px;
+    border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+    transform: translate(-50%, -65%) rotate(-45deg);
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.6));
+  }
+  .palette-grid.cols-4 .swatch.active::after { left: 20px; top: 18px; }
+  .custom-color-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .custom-color-row label { font-size: 12px; color: var(--text-3); white-space: nowrap; }
+  input[type="color"] {
+    width: 30px; height: 28px; border: 1px solid var(--border-strong); border-radius: 6px;
+    padding: 2px; cursor: pointer; background: var(--surface); flex-shrink: 0;
+  }
+  .hex-input {
+    flex: 1; background: var(--surface); border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm); padding: 6px 9px; font-size: 12px; color: var(--text);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; outline: none; transition: border-color 0.12s, box-shadow 0.12s; min-width: 0;
+  }
+  .hex-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(21,94,239,0.14); }
+
+  .hue-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+  input[type="range"].hue { flex: 1; accent-color: var(--accent); height: 20px; cursor: pointer; min-width: 0; }
+  .hue-value { font-size: 12px; color: var(--text-3); font-variant-numeric: tabular-nums; min-width: 44px; text-align: right; white-space: nowrap; }
+  .hue-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(16,24,40,0.2); }
+
+  .surf-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 2px; }
+  .surf-chip {
+    display: flex; align-items: center; gap: 7px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 7px 9px; font-size: 12px; font-weight: 500; color: var(--text-3);
+    cursor: pointer; user-select: none;
+  }
+  .surf-chip input { accent-color: var(--accent); margin: 0; cursor: pointer; width: 13px; height: 13px; }
+  .surf-chip:has(input:checked) { color: var(--text); border-color: var(--border-strong); background: var(--surface-2); }
+  .surf-hint { font-size: 11.5px; color: var(--text-3); margin-top: 8px; line-height: 1.55; }
+
+  .setting-row { padding: 11px 0; border-top: 1px solid var(--border); }
+  .setting-row:first-of-type { border-top: none; }
+
+  .divider { height: 1px; background: var(--border); margin: 12px 0; }
+
+  .activate-section {
+    background: var(--surface); border-top: 1px solid var(--border);
+    margin-top: 12px; padding: 0 16px;
+  }
+  .activate-trigger {
+    display: flex; align-items: center; justify-content: space-between; width: 100%;
+    background: none; border: none; padding: 12px 0; cursor: pointer;
+    color: var(--text-3); font-family: inherit; font-size: 12.5px; font-weight: 500; transition: color 0.12s;
+  }
+  .activate-trigger:hover { color: var(--text); }
+  .activate-trigger .left { display: flex; align-items: center; gap: 7px; }
+  .caret { transition: transform 0.15s; font-size: 10px; color: var(--text-4); }
+  .caret.open { transform: rotate(180deg); }
+  .activate-body { padding: 0 0 14px; display: none; }
+  .activate-body.visible { display: block; }
+  .input-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  .text-input {
+    flex: 1; background: var(--surface); border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm); padding: 7px 10px; font-size: 12.5px; color: var(--text);
+    outline: none; transition: border-color 0.12s, box-shadow 0.12s; font-family: inherit; min-width: 0;
+  }
+  .text-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(21,94,239,0.14); }
+  .text-input::placeholder { color: var(--text-4); }
+  .btn-activate {
+    padding: 7px 14px; background: #101828; color: #fff; border: 1px solid #101828;
+    border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 500;
+    cursor: pointer; transition: background 0.12s; white-space: nowrap; font-family: inherit;
+  }
+  .btn-activate:hover { background: #1d2939; }
+  .btn-activate:disabled { opacity: 0.6; cursor: not-allowed; }
+  .activate-hint { font-size: 11.5px; color: var(--text-3); line-height: 1.55; margin-bottom: 2px; }
+  .activate-error {
+    font-size: 12px; color: var(--error); margin-top: 8px; display: none;
+    background: var(--error-bg); border: 1px solid var(--error-bd); border-radius: var(--radius-sm);
+    padding: 7px 10px;
+  }
+  .pro-confirmed {
+    display: none; font-size: 12.5px; color: var(--success); line-height: 1.5; padding-bottom: 2px;
+    background: var(--success-bg); border: 1px solid var(--success-bd); border-radius: var(--radius-sm);
+    padding: 9px 11px; font-weight: 500;
+  }
+  .pro-email { font-size: 11.5px; color: var(--success); margin-top: 2px; font-weight: 400; opacity: 0.85; }
+
+  .footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px 12px; font-size: 11.5px; color: var(--text-4);
+  }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 500; font-size: 12px; }
+  .footer a:hover { text-decoration: underline; }
+  #upgradeLink { display: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="app-header">
+    <div class="brand">
+      <div class="logo-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.9 8.9 0 1 0 20.5 14.2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name" data-i18n="popupTitle">Prism</div>
+        <div class="brand-tagline" data-i18n="popupDesc">Drive Search · Docs Dark Mode</div>
+      </div>
+    </div>
+    <div id="statusBadge" class="status-pill trial">
+      <span class="dot"></span>
+      <span id="statusText">Trial</span>
+    </div>
+  </div>
+
+  <div class="trust-line"><span class="tdot"></span>Local-only · No broad OAuth · Works with your Google session</div>
+
+  <!-- ══════════ PAGE: HOME ══════════ -->
+  <div class="page" id="pageHome">
+    <div class="section-label">Features</div>
+
+    <!-- Search card -->
+    <div class="card" id="searchCard">
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <div class="toggle-text">
+            <div class="label">Search in Drive</div>
+            <div class="sub">Find text inside Docs, Sheets, Slides &amp; PDFs</div>
+          </div>
+        </div>
+        <label class="switch" title="Enable Drive search">
+          <input type="checkbox" id="searchEnabledToggle" checked>
+          <span class="track"></span>
+        </label>
+      </div>
+      <div class="usage-line" id="searchUsage">Checking usage…</div>
+      <div class="mock-preview" id="searchPreview">
+        <span class="mock-badge">Q3 Report · Doc</span>
+        <div class="mock-title">Board meeting notes.gdoc</div>
+        <div class="mock-snippet">…renewal <mark>pricing approved at $49/yr</mark> for all finance seats, rollout starts Monday…</div>
+        <div class="mock-jump">Select a result to jump to the exact paragraph →</div>
+      </div>
+      <div class="card-actions">
+        <button class="btn ghost" id="previewSearchBtn" type="button">See example</button>
+        <a class="btn accent" id="openDrive" href="https://drive.google.com/drive/search?q=welcome" target="_blank">Open Drive →</a>
+      </div>
+    </div>
+
+    <!-- Dark mode card -->
+    <div class="card" id="darkCard">
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </div>
+          <div class="toggle-text">
+            <div class="label">Docs Dark Mode <span class="badge-pill">Image-safe</span></div>
+            <div class="sub">Photos &amp; charts keep their original colors</div>
+          </div>
+        </div>
+        <label class="switch" title="Toggle Google Docs Dark Mode">
+          <input type="checkbox" id="darkModeToggle" checked>
+          <span class="track"></span>
+        </label>
+      </div>
+      <div class="home-preset-row">
+        <div class="home-dots" id="homePresetDots"><span></span><span></span><span></span></div>
+        <div class="home-preset-name" id="homePresetName">Preset: <strong>Executive</strong></div>
+      </div>
+      <button class="btn full" id="gotoDarkSettings" type="button">Customize theme →</button>
+    </div>
+
+  </div>
+
+  <!-- ══════════ PAGE: DARK SETTINGS ══════════ -->
+  <div class="page hidden" id="pageDark">
+    <button class="nav-back" id="backToHome" type="button">← Back to features</button>
+    <div class="settings-title">Dark mode settings</div>
+    <div class="settings-sub">Start with a preset. Use Advanced only if you need finer control.</div>
+
+    <div class="card">
+      <div class="theme-preview">
+        <div class="tp-outer" id="tpOuter" style="background-color:#1a1a1a;">
+          <span class="tp-label tp-theme-label" id="tpThemeLabel">Theme · #1a1a1a</span>
+          <div class="tp-sheet" id="tpSheet" style="background-color:#2b2f36;">
+            <span class="tp-label tp-doc-label" id="tpDocLabel">Document · #2b2f36</span>
+            <span class="tp-line"></span>
+            <span class="tp-line short"></span>
+            <span class="tp-link" id="tpLink"></span>
+          </div>
+        </div>
+        <div class="tp-caption">Live preview — outer is Theme background, the sheet is Document surface.</div>
+      </div>
+      <div class="palette-label" style="margin-top:12px;">Preset</div>
+      <div class="preset-grid" id="presetGrid">
+        <button type="button" class="preset-card" data-preset="executive">
+          <div class="preset-swatch" style="background:#1a1a1a;">
+            <span class="preset-sheet" style="background:#1e1f20;">
+              <i style="background:#e2e8f0;"></i><i style="background:#e2e8f0;opacity:.45;width:68%;"></i>
+            </span>
+          </div>
+          <div class="pname">Executive</div>
+          <div class="pdesc">Charcoal · Default</div>
+        </button>
+        <button type="button" class="preset-card" data-preset="midnight">
+          <div class="preset-swatch" style="background:#000000;">
+            <span class="preset-sheet" style="background:#000000;">
+              <i style="background:#ffffff;"></i><i style="background:#ffffff;opacity:.45;width:68%;"></i>
+            </span>
+          </div>
+          <div class="pname">Midnight</div>
+          <div class="pdesc">Pure black</div>
+        </button>
+        <button type="button" class="preset-card" data-preset="contrast">
+          <div class="preset-swatch" style="background:#000000;">
+            <span class="preset-sheet" style="background:#000000;">
+              <i style="background:#fde047;"></i><i style="background:#fde047;opacity:.45;width:68%;"></i>
+            </span>
+          </div>
+          <div class="pname">Contrast</div>
+          <div class="pdesc">Accessibility</div>
+        </button>
+      </div>
+
+      <button class="advanced-toggle" id="advancedToggle" type="button" aria-expanded="false">
+        <span id="advancedLabel">Show advanced — colors, accent, surfaces</span>
+        <span class="caret" id="advancedCaret">▾</span>
+      </button>
+
+      <div class="advanced-body" id="advancedBody">
+        <div class="palette-label" style="margin-top:12px;">Theme background</div>
+        <div class="palette-hint">Everything around the page — toolbar, sidebar and margins. Pick any color below.</div>
+        <div class="palette-grid cols-4" id="paletteGrid"></div>
+        <div class="custom-color-row">
+          <label for="colorPicker">Custom</label>
+          <input type="color" id="colorPicker" value="#1a1a1a" title="Pick a custom dark color">
+          <input type="text" id="hexInput" class="hex-input" value="#1a1a1a" placeholder="#1a1a1a" maxlength="7" spellcheck="false">
+        </div>
+        <div class="color-readout" id="bgReadout"></div>
+
+        <div class="palette-label" style="margin-top:14px;">Document surface</div>
+        <div class="palette-hint">The sheet your text sits on. Pick a contrasting color so the document is easy to see.</div>
+        <div class="palette-grid cols-4" id="docPaletteGrid"></div>
+        <div class="custom-color-row">
+          <label for="docColorPicker">Custom</label>
+          <input type="color" id="docColorPicker" value="#1a1a1a" title="Pick the document sheet color">
+          <input type="text" id="docHexInput" class="hex-input" value="#1a1a1a" placeholder="#1a1a1a" maxlength="7" spellcheck="false">
+        </div>
+        <div class="color-readout" id="docReadout"></div>
+
+        <div class="palette-label" style="margin-top:14px;">Text</div>
+        <div class="palette-hint">Main document text on the sheet. Pick any readable color.</div>
+        <div class="palette-grid" id="textPaletteGrid"></div>
+        <div class="custom-color-row">
+          <label for="textColorPicker">Custom</label>
+          <input type="color" id="textColorPicker" value="#e2e8f0" title="Pick the main text color">
+          <input type="text" id="textHexInput" class="hex-input" value="#e2e8f0" placeholder="#e2e8f0" maxlength="7" spellcheck="false">
+        </div>
+        <div class="color-readout" id="textReadout"></div>
+
+        <div class="divider"></div>
+
+        <div class="toggle-row" style="margin-top:0">
+          <div class="toggle-info">
+            <div class="toggle-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+              </svg>
+            </div>
+            <div class="toggle-text">
+              <div class="label">Accent color</div>
+              <div class="sub">Links, highlights &amp; active states</div>
+            </div>
+          </div>
+          <span class="hue-dot" id="hueDot"></span>
+        </div>
+        <div class="hue-row">
+          <input type="range" class="hue" id="accentHue" min="0" max="360" step="1" value="225" title="Accent hue">
+          <span class="hue-value" id="hueValue">225°</span>
+        </div>
+
+        <div class="setting-row" style="margin-top:12px;">
+          <div class="toggle-row" style="margin-top:0">
+            <div class="toggle-info">
+              <div class="toggle-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                </svg>
+              </div>
+              <div class="toggle-text">
+                <div class="label">Page border</div>
+                <div class="sub">Outline around document pages</div>
+              </div>
+            </div>
+            <label class="switch" title="Toggle page border">
+              <input type="checkbox" id="borderToggle" checked>
+              <span class="track"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="toggle-row" style="margin-top:0">
+            <div class="toggle-info">
+              <div class="toggle-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+                </svg>
+              </div>
+              <div class="toggle-text">
+                <div class="label">Quick toggle button</div>
+                <div class="sub">Floating button, bottom-left of docs</div>
+              </div>
+            </div>
+        <label class="switch" title="Show quick toggle button">
+            <input type="checkbox" id="quickToggleVisible" checked>
+            <span class="track"></span>
+          </label>
+      </div>
+        </div>
+
+        <div class="palette-label" style="margin-top:14px;">Apply to</div>
+    <div class="surf-grid" id="surfGrid">
+      <label class="surf-chip"><input type="checkbox" id="surfSheets" checked><span>Sheets</span></label>
+      <label class="surf-chip"><input type="checkbox" id="surfDrive" checked><span>Drive</span></label>
+      <label class="surf-chip"><input type="checkbox" id="surfHome" checked><span>Docs home</span></label>
+    </div>
+    <div class="surf-hint">Documents &amp; Sheets use Prism's engine and theme. Drive and home pages use lightweight inversion. Slides decks and PDF viewers stay light so designs keep native colors.</div>
+        <div class="surf-hint" id="edgeHint" style="display:none;">You're on Edge: its auto-dark flag inverts too — use either it or these switches per surface, not both (double inversion cancels back to light).</div>
+
+        <div style="margin-top:10px;">
+          <button class="btn ghost full" id="resetThemeBtn" type="button" style="margin-top:0;">Reset to defaults</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activation / License Drawer -->
+  <div class="activate-section">
+    <button class="activate-trigger" id="activateTrigger">
+      <span class="left">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <span id="activateTitle">Activate Pro (license key)</span>
+      </span>
+      <span class="caret" id="activateCaret">▾</span>
+    </button>
+
+    <div class="activate-body" id="activateBody">
+      <div class="pro-confirmed" id="proConfirmed">
+        Pro is active
+        <div class="pro-email" id="proEmail"></div>
+      </div>
+      <div id="activateInputGroup">
+        <div class="input-row">
+          <input type="text" id="licenseInput" class="text-input"
+            placeholder="License key (PRISM-XXXX-XXXX)"
+            spellcheck="false" autocomplete="off">
+          <button id="activateBtn" class="btn-activate">Activate</button>
+        </div>
+        <div class="activate-hint">Paste the license key from your purchase email or checkout page. One key unlocks both Search &amp; Dark Mode.</div>
+        <div class="activate-error" id="activateError"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://getwalksafe.co.uk/prismpricing" target="_blank" id="upgradeLink">Upgrade to Pro →</a>
+    <span>v1.0.24</span>
+  </div>
+
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>

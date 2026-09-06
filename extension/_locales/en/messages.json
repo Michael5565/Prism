@@ -1,0 +1,16 @@
+{
+  "extName": { "message": "Prism — Search Drive & Docs Dark Mode" },
+  "extDescription": { "message": "Full-text search inside Google Drive files (Docs, Sheets, Slides, PDFs) with jump-to-paragraph and Image-Safe Docs Dark Mode." },
+  "popupTitle": { "message": "Prism" },
+  "popupDesc": { "message": "Deep search Drive files & read Docs in comfort." },
+  "popupHow": { "message": "Quick Start" },
+  "popupStep1": { "message": "Open drive.google.com or docs.google.com" },
+  "popupStep2": { "message": "Search Drive's search bar to reveal paragraph snippets" },
+  "popupStep3": { "message": "Toggle Docs Dark Mode with image-safe rendering" },
+  "popupOpenDrive": { "message": "Search in Drive" },
+  "popupOpenDocs": { "message": "Open Docs" },
+  "popupStatusFree": { "message": "Free — $1/$2 searches used", "placeholders": { "c": { "content": "$1" }, "t": { "content": "$2" } } },
+  "popupStatusPro": { "message": "Pro Activated" },
+  "popupUpgrade": { "message": "Upgrade to Pro" },
+  "popupSettings": { "message": "License & Email" }
+}

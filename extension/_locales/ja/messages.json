@@ -1,0 +1,16 @@
+{
+  "extName": { "message": "Prism — ドライブ内検索 & Docsダークモード" },
+  "extDescription": { "message": "Google ドライブ内全文検索（Docs、Sheets、Slides、PDF）と段落ジャンプ、画像が反転しないDocsダークモード。" },
+  "popupTitle": { "message": "Prism" },
+  "popupDesc": { "message": "タイトルだけでなく、Driveファイルの中身を検索。" },
+  "popupHow": { "message": "使い方" },
+  "popupStep1": { "message": "drive.google.com または docs.google.com を開く" },
+  "popupStep2": { "message": "上部のDrive検索バーで検索" },
+  "popupStep3": { "message": "結果はサイドパネルに表示 — Docs、Sheets、Slides、PDF内" },
+  "popupOpenDrive": { "message": "Driveへ移動" },
+  "popupOpenDocs": { "message": "Docsを開く" },
+  "popupStatusFree": { "message": "無料 — $1/$2 回使用" },
+  "popupStatusPro": { "message": "Pro — 有効" },
+  "popupUpgrade": { "message": "アップグレード" },
+  "popupSettings": { "message": "ライセンス" }
+}

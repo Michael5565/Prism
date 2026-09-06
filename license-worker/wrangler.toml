@@ -1,0 +1,15 @@
+name = "prism-license-worker"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Create a KV namespace:
+# wrangler kv namespace create LICENSES
+# Then update the id below
+[[kv_namespaces]]
+binding = "LICENSES"
+id = "1e2d7b4f27724d21bca21ccaabfdc97e"
+preview_id = "9e3df970e907428e8639a1ebd45b720f"
+
+# Environment variables (set via wrangler secret put or dashboard)
+# PADDLE_WEBHOOK_SECRET - Your Paddle webhook secret key
+# PADDLE_VENDOR_ID - Your Paddle vendor ID

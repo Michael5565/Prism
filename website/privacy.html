@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prism — Privacy Policy</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{max-width:780px;margin:0 auto;padding:32px 20px;font-family:system-ui,-apple-system,sans-serif;line-height:1.65;color:#1a1209}
+  h1{font-size:1.9rem;letter-spacing:-0.02em} h2{margin-top:2rem;font-size:1.15rem}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px} th,td{border:1px solid #e8e0d8;padding:8px 10px;text-align:left}
+  th{background:#fdf3e4} a{color:#c2760a} small{color:#6b5c4d}
+</style>
+</head>
+<body>
+<h1>Prism — Privacy Policy</h1>
+<p><small>Last updated: 25 August 2026 · Contact: <a href="mailto:support@getwalksafe.co.uk">support@getwalksafe.co.uk</a></small></p>
+<p>Prism runs entirely in your browser. It searches <em>inside</em> the Google Drive files you can already see on <code>drive.google.com</code> / <code>docs.google.com</code> and shows passages matching your Drive search query. <strong>We do not collect, store, or sell your document contents.</strong></p>
+
+<h2>Data we handle</h2>
+<h3>1. Document text (ephemeral)</h3>
+<p>When you search Drive, Prism discovers file IDs visible on the page, then fetches each file’s text via your own Google session (<code>credentials: include</code> — <code>export?format=txt</code> and <code>drive.usercontent.google.com/download</code>). Text lives only in <code>chrome.storage.local</code> under <code>doc_{fileId}</code> for 1 hour, then is evicted or on quota pressure. It is never sent to our servers.</p>
+
+<h3>2. Search count &amp; license</h3>
+<p><code>prismSearchCount</code>, <code>prismPremium</code>, <code>prismLicenseKey</code>, <code>themePreference</code> — stored locally. When you enter a license key, Prism <code>POST</code>s <code>{key}</code> to <code>https://prism-license-worker.purrapi.workers.dev/api/validate-license</code> (Cloudflare Worker + KV). We store only key status and expiry.</p>
+
+<h3>3. What we do NOT do</h3>
+<ul>
+<li>No Google OAuth scopes. No <code>drive.readonly</code>. We only harvest IDs you already see in the DOM.</li>
+<li>No analytics, ads, or fingerprinting. No remote code.</li>
+</ul>
+
+<h2>Permissions</h2>
+<table>
+<tr><th>Permission</th><th>Why</th></tr>
+<tr><td><code>storage</code></td><td>Cache doc text 1h, remember search counter &amp; theme</td></tr>
+<tr><td><code>docs.google.com</code></td><td>Export native Docs/Sheets/Slides</td></tr>
+<tr><td><code>drive.google.com</code></td><td>Discover visible file IDs + downloads</td></tr>
+<tr><td><code>drive.usercontent.google.com</code></td><td>Binary fallback for PDFs / Office</td></tr>
+<tr><td><code>*.googleusercontent.com</code></td><td>Thumbnail IDs in DOM</td></tr>
+<tr><td><code>prism-license-worker.purrapi.workers.dev</code></td><td>Validate Pro license</td></tr>
+</table>
+
+<h2>Retention &amp; deletion</h2>
+<p>Uninstalling removes all local data. KV records expire after 1 year or when Paddle cancels. Email us to delete a license record.</p>
+<p><small>Full text: see <a href="../drivelens/PRIVACY.md">drivelens/PRIVACY.md</a>. Store listing: <a href="../drivelens/STORE_LISTING.md">STORE_LISTING.md</a>.</small></p>
+</body>
+</html>

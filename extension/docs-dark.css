@@ -1,0 +1,1180 @@
+/* ==========================================================
+   Prism — Google Docs Dark Mode Theme  v3 (DocsAfterDark-style)
+   Applied when html[data-prism-dark="true"] is set on document.
+   Variants: html[data-prism-variant="normal" | "midnight"]
+   ========================================================== */
+
+/* ── Theme Tokens (Normal = DocsAfterDark default dark) ───── */
+html[data-prism-dark="true"] {
+  /* Standards signal: we handle dark ourselves. Auto-dark features skip
+     dark-by-design pages, and native controls/scrollbars render dark. */
+  color-scheme: dark;
+
+  --prism-accent-hue: 225;
+
+  --prism-text: #ffffff;
+  --prism-text-dim: #f2f2f2;
+  --prism-text-muted: #e6e6e6;
+  --prism-text-disabled: #666666;
+
+  --prism-root: #1a1a1a;
+  --prism-bg: #1a1a1a;          /* outer page bg (user-overridable) */
+  --prism-doc: #1a1a1a;         /* document editor sheet (separate setting) */
+  --prism-body: #1a1a1a;        /* outer editor body */
+  --prism-surface: #262626;
+  --prism-surface-high: #333333;
+  --prism-surface-3: #404040;
+  --prism-surface-4: #4d4d4d;
+
+  --prism-border: #404040;
+  --prism-border-strong: #4d4d4d;
+  --prism-border-light: #808080;
+
+  --prism-accent: hsl(var(--prism-accent-hue) 40% 60%);
+  --prism-accent-hover: hsl(var(--prism-accent-hue) 60% 80%);
+  --prism-shadow: rgba(0,0,0,0.5);
+
+  /* Google Material 3 tokens */
+  --gm3-sys-color-surface: var(--prism-surface) !important;
+  --gm3-sys-color-surface-container: var(--prism-surface-high) !important;
+  --gm3-sys-color-surface-container-high: var(--prism-surface-3) !important;
+  --gm3-sys-color-on-surface: var(--prism-text) !important;
+  --gm3-sys-color-on-surface-variant: var(--prism-text-dim) !important;
+  --gm3-sys-color-outline: var(--prism-border-light) !important;
+  --gm3-sys-color-primary: var(--prism-accent) !important;
+  --gm3-sys-color-background: var(--prism-root) !important;
+  --gm3-sys-color-on-background: var(--prism-text) !important;
+
+  /* GM3 button containers (Upgrade tonal pill, Gemini filled icon, Share) */
+  --gm3-button-filled-container-color: var(--prism-accent) !important;
+  --gm3-button-filled-label-text-color: #ffffff !important;
+  --gm3-button-filled-tonal-container-color: var(--prism-accent) !important;
+  --gm3-button-filled-tonal-label-text-color: #ffffff !important;
+  --gm3-icon-button-filled-container-color: var(--prism-accent) !important;
+  --gm3-icon-button-filled-icon-color: #ffffff !important;
+  --gm3-icon-button-filled-tonal-container-color: var(--prism-surface-3) !important;
+  --gm3-icon-button-filled-tonal-icon-color: var(--prism-text) !important;
+}
+
+/* ── Midnight variant (pure-black root) ───────────────────── */
+html[data-prism-dark="true"][data-prism-variant="midnight"] {
+  --prism-root: #000000;
+  --prism-body: #000000;
+  --prism-surface: #0d0d0d;
+  --prism-surface-high: #1a1a1a;
+  --prism-surface-3: #262626;
+  --prism-surface-4: #333333;
+}
+
+/* When the user picks a custom page color, content-doc.js overrides
+   --prism-bg / --prism-body inline. Chrome surfaces keep theme tokens. */
+
+/* ── Document Page Rendering (DocsAfterDark technique) ─────── */
+/* SVG tile layer: recolor the white page rect to the doc background */
+html[data-prism-dark="true"] .kix-canvas-tile-content {
+  background: var(--prism-doc);
+  background-size: contain;
+}
+
+/* Fallback: if tile canvases are transparent anywhere, the sheet color shows. */
+html[data-prism-dark="true"] .kix-appview-editor canvas {
+  background-color: var(--prism-doc) !important;
+}
+
+/* The canvas backing color updates immediately while Docs re-rasterizes its
+   tile content. This does not filter or invert the canvas, so images retain
+   their original pixels. */
+html[data-prism-dark="true"] .kix-canvas-tile-content,
+html[data-prism-dark="true"] .kix-canvas-tile-content canvas {
+  background-color: var(--prism-doc) !important;
+}
+
+html[data-prism-dark="true"] .kix-canvas-tile-content rect[fill="rgba(255,255,255,1)"],
+html[data-prism-dark="true"] .kix-canvas-tile-content rect[fill="rgb(255,255,255)"],
+html[data-prism-dark="true"] .kix-canvas-tile-content rect[fill="#ffffff"],
+html[data-prism-dark="true"] .kix-canvas-tile-content rect[fill="#fff"],
+html[data-prism-dark="true"] .kix-canvas-tile-content rect[fill="white"] {
+  fill: var(--prism-doc) !important;
+}
+
+html[data-prism-dark="true"] .kix-canvas-tile-content[style*="background-color: rgb(255, 255, 255)"],
+html[data-prism-dark="true"] .kix-appview-editor[style*="background-color: rgb(255, 255, 255)"] {
+  background-color: var(--prism-doc) !important;
+}
+
+html[data-prism-dark="true"] #contents > div {
+  background-color: var(--prism-doc);
+}
+
+/* Toggleable document page border */
+html[data-prism-dark="true"][data-prism-border="on"] .kix-page-paginated {
+  outline: 1px solid var(--prism-border-strong);
+}
+
+/* Border OFF: strip Docs' native page edge AND our own shadow so the sheet
+   blends fully into the background. (Without this, Docs' own border/shadow
+   stays visible even with the toggle off.) */
+html[data-prism-dark="true"][data-prism-border="off"] .kix-page,
+html[data-prism-dark="true"][data-prism-border="off"] .kix-page-paginated,
+html[data-prism-dark="true"][data-prism-border="off"] .kix-page-canvas-compact-mode {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Base Body & Workspace ─────────────────────────────────── */
+html[data-prism-dark="true"] body {
+  background-color: var(--prism-body) !important;
+  color: var(--prism-text) !important;
+}
+
+html[data-prism-dark="true"] .kix-appview-editor,
+html[data-prism-dark="true"] .docs-editor-container,
+html[data-prism-dark="true"] #docs-editor,
+html[data-prism-dark="true"] .kix-appview-editor-container {
+  background-color: var(--prism-body) !important;
+}
+
+/* ── Document Pages (DOM containers around canvas tiles) ───── */
+/* Uses the separate Document color, NOT the outer page color. */
+html[data-prism-dark="true"] .kix-page,
+html[data-prism-dark="true"] .kix-page-paginated,
+html[data-prism-dark="true"] .kix-page-canvas-compact-mode {
+  background-color: var(--prism-doc) !important;
+  box-shadow: 0 4px 20px var(--prism-shadow) !important;
+}
+
+/* ── Document Header & Chrome ──────────────────────────────── */
+/* Divider lives ONLY on the block-level header shells. Inner inline
+   elements (badges, hover states) get background only — putting a
+   bottom border/shadow on them draws a line through the middle of the
+   title row, making #docs-titlebar look covered by the row below. */
+html[data-prism-dark="true"] #docs-chrome,
+html[data-prism-dark="true"] #docs-header,
+html[data-prism-dark="true"] #docs-header-container,
+html[data-prism-dark="true"] .docs-grille-gm3 #docs-chrome,
+html[data-prism-dark="true"] #docs-banner-container,
+html[data-prism-dark="true"] #docs-banners {
+  background-color: var(--prism-root) !important;
+  /* Inset divider: same look as border-bottom but adds no layout height,
+     so the title never shifts or looks stretched. */
+  border-bottom: none !important;
+  box-shadow: inset 0 -1px 0 var(--prism-border) !important;
+}
+
+/* Inner title-row elements: paint only, never a divider. */
+html[data-prism-dark="true"] .docs-titlebar-badges,
+html[data-prism-dark="true"] .docs-chrome-hovered,
+html[data-prism-dark="true"] .companion-enabled,
+html[data-prism-dark="true"] #docs-titlebar,
+html[data-prism-dark="true"] .docs-title-outer,
+html[data-prism-dark="true"] .docs-title-widget {
+  background-color: var(--prism-root) !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* Butterbar is an empty aria-live region 99% of the time — if it gets a
+   background/border unconditionally it renders as a stray 1px line across
+   the header. Collapse when empty, theme only when it has a message. */
+html[data-prism-dark="true"] .docs-butterbar-container:empty,
+html[data-prism-dark="true"] #docs-butterbar-container:empty {
+  display: none !important;
+  background: transparent !important;
+  border: none !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+html[data-prism-dark="true"] .docs-butterbar-container:not(:empty),
+html[data-prism-dark="true"] #docs-butterbar-container:not(:empty) {
+  background-color: var(--prism-root) !important;
+}
+/* Only draw the divider when there's an actual visible message inside,
+   so whitespace-only containers never render as a line. */
+html[data-prism-dark="true"] .docs-butterbar-container:has(.docs-butterbar:not(:empty)),
+html[data-prism-dark="true"] #docs-butterbar-container:has(.docs-butterbar:not(:empty)),
+html[data-prism-dark="true"] .docs-butterbar-container:has(> div:not(:empty)),
+html[data-prism-dark="true"] #docs-butterbar-container:has(> div:not(:empty)) {
+  border-bottom: 1px solid var(--prism-border) !important;
+}
+
+html[data-prism-dark="true"] .docs-title-input-label-inner,
+html[data-prism-dark="true"] .docs-title-input {
+  color: var(--prism-text) !important;
+  background-color: transparent !important;
+  /* Paint-only: never touch layout (height, padding, border-width) here —
+     Docs auto-sizes the title from the label mirror element. */
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-prism-dark="true"] .docs-title-input:hover {
+  background-color: var(--prism-surface) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-prism-dark="true"] .docs-title-input:focus {
+  background-color: var(--prism-surface) !important;
+  border-color: transparent !important;
+  /* Focus ring without layout shift */
+  box-shadow: 0 0 0 1px var(--prism-border-strong) !important;
+  outline: none !important;
+}
+
+html[data-prism-dark="true"] .docs-fileName,
+html[data-prism-dark="true"] .docs-title-widget,
+html[data-prism-dark="true"] .docs-title-outer,
+html[data-prism-dark="true"] .docs-title-inner {
+  color: var(--prism-text) !important;
+}
+
+html[data-prism-dark="true"] .docs-icon-star-unstarred,
+html[data-prism-dark="true"] .docs-icon-star-starred {
+  filter: invert(0.85) !important;
+}
+
+html[data-prism-dark="true"] .docs-title-breadcrumb,
+html[data-prism-dark="true"] .drive-widget-title-breadcrumb {
+  color: var(--prism-text-dim) !important;
+}
+
+html[data-prism-dark="true"] .docs-titlebar-action-buttons,
+html[data-prism-dark="true"] .docs-header-buttons {
+  background-color: transparent !important;
+}
+
+html[data-prism-dark="true"] [data-testid="toolbar"] {
+  background-color: var(--prism-root) !important;
+}
+
+html[data-prism-dark="true"] .docs-grille-gm3 .gm-hardcoded-header-row {
+  background: var(--prism-root) !important;
+}
+
+/* ── Toolbars & Menubar ────────────────────────────────────── */
+html[data-prism-dark="true"] #docs-menubar,
+html[data-prism-dark="true"] #docs-toolbar-wrapper,
+html[data-prism-dark="true"] .docs-main-toolbars,
+html[data-prism-dark="true"] .docs-toolbar-more-bubble,
+html[data-prism-dark="true"] .goog-toolbar,
+html[data-prism-dark="true"] .docs-gm3-header,
+html[data-prism-dark="true"] .docs-gm3-menubar {
+  background-color: var(--prism-root) !important;
+  border-color: var(--prism-border) !important;
+}
+
+html[data-prism-dark="true"] .goog-toolbar-button,
+html[data-prism-dark="true"] .goog-toolbar-menu-button,
+html[data-prism-dark="true"] .goog-toolbar-combo-button,
+html[data-prism-dark="true"] .goog-control {
+  color: var(--prism-text-dim) !important;
+}
+
+html[data-prism-dark="true"] .goog-toolbar-button-hover,
+html[data-prism-dark="true"] .goog-toolbar-menu-button-hover,
+html[data-prism-dark="true"] .goog-toolbar-combo-button-hover {
+  background-color: var(--prism-surface) !important;
+}
+
+html[data-prism-dark="true"] .goog-toolbar-button-checked,
+html[data-prism-dark="true"] .goog-toolbar-button-active,
+html[data-prism-dark="true"] .goog-toolbar-menu-button-open {
+  background-color: var(--prism-surface-high) !important;
+}
+
+/* ── Dropdown Menus & Context Menus ────────────────────────── */
+html[data-prism-dark="true"] .goog-menu,
+html[data-prism-dark="true"] .docs-material-menu,
+html[data-prism-dark="true"] .docs-menu {
+  background-color: var(--prism-surface) !important;
+  border: 1px solid var(--prism-border-strong) !important;
+  box-shadow: 0 8px 24px var(--prism-shadow) !important;
+}
+
+html[data-prism-dark="true"] .goog-menuitem,
+html[data-prism-dark="true"] .docs-material-menuitem {
+  background-color: transparent !important;
+  color: var(--prism-text) !important;
+}
+
+html[data-prism-dark="true"] .goog-menuitem-hover,
+html[data-prism-dark="true"] .goog-menuitem-highlight {
+  background-color: var(--prism-surface-high) !important;
+  color: #ffffff !important;
+}
+
+html[data-prism-dark="true"] .goog-menuseparator {
+  border-top: 1px solid var(--prism-border-strong) !important;
+}
+
+/* ── Toolbar Icons ─────────────────────────────────────────── */
+html[data-prism-dark="true"] .docs-material .docs-icon-img,
+html[data-prism-dark="true"] .docs-icon-img,
+html[data-prism-dark="true"] .docs-icon-img::before {
+  filter: invert(0.88) brightness(1.1) !important;
+}
+
+/* Checked/active toolbar icons: grayscale to remove color (DocsAfterDark) */
+html[data-prism-dark="true"] .docs-grille-gm3 .docs-main-toolbars .goog-toolbar-button-checked .docs-icon-img {
+  filter: brightness(2.6) grayscale(1) !important;
+}
+
+/* ── Rulers ────────────────────────────────────────────────── */
+html[data-prism-dark="true"] #docs-ruler,
+html[data-prism-dark="true"] .docs-ruler,
+html[data-prism-dark="true"] .docs-ruler-background {
+  background-color: var(--prism-root) !important;
+  border-color: var(--prism-border) !important;
+}
+
+html[data-prism-dark="true"] .docs-ruler-inner {
+  filter: invert(0.85) !important;
+}
+
+/* ── Navigation Outline & Sidebars ─────────────────────────── */
+html[data-prism-dark="true"] .docs-navigation-widget,
+html[data-prism-dark="true"] .navigation-widget,
+html[data-prism-dark="true"] .kix-documentmetrics-widget,
+html[data-prism-dark="true"] .docs-companion-app-switcher-container {
+  background-color: var(--prism-root) !important;
+  border-color: var(--prism-border) !important;
+  color: var(--prism-text) !important;
+}
+
+html[data-prism-dark="true"] .navigation-item {
+  color: var(--prism-text-dim) !important;
+}
+
+html[data-prism-dark="true"] .navigation-item:hover,
+html[data-prism-dark="true"] .navigation-item-selected {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-accent) !important;
+}
+
+/* ── Cursor Caret & Selection ──────────────────────────────── */
+html[data-prism-dark="true"] .kix-cursor-caret {
+  border-color: var(--prism-accent) !important;
+  box-shadow: 0 0 4px var(--prism-accent) !important;
+}
+
+html[data-prism-dark="true"] .kix-selection-overlay {
+  background-color: rgba(138, 180, 248, 0.35) !important;
+}
+
+/* ── Dialogs & Modals (incl. Share) ────────────────────────── */
+/* The frame gets themed but inner layers (content, rows, inputs,
+   footers) carry their own white — theme those too, paint-only. */
+html[data-prism-dark="true"] .modal-dialog,
+html[data-prism-dark="true"] .docs-dialog,
+html[data-prism-dark="true"] .apps-share-dialog-frame,
+html[data-prism-dark="true"] [class*="share-dialog"],
+html[data-prism-dark="true"] [class*="shareDialog"] {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text) !important;
+  border: 1px solid var(--prism-border-strong) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6) !important;
+}
+
+html[data-prism-dark="true"] .modal-dialog-title,
+html[data-prism-dark="true"] .modal-dialog-title-text,
+html[data-prism-dark="true"] [role="dialog"] [class*="title"] {
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+
+/* Inner dialog layers: content area, rows, footers. */
+html[data-prism-dark="true"] [role="dialog"] div[class*="content"],
+html[data-prism-dark="true"] [role="dialog"] div[class*="body"],
+html[data-prism-dark="true"] [role="dialog"] div[class*="footer"],
+html[data-prism-dark="true"] [role="dialog"] div[class*="header"],
+html[data-prism-dark="true"] .modal-dialog-content,
+html[data-prism-dark="true"] .modal-dialog-buttons {
+  background-color: transparent !important;
+  color: var(--prism-text) !important;
+  border-color: var(--prism-border) !important;
+}
+
+/* People rows / access rows inside Share. */
+html[data-prism-dark="true"] [role="dialog"] [class*="person"],
+html[data-prism-dark="true"] [role="dialog"] [class*="user"],
+html[data-prism-dark="true"] [role="dialog"] [class*="row"],
+html[data-prism-dark="true"] [role="dialog"] [class*="item"] {
+  color: var(--prism-text) !important;
+}
+html[data-prism-dark="true"] [role="dialog"] [class*="person"]:hover,
+html[data-prism-dark="true"] [role="dialog"] [class*="user"]:hover,
+html[data-prism-dark="true"] [role="dialog"] [class*="row"]:hover {
+  background-color: var(--prism-surface-high) !important;
+}
+
+/* Inputs inside dialogs (add-people field, link field, find field). */
+html[data-prism-dark="true"] [role="dialog"] input,
+html[data-prism-dark="true"] [role="dialog"] textarea,
+html[data-prism-dark="true"] .modal-dialog input,
+html[data-prism-dark="true"] .modal-dialog textarea {
+  background-color: var(--prism-surface-3) !important;
+  color: #ffffff !important;
+  border-color: var(--prism-border-strong) !important;
+}
+
+/* Dialog buttons: neutral pills stay dark, primary stays accent. */
+html[data-prism-dark="true"] [role="dialog"] .jfk-button-standard,
+html[data-prism-dark="true"] [role="dialog"] .goog-flat-menu-button,
+html[data-prism-dark="true"] .modal-dialog .jfk-button-standard {
+  background: var(--prism-surface-high) !important;
+  background-color: var(--prism-surface-high) !important;
+  color: var(--prism-text) !important;
+  border: 1px solid var(--prism-border-strong) !important;
+}
+html[data-prism-dark="true"] [role="dialog"] .jfk-button-action {
+  background: var(--prism-accent) !important;
+  background-color: var(--prism-accent) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+/* ── Links & accent text ───────────────────────────────────── */
+html[data-prism-dark="true"] a:link {
+  color: var(--prism-accent);
+}
+
+/* ── Preview Cards, Link Bubbles & Hover Cards ─────────────── */
+/* (File/Drive-chip previews, link cards, image popups inside editors) */
+html[data-prism-dark="true"] .docs-bubble,
+html[data-prism-dark="true"] [class*="linkbubble"],
+html[data-prism-dark="true"] [class*="link-bubble"],
+html[data-prism-dark="true"] [class*="preview-card"],
+html[data-prism-dark="true"] [class*="hovercard"],
+html[data-prism-dark="true"] [class*="hover-card"],
+html[data-prism-dark="true"] [role="dialog"] {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text) !important;
+  border-color: var(--prism-border-strong) !important;
+}
+
+html[data-prism-dark="true"] .docs-bubble a,
+html[data-prism-dark="true"] [class*="preview-card"] a {
+  color: var(--prism-accent) !important;
+}
+
+/* ── Find and Replace ──────────────────────────────────────── */
+html[data-prism-dark="true"] #docs-findandreplacedialog-input {
+  background-color: var(--prism-bg) !important;
+  color: #ffffff !important;
+  border-color: var(--prism-border-strong) !important;
+}
+
+/* ── Scrollbars ────────────────────────────────────────────── */
+html[data-prism-dark="true"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html[data-prism-dark="true"] ::-webkit-scrollbar-track {
+  background: var(--prism-body);
+}
+html[data-prism-dark="true"] ::-webkit-scrollbar-track-piece,
+html[data-prism-dark="true"] ::-webkit-scrollbar-corner,
+html[data-prism-dark="true"] ::-webkit-resizer {
+  background: var(--prism-body) !important;
+}
+html[data-prism-dark="true"] ::-webkit-scrollbar-thumb {
+  background: var(--prism-surface-high);
+  border-radius: 4px;
+}
+html[data-prism-dark="true"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--prism-border-strong);
+}
+
+/* Scroll gutter shells + page-position pill: Docs paints these outside
+   the webkit pseudo-elements, so catch the containers too. */
+html[data-prism-dark="true"] [class*="scrollbar"],
+html[data-prism-dark="true"] [id*="scrollbar"],
+html[data-prism-dark="true"] .kix-appview-editor-container {
+  background-color: var(--prism-body) !important;
+}
+
+/* ── Tooltips (jfk) ──────────────────────────────────────── */
+html[data-prism-dark="true"] .jfk-tooltip {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text) !important;
+  border: 1px solid var(--prism-border-strong) !important;
+  box-shadow: 0 8px 24px var(--prism-shadow) !important;
+}
+
+html[data-prism-dark="true"] .jfk-tooltip-contentId {
+  color: var(--prism-text) !important;
+  background-color: transparent !important;
+}
+
+html[data-prism-dark="true"] .jfk-tooltip-arrow {
+  background: transparent !important;
+}
+html[data-prism-dark="true"] .jfk-tooltip-arrowimplbefore,
+html[data-prism-dark="true"] .jfk-tooltip-arrowimplafter {
+  background: transparent !important;
+}
+/* Arrow triangles: outer (before) draws the border, inner (after) the
+   fill — recolor per direction, widths untouched. */
+html[data-prism-dark="true"] .jfk-tooltip-arrowleft .jfk-tooltip-arrowimplbefore {
+  border-right-color: var(--prism-border-strong) !important;
+}
+html[data-prism-dark="true"] .jfk-tooltip-arrowleft .jfk-tooltip-arrowimplafter {
+  border-right-color: var(--prism-surface) !important;
+}
+html[data-prism-dark="true"] .jfk-tooltip-arrowright .jfk-tooltip-arrowimplbefore {
+  border-left-color: var(--prism-border-strong) !important;
+}
+html[data-prism-dark="true"] .jfk-tooltip-arrowright .jfk-tooltip-arrowimplafter {
+  border-left-color: var(--prism-surface) !important;
+}
+html[data-prism-dark="true"] .jfk-tooltip-arrowup .jfk-tooltip-arrowimplbefore {
+  border-bottom-color: var(--prism-border-strong) !important;
+}
+html[data-prism-dark="true"] .jfk-tooltip-arrowup .jfk-tooltip-arrowimplafter {
+  border-bottom-color: var(--prism-surface) !important;
+}
+html[data-prism-dark="true"] .jfk-tooltip-arrowdown .jfk-tooltip-arrowimplbefore {
+  border-top-color: var(--prism-border-strong) !important;
+}
+html[data-prism-dark="true"] .jfk-tooltip-arrowdown .jfk-tooltip-arrowimplafter {
+  border-top-color: var(--prism-surface) !important;
+}
+
+/* ==========================================================
+   Floating Quick Toggle Button (DocsAfterDark: bottom-left)
+   ========================================================== */
+#prism-dark-quick-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2147483640;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.16);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+  color: #344054;
+  outline: none;
+  user-select: none;
+}
+
+#prism-dark-quick-toggle:hover {
+  background: #f3f4f6;
+  border-color: #98a2b3;
+}
+
+#prism-dark-quick-toggle:active {
+  background: #e4e7ec;
+}
+
+#prism-dark-quick-toggle svg {
+  width: 17px;
+  height: 17px;
+  pointer-events: none;
+}
+
+html[data-prism-dark="true"] #prism-dark-quick-toggle {
+  background: #1d2433;
+  color: #d0d5dd;
+  border-color: #2a3348;
+}
+
+html[data-prism-dark="true"] #prism-dark-quick-toggle:hover {
+  background: #232b3d;
+  border-color: #3a4763;
+}
+
+html:not([data-prism-dark="true"]) #prism-dark-quick-toggle {
+  background: #ffffff;
+  color: #344054;
+  border-color: #d0d5dd;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.16);
+}
+
+html:not([data-prism-dark="true"]) #prism-dark-quick-toggle:hover {
+  background: #f3f4f6;
+}
+
+/* Hidden when the user disables it in the popup */
+#prism-dark-quick-toggle[data-prism-hidden="true"] {
+  display: none;
+}
+
+/* ── Titlebar Action Cluster (history / comments / Meet / Share) ── */
+/* These pills carry their own light backgrounds (and inline styles),
+   so they need explicit overrides beyond the header container. */
+html[data-prism-dark="true"] .docs-titlebar-buttons,
+html[data-prism-dark="true"] .docs-titlebar-buttons[style],
+html[data-prism-dark="true"] #docs-chrome[style],
+html[data-prism-dark="true"] #docs-header[style] {
+  background-color: var(--prism-root) !important;
+}
+
+/* Neutralize white container backgrounds inside the cluster */
+html[data-prism-dark="true"] .docs-titlebar-buttons > div,
+html[data-prism-dark="true"] .docs-titlebar-buttons > span,
+html[data-prism-dark="true"] #docs-presence-container,
+html[data-prism-dark="true"] .docs-presence-plus-widget,
+html[data-prism-dark="true"] .docs-revisions-appbarbutton-container,
+html[data-prism-dark="true"] .docs-meet-in-editors-entrypoint-container {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* White jfk pills → dark surface */
+html[data-prism-dark="true"] .docs-titlebar-buttons .jfk-button-standard,
+html[data-prism-dark="true"] .docs-titlebar-buttons .goog-flat-menu-button,
+html[data-prism-dark="true"] .docs-titlebar-buttons .docs-appbar-circle-button,
+html[data-prism-dark="true"] #docs-meet-in-editors-entrypointbutton {
+  background: var(--prism-surface) !important;
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text-dim) !important;
+  border: 1px solid var(--prism-border-strong) !important;
+}
+
+html[data-prism-dark="true"] .docs-titlebar-buttons .jfk-button-hover,
+html[data-prism-dark="true"] .docs-titlebar-buttons .jfk-button-standard:hover,
+html[data-prism-dark="true"] .docs-titlebar-buttons .goog-flat-menu-button-hover,
+html[data-prism-dark="true"] #docs-meet-in-editors-entrypointbutton:hover {
+  background: var(--prism-surface-high) !important;
+  background-color: var(--prism-surface-high) !important;
+  color: #ffffff !important;
+}
+
+/* Share split-button → accent */
+html[data-prism-dark="true"] #docs-titlebar-share-client-button .jfk-button-action.scb-split-button {
+  background: var(--prism-accent) !important;
+  background-color: var(--prism-accent) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+html[data-prism-dark="true"] #docs-titlebar-share-client-button #scb-quick-actions-menu-button {
+  background: var(--prism-surface) !important;
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text-dim) !important;
+  border: 1px solid var(--prism-border-strong) !important;
+}
+
+/* Titlebar icons inside the cluster (history / comment / meet sprites) */
+html[data-prism-dark="true"] .docs-titlebar-buttons .docs-icon-img {
+  filter: invert(0.88) brightness(1.1) !important;
+}
+
+/* ── Left Sidebar "Document Tabs" (new chapter-item DOM) ────── */
+/* Paint-only: background/color/border. Never touch layout — the tree
+   uses roving tabindex and measured rows. */
+html[data-prism-dark="true"] [class*="chapter-list"],
+html[data-prism-dark="true"] [class*="chapter-panel"],
+html[data-prism-dark="true"] .left-sidebar-container [role="tree"] {
+  background-color: var(--prism-root) !important;
+  color: var(--prism-text-dim) !important;
+}
+
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container {
+  background-color: transparent !important;
+  color: var(--prism-text-dim) !important;
+  border-color: transparent !important;
+}
+
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container:hover {
+  background-color: var(--prism-surface) !important;
+  color: #ffffff !important;
+}
+
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container-selected,
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container-selected:hover {
+  background-color: var(--prism-surface-high) !important;
+  color: #ffffff !important;
+}
+
+html[data-prism-dark="true"] .chapter-label-content,
+html[data-prism-dark="true"] .chapter-item-label {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+
+/* Tab icons + overflow menu dots: same sprite inversion as the toolbar. */
+html[data-prism-dark="true"] .chapter-item-icon .docs-icon-img,
+html[data-prism-dark="true"] .chapter-item-arrow .docs-icon-img,
+html[data-prism-dark="true"] .chapter-item-buttons .docs-icon-img {
+  filter: invert(0.88) brightness(1.1) !important;
+}
+
+html[data-prism-dark="true"] .chapter-item-buttons .goog-button,
+html[data-prism-dark="true"] .chapter-item-buttons .goog-flat-button,
+html[data-prism-dark="true"] .chapterItemArrowContainer,
+html[data-prism-dark="true"] .chapterItemIconAddButton,
+html[data-prism-dark="true"] .chapterItemIconEditButton {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--prism-text-dim) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html[data-prism-dark="true"] .chapter-item-buttons .goog-button:hover,
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container:hover .chapter-item-buttons .goog-button {
+  background-color: var(--prism-surface-3) !important;
+  color: #ffffff !important;
+}
+
+/* The white hover flash is an INNER layer (highlight/ripple div), not the
+   container — container rules alone can't reach it. Make inner layers
+   transparent so the container's hover/selected bg shows through. */
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container div,
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container span {
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+/* Rename input stays a readable field. */
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container input {
+  background-color: var(--prism-surface-3) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--prism-border-strong) !important;
+}
+
+/* Tab hover: white can also come from ::before state layers and generic
+   goog-button hovers — neutralize both, keep our row colors. */
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container:hover::before,
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container::before {
+  background-color: transparent !important;
+}
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container .goog-flat-button:hover,
+html[data-prism-dark="true"] .chapter-item-label-and-buttons-container .goog-button:hover {
+  background-color: var(--prism-surface-3) !important;
+  color: #ffffff !important;
+}
+
+/* ── Share dialog (GM3 c-wiz — NOT .modal-dialog) ─────────── */
+/* Outer overlay stays transparent (it's the scrim); the dialog card
+   and every nested wrapper layer get themed. Class names from live DOM:
+   .GJWTG > .vu9Rsf > .yHaF5b[role=dialog] > .e3XPnd > .c24hSe > .CNVZI. */
+html[data-prism-dark="true"] .GJWTG {
+  background: transparent !important;
+}
+
+html[data-prism-dark="true"] .yHaF5b,
+html[data-prism-dark="true"] .vu9Rsf,
+html[data-prism-dark="true"] .e3XPnd,
+html[data-prism-dark="true"] .c24hSe,
+html[data-prism-dark="true"] [role="dialog"] .CNVZI,
+html[data-prism-dark="true"] [role="dialog"] .GDxrXe {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text) !important;
+  border-color: var(--prism-border) !important;
+}
+
+/* Titles + section headings inside Share. */
+html[data-prism-dark="true"] .zv7tnb,
+html[data-prism-dark="true"] .aqR6p,
+html[data-prism-dark="true"] .ifDqI,
+html[data-prism-dark="true"] .quTB6,
+html[data-prism-dark="true"] .rcggS {
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+
+/* Body text, names, descriptions. */
+html[data-prism-dark="true"] .s0mEke,
+html[data-prism-dark="true"] .Jw4Ike,
+html[data-prism-dark="true"] .EDtwUe,
+html[data-prism-dark="true"] .RJS6zb,
+html[data-prism-dark="true"] .oJMFGc,
+html[data-prism-dark="true"] .h93iPc,
+html[data-prism-dark="true"] .Nw0dWc label,
+html[data-prism-dark="true"] .Nw0dWc span {
+  color: var(--prism-text) !important;
+  background-color: transparent !important;
+}
+
+html[data-prism-dark="true"] a.P6NGpd {
+  color: var(--prism-accent) !important;
+}
+
+/* Add-people chip field + message box. */
+html[data-prism-dark="true"] .SN5W1d,
+html[data-prism-dark="true"] .I9OJHe,
+html[data-prism-dark="true"] .QVyFTd,
+html[data-prism-dark="true"] .zHQkBf,
+html[data-prism-dark="true"] input.zeumMd,
+html[data-prism-dark="true"] textarea.qdOxv-fmcmS-wGMbrd,
+html[data-prism-dark="true"] .qdOxv-fmcmS-yrriRe {
+  background-color: var(--prism-surface-3) !important;
+  color: #ffffff !important;
+  border-color: var(--prism-border-strong) !important;
+}
+
+html[data-prism-dark="true"] .snByac,
+html[data-prism-dark="true"] .o8tTsf,
+html[data-prism-dark="true"] .dA2hVd-NLUYnc-V67aGc {
+  color: var(--prism-text-dim) !important;
+  background-color: transparent !important;
+}
+
+/* People rows. */
+html[data-prism-dark="true"] .NSaOab,
+html[data-prism-dark="true"] .I0Pg4b,
+html[data-prism-dark="true"] .ZelW3e,
+html[data-prism-dark="true"] .L89Vff {
+  background-color: transparent !important;
+  color: var(--prism-text) !important;
+}
+html[data-prism-dark="true"] .ZelW3e:hover,
+html[data-prism-dark="true"] .I0Pg4b:hover {
+  background-color: var(--prism-surface-high) !important;
+}
+
+/* GM3 buttons (Copy link / Cancel / Send / Done / Owner / Restricted):
+   ripple + touch-target spans go transparent, pill gets dark bg. */
+html[data-prism-dark="true"] [role="dialog"] .XjoK4b,
+html[data-prism-dark="true"] [role="dialog"] .UTNHae,
+html[data-prism-dark="true"] [role="dialog"] .MMvswb,
+html[data-prism-dark="true"] [role="dialog"] .OLCwg {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html[data-prism-dark="true"] .mUIrbf-LgbsSe,
+html[data-prism-dark="true"] .AeBiU-LgbsSe,
+html[data-prism-dark="true"] .UywwFc-LgbsSe {
+  background: var(--prism-surface-high) !important;
+  background-color: var(--prism-surface-high) !important;
+  color: var(--prism-text) !important;
+  border: 1px solid var(--prism-border-strong) !important;
+}
+html[data-prism-dark="true"] .mUIrbf-vQzf8d,
+html[data-prism-dark="true"] .AeBiU-vQzf8d,
+html[data-prism-dark="true"] .UywwFc-vQzf8d {
+  color: inherit !important;
+}
+html[data-prism-dark="true"] .mUIrbf-LgbsSe:disabled,
+html[data-prism-dark="true"] .AeBiU-LgbsSe:disabled,
+html[data-prism-dark="true"] .UywwFc-LgbsSe:disabled {
+  opacity: 0.45 !important;
+}
+
+/* Custom checkboxes inside Share. */
+html[data-prism-dark="true"] .KGC9Kd-YQoJzd {
+  background-color: transparent !important;
+  border-color: var(--prism-text-dim) !important;
+}
+html[data-prism-dark="true"] .KGC9Kd-HUofsb-Jt5cK {
+  stroke: #ffffff !important;
+}
+
+/* Menus + tooltips spawned from the dialog. */
+html[data-prism-dark="true"] .VfPpkd-StrnGf-rymPhb,
+html[data-prism-dark="true"] .aqdrmf-rymPhb,
+html[data-prism-dark="true"] .ne2Ple-oshW8e-V67aGc {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text) !important;
+  border-color: var(--prism-border-strong) !important;
+}
+html[data-prism-dark="true"] .VfPpkd-StrnGf-rymPhb [role="menuitem"]:hover,
+html[data-prism-dark="true"] .aqdrmf-rymPhb-ibnC6b:hover {
+  background-color: var(--prism-surface-high) !important;
+}
+
+/* ── Scroll-adjacent pills (page-number indicator while scrolling) ── */
+/* Docs renders these in an overlay layer with their own white
+   backgrounds — catch them by role/substring without touching layout. */
+html[data-prism-dark="true"] [class*="page-indicator"],
+html[data-prism-dark="true"] [class*="page-number"],
+html[data-prism-dark="true"] [class*="pagenumber"],
+html[data-prism-dark="true"] .kix-documentmetrics-widget {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text) !important;
+  border-color: var(--prism-border-strong) !important;
+}
+
+/* ── Left Sidebar "Document Tabs" Header (legacy) ─────────────────────── */
+html[data-prism-dark="true"] .kix-outlines-widget-header-contents,
+html[data-prism-dark="true"] .left-sidebar-container,
+html[data-prism-dark="true"] .kix-outlines-widget-header-text-chaptered,
+html[data-prism-dark="true"] .kix-outlines-widget-header-text-unchaptered,
+html[data-prism-dark="true"] .kix-outlines-widget-header-chapter-count {
+  background-color: var(--prism-root) !important;
+  color: var(--prism-text-dim) !important;
+}
+
+html[data-prism-dark="true"] .kix-outlines-widget-header-add-chapter-button .jfk-button-standard {
+  background: var(--prism-surface) !important;
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text-dim) !important;
+  border: 1px solid var(--prism-border-strong) !important;
+}
+
+html[data-prism-dark="true"] .kix-outlines-widget-header-add-chapter-button .jfk-button-hover {
+  background-color: var(--prism-surface-high) !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================
+   Multi-App Shells — Sheets / Slides / Drive Preview
+   (Toolbar, menus, dialogs come from the shared rules above;
+   these cover each app's unique chrome with rename-resilient
+   substring selectors. Canvas CONTENT darkening runs on Docs
+   documents and Sheets grids only — Slides decks and PDF pages
+   keep their native colors by design.)
+   ========================================================== */
+
+/* ── Sheets: formula bar, cell editor, sheet tabs ────────── */
+html[data-prism-dark="true"][data-prism-app="sheets"] [id*="formula"],
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="formula"] {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text) !important;
+  border-color: var(--prism-border) !important;
+}
+
+html[data-prism-dark="true"][data-prism-app="sheets"] textarea,
+html[data-prism-dark="true"][data-prism-app="sheets"] input[type="text"] {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text) !important;
+  border-color: var(--prism-border-strong) !important;
+}
+
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="sheet-tab"],
+html[data-prism-dark="true"][data-prism-app="sheets"] [id*="sheet-tab"] {
+  background-color: var(--prism-root) !important;
+  color: var(--prism-text-dim) !important;
+}
+
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="sheet-tab"][class*="active"],
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="sheet-tab"][class*="selected"],
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="sheet-tab"][aria-selected="true"] {
+  color: var(--prism-accent) !important;
+  border-bottom-color: var(--prism-accent) !important;
+  background-color: var(--prism-surface) !important;
+}
+
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="sheet-tab"]:hover {
+  background-color: var(--prism-surface) !important;
+  color: #ffffff !important;
+}
+
+/* ── Sheets: bottom tab bar shell + status strip ─────────── */
+/* Class names from live DOM: .docs-sheet-status-container-avs holds the
+   quicksum / filter-status / data-cleanup strip next to the tab bar.
+   Paint-only — Sheets measures tab widths from these nodes. */
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="tabbar"],
+html[data-prism-dark="true"][data-prism-app="sheets"] [id*="tabbar"],
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-status-container-avs,
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-status-avs,
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-filter-status,
+html[data-prism-dark="true"][data-prism-app="sheets"] .waffle-quicksum-container,
+html[data-prism-dark="true"][data-prism-app="sheets"] .waffle-assistant-data-cleanup-suggestions-bottom-entry-point {
+  background-color: var(--prism-root) !important;
+  color: var(--prism-text-dim) !important;
+  border-color: var(--prism-border) !important;
+}
+
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-filter-status-text,
+html[data-prism-dark="true"][data-prism-app="sheets"] .waffle-quicksum-container span,
+html[data-prism-dark="true"][data-prism-app="sheets"] .waffle-assistant-data-cleanup-suggestions-bottom-entry-point-button-label {
+  color: var(--prism-text-dim) !important;
+  background-color: transparent !important;
+}
+
+/* Sheet tab icons (filter funnel, overflow) use the same sprite sheet. */
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-status-container-avs .docs-icon-img,
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="tabbar"] .docs-icon-img {
+  filter: invert(0.88) brightness(1.1) !important;
+}
+
+/* Add-sheet (+) and tab-menu buttons. */
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="add-sheet"],
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="sheet-add"],
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="sheet-menu"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--prism-text-dim) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="add-sheet"]:hover,
+html[data-prism-dark="true"][data-prism-app="sheets"] [class*="sheet-add"]:hover {
+  background-color: var(--prism-surface) !important;
+  color: #ffffff !important;
+}
+
+/* ── Sheets: bottom tab bar table (exact live-DOM classes) ── */
+/* The strip background lives on table#grid-bottom-bar + its cells —
+   no "tabbar"/"sheet-tab" substring reaches it, so it stayed white. */
+html[data-prism-dark="true"][data-prism-app="sheets"] #grid-bottom-bar,
+html[data-prism-dark="true"][data-prism-app="sheets"] .grid-bottom-bar,
+html[data-prism-dark="true"][data-prism-app="sheets"] .grid-bottom-bar td,
+html[data-prism-dark="true"][data-prism-app="sheets"] div[aria-label="Sheet tab bar"],
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-outer-container,
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-container,
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-button-bar-container {
+  background-color: var(--prism-root) !important;
+  border-color: var(--prism-border) !important;
+}
+
+/* Tab buttons (+ / all-sheets / scroll arrows): raised white pills
+   natively — flatten to transparent so the bar shows through. */
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-button,
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-button-outer-box,
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-button-inner-box {
+  background: transparent !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-button:hover .docs-sheet-button-inner-box {
+  background-color: var(--prism-surface) !important;
+}
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-button .docs-icon-img {
+  filter: invert(0.88) brightness(1.1) !important;
+}
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-button-disabled {
+  opacity: 0.45 !important;
+}
+
+/* Active tab: raised white natively — surface bg, accent text. */
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-active-tab,
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-active-tab .docs-sheet-tab-outer-box,
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-active-tab .docs-sheet-tab-inner-box {
+  background-color: var(--prism-surface) !important;
+  color: #ffffff !important;
+}
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-tab-name {
+  color: inherit !important;
+  background-color: transparent !important;
+}
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-tab-dropdown .docs-icon-img {
+  filter: invert(0.88) brightness(1.1) !important;
+}
+
+/* Scroll fades are white gradients natively — neutralize. */
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-sheet-fade,
+html[data-prism-dark="true"][data-prism-app="sheets"] .docs-grille-sheet-fade {
+  background: transparent !important;
+}
+
+/* Finance disclaimer strip (hidden until needed). */
+html[data-prism-dark="true"][data-prism-app="sheets"] #waffle-disclaimer-bar,
+html[data-prism-dark="true"][data-prism-app="sheets"] #waffle-disclaimer-content {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text-dim) !important;
+}
+html[data-prism-dark="true"][data-prism-app="sheets"] a.waffle-disclaimer-link {
+  color: var(--prism-accent) !important;
+}
+
+/* ── Slides: filmstrip + speaker notes shell ─────────────── */
+html[data-prism-dark="true"][data-prism-app="slides"] [class*="filmstrip"],
+html[data-prism-dark="true"][data-prism-app="slides"] [id*="filmstrip"],
+html[data-prism-dark="true"][data-prism-app="slides"] [class*="speaker-notes"],
+html[data-prism-dark="true"][data-prism-app="slides"] [class*="notes-pane"] {
+  background-color: var(--prism-root) !important;
+  color: var(--prism-text-dim) !important;
+  border-color: var(--prism-border) !important;
+}
+
+/* ── Drive file preview shell (PDFs included) ────────────── */
+html[data-prism-dark="true"][data-prism-app="preview"] header,
+html[data-prism-dark="true"][data-prism-app="preview"] nav,
+html[data-prism-dark="true"][data-prism-app="preview"] [class*="drive-viewer"],
+html[data-prism-dark="true"][data-prism-app="preview"] [id*="drive-viewer"] {
+  background-color: var(--prism-root) !important;
+  color: var(--prism-text-dim) !important;
+}
+
+/* ── Google Drive file list (app="drive") ─────────────────── */
+/* Role-based selectors survive Drive's class renames. File thumbnails
+   (img) are never touched. */
+html[data-prism-dark="true"][data-prism-app="drive"] body {
+  background-color: var(--prism-body) !important;
+  color: var(--prism-text-dim) !important;
+}
+
+html[data-prism-dark="true"][data-prism-app="drive"] header,
+html[data-prism-dark="true"][data-prism-app="drive"] [role="banner"],
+html[data-prism-dark="true"][data-prism-app="drive"] nav,
+html[data-prism-dark="true"][data-prism-app="drive"] [role="navigation"],
+html[data-prism-dark="true"][data-prism-app="drive"] aside,
+html[data-prism-dark="true"][data-prism-app="drive"] [role="complementary"] {
+  background-color: var(--prism-root) !important;
+  color: var(--prism-text-dim) !important;
+  border-color: var(--prism-border) !important;
+}
+
+html[data-prism-dark="true"][data-prism-app="drive"] header input,
+html[data-prism-dark="true"][data-prism-app="drive"] [role="banner"] input {
+  background-color: var(--prism-surface) !important;
+  color: var(--prism-text) !important;
+  border-color: var(--prism-border-strong) !important;
+}
+
+html[data-prism-dark="true"][data-prism-app="drive"] [role="grid"],
+html[data-prism-dark="true"][data-prism-app="drive"] [role="row"],
+html[data-prism-dark="true"][data-prism-app="drive"] [role="gridcell"],
+html[data-prism-dark="true"][data-prism-app="drive"] [role="list"],
+html[data-prism-dark="true"][data-prism-app="drive"] [role="listitem"],
+html[data-prism-dark="true"][data-prism-app="drive"] [role="main"] {
+  background-color: transparent !important;
+  color: var(--prism-text-dim) !important;
+  border-color: var(--prism-border) !important;
+}
+
+html[data-prism-dark="true"][data-prism-app="drive"] [role="row"]:hover {
+  background-color: var(--prism-surface) !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================
+   Edge-Model Shell (non-editor surfaces: Docs Home, Drive,
+   Slides, Preview/PDF). Hue-preserving inversion — the same
+   math as Edge's auto-dark flag (invert + hue-rotate keeps hues
+   while flipping luminance). Photos, video and canvases are
+   counter-filtered back to native, so PDFs and slide designs
+   keep their colors. Our hand theme (data-prism-dark) and the
+   canvas engine stay on Docs/Sheets documents only.
+   NOTE: the older per-app rules above only match data-prism-dark,
+   which is never set on shell surfaces — they are inert there.
+   ========================================================== */
+html[data-prism-shell="edge"] {
+  color-scheme: light;
+  background-color: #ffffff;
+  filter: invert(1) hue-rotate(180deg);
+}
+
+html[data-prism-shell="edge"] img,
+html[data-prism-shell="edge"] video,
+html[data-prism-shell="edge"] canvas {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Home thumbnails are divs with background-image (lh3 URLs), not <img> —
+   shell inversion turns them into negatives. Flip them back so previews
+   keep native colors (same treatment as img above). */
+html[data-prism-shell="edge"] [style*="background-image"],
+html[data-prism-shell="edge"] .docs-homescreen-grid-item-thumbnail {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Drive file preview: PDF pages render as canvas — let the shell inversion
+   darken them like the rest of the page instead of restoring them to white.
+   (Photo/image file previews stay restored via the img rule above.) */
+html[data-prism-shell="edge"][data-prism-app="preview"] canvas {
+  filter: none;
+}
+
+/* Our own search pane: light by default (shell darkens it); if the user
+   switched the pane itself dark, counter it back so it isn't double-dark. */
+html[data-prism-shell="edge"] .docs-search-pane-container.dark-theme {
+  filter: invert(1) hue-rotate(180deg);
+}
