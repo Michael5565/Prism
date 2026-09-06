@@ -3,10 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0; url=/prismpricing/">
-  <title>Prism — Pricing</title>
+  <title>Prism — Search Drive. Read Docs in the dark.</title>
+  <meta name="description" content="Prism brings private Drive search and image-safe dark mode to Google Docs and Sheets. Find exact text, keep images natural, and work comfortably at night.">
+  <link rel="canonical" href="https://getwalksafe.co.uk/prismpricing/">
+  <meta property="og:title" content="Prism — Search Drive. Read Docs in the dark.">
+  <meta property="og:description" content="Private Drive search and image-safe dark mode for Google Docs and Sheets.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:42px}
+    .feature-card{background:#fff;border:1px solid #e0e8df;border-radius:16px;padding:26px;box-shadow:0 10px 30px #1d6b4810}
+    .feature-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--lime);color:var(--green);font-weight:700;font-size:20px}
+    .feature-card h3{font-size:23px;margin:20px 0 8px}.feature-card p{color:var(--muted);line-height:1.6;margin:0}
+    .feature-card ul{list-style:none;padding:0;margin:18px 0 0;color:var(--muted);font-size:14px;line-height:2}
+    .feature-card li::before{content:'✓';color:var(--green);font-weight:700;margin-right:8px}
+    .dark-preview{background:#171b23;border-radius:18px;padding:18px;box-shadow:0 18px 44px #17231d22;color:#e7edf5}
+    .dark-toolbar{height:22px;border-radius:6px;background:#2b3340;margin-bottom:14px}.dark-page{background:#303844;border-radius:7px;padding:20px 18px;min-height:150px}.dark-page i{display:block;height:7px;border-radius:4px;background:#d9e2ec;margin:11px 0;width:84%;opacity:.9}.dark-page i:nth-child(2){width:67%;opacity:.6}.dark-page i:nth-child(3){width:48%;background:#d9f56b;opacity:1}
+    .mini-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px}.mini-steps article{background:#fff;border:1px solid #e0e8df;border-radius:16px;padding:24px}.mini-steps b{color:var(--green);font-size:12px}.mini-steps h3{font-size:20px;margin:18px 0 8px}.mini-steps p{color:var(--muted);line-height:1.55;margin:0}
+    .pricing-strip{margin:20px 28px 80px;padding:30px 34px;border:1px solid #e0e8df;border-radius:20px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:24px}.pricing-strip h2{font-size:30px}.pricing-strip p{color:var(--muted);margin:8px 0 0}.pricing-strip .price{font:700 30px 'Space Grotesk';white-space:nowrap}.pricing-strip small{font:500 13px 'DM Sans';color:var(--muted)}
+    @media(max-width:760px){.feature-grid,.mini-steps{grid-template-columns:1fr}.pricing-strip{display:block;margin:10px 18px 60px;padding:26px}.pricing-strip .price{margin:20px 0}}
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Prism","applicationCategory":"ProductivityApplication","operatingSystem":"Chrome","description":"Private Drive search and image-safe dark mode for Google Docs and Sheets.","offers":{"@type":"Offer","price":"6.99","priceCurrency":"USD"}}
+  </script>
 </head>
 <body>
-  <p>Redirecting to <a href="/prismpricing/">Prism pricing</a>…</p>
+  <nav><a class="brand" href="/"><span>P</span> Prism</a><a class="nav-link" href="#features">Features</a><a class="nav-link" href="#how-it-works">How it works</a><a class="nav-link" href="/prismpricing/">Pricing</a><a class="button small" href="/prismpricing/">Get Prism <b>→</b></a></nav>
+
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">PRIVATE GOOGLE WORKSPACE TOOLKIT</div>
+        <h1>Search Drive.<br><em>Read Docs in the dark.</em></h1>
+        <p>Prism gives you exact-phrase search across Drive and an image-safe dark mode for Google Docs and Sheets—without broad OAuth access or changing your document content.</p>
+        <div class="actions"><a class="button" href="/prismpricing/">Get Prism <b>→</b></a><a class="text-link" href="#features">See what it does</a></div>
+        <div class="trust"><span>✓</span> Local-first <span>✓</span> Images stay natural <span>✓</span> No Drive OAuth</div>
+      </div>
+      <div class="dark-preview" aria-label="Prism dark mode preview"><div class="dark-toolbar"></div><div class="dark-page"><i></i><i></i><i></i><p style="color:#aeb9c7;margin:18px 0 0;font-size:12px">Your document, easier on the eyes.</p></div></div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="eyebrow">ONE EXTENSION, TWO DAILY FRICTIONS REMOVED</div>
+      <h2>Less hunting. Less glare. More getting things done.</h2>
+      <div class="feature-grid">
+        <article class="feature-card"><div class="feature-icon">⌕</div><h3>Search inside Drive</h3><p>Find the exact phrase inside Docs, Sheets, Slides, PDFs, and Office files from your current Google session.</p><ul><li>Exact-phrase snippets</li><li>Jump straight to the matching text</li><li>Local cache for faster repeat searches</li></ul></article>
+        <article class="feature-card"><div class="feature-icon">◐</div><h3>Image-safe Dark Mode</h3><p>Use Docs and Sheets comfortably at night while photos, charts, and drawings keep their original colors.</p><ul><li>Custom theme and document colors</li><li>Text and accent color controls</li><li>Canvas-aware redraw without image inversion</li></ul></article>
+      </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+      <div class="eyebrow">HOW IT WORKS</div><h2>Install once. Work inside the tools you already use.</h2>
+      <div class="mini-steps"><article><b>01 · INSTALL</b><h3>Add Prism to Chrome</h3><p>Load the extension and open Drive. Prism works with your existing Google session.</p></article><article><b>02 · SEARCH OR THEME</b><h3>Find or focus</h3><p>Search across your files or customize the Docs/Sheets theme from the Prism panel.</p></article><article><b>03 · KEEP CONTROL</b><h3>Your data stays yours</h3><p>No broad Drive OAuth. Images remain untouched, and your preferences stay in local extension storage.</p></article></div>
+    </section>
+
+    <section class="pricing-strip"><div><div class="eyebrow">PRISM PRO</div><h2>Everything included.</h2><p>Search, image-safe dark mode, custom colors, and ongoing improvements.</p></div><div><div class="price">$6.99<small> / month</small></div><a class="button small" href="/prismpricing/">View plans <b>→</b></a></div></section>
+  </main>
+
+  <footer><a class="text-link" href="/prismpricing/">Pricing</a> · <a class="text-link" href="/privacy.html">Privacy</a> · <a class="text-link" href="mailto:support@getwalksafe.co.uk">Support</a><br><span>© 2026 Prism</span></footer>
 </body>
 </html>
