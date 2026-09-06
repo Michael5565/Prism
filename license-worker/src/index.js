@@ -172,10 +172,26 @@ async function handlePaddleWebhook(rawBody, env, corsHeaders) {
       case 'subscription_cancelled':
       case 'subscription_payment_succeeded':
       case 'subscription_payment_failed':
-      // Paddle v3 events
+      // Paddle v3 events — subscriptions + transactions.
+      // NOTE: Paddle spells it "canceled" (US). Accept both.
+      // transaction.paid fires first (payment captured, before sub id
+      // attached); transaction.updated carries sub id once processing adds
+      // it; subscription.created carries transaction_id linking back to txn;
+      // customer.created carries the email (txn events carry only ctm id).
+      case 'customer.created':
+      case 'customer.updated':
+      case 'transaction.updated':
       case 'subscription.created':
+      case 'subscription.activated':
       case 'subscription.updated':
+      case 'subscription.canceled':
       case 'subscription.cancelled':
+      case 'subscription.past_due':
+      case 'subscription.trialing':
+      case 'subscription.resumed':
+      case 'subscription.paused':
+      case 'transaction.billed':
+      case 'transaction.paid':
       case 'transaction.completed':
         await handleSubscriptionEvent(payload, env);
         break;
@@ -192,23 +208,73 @@ async function handlePaddleWebhook(rawBody, env, corsHeaders) {
 
 async function handleSubscriptionEvent(payload, env) {
   // Extract common fields — handle both Paddle v2 and v3 formats.
-  // One customer = one key: prefer the subscription id as the canonical seed
-  // so transaction.completed and subscription.* events converge on the same
-  // key (previously each minted its own). Email is best-effort only — the
-  // website looks keys up by txn/sub id, never by email.
+  // One customer = one key: prefer customer_id as the canonical seed so
+  // transaction.completed and subscription.* events converge on the same
+  // key even when they arrive out of order or the txn has no sub id yet.
+  // (transaction.completed carries NO email — only customer_id /
+  //  subscription_id / invoice_id. Email is best-effort via custom_data or
+  //  subscription events. The website looks keys up by txn/sub/ctm/inv id,
+  //  never by email alone.)
   const isV3 = !!payload.event_type;
   const eventName = payload.event_type || payload.alert_name || '';
-  const isTxn = eventName === 'transaction.completed';
+  const isTxnEvent = eventName.startsWith('transaction.');
+  const isCustomerEvent = eventName.startsWith('customer.');
+  const isTxnComplete = eventName === 'transaction.completed'
+    || eventName === 'transaction.billed'
+    || eventName === 'transaction.updated'
+    || eventName === 'transaction.paid';
 
-  let subscriptionId, txnId, email, licenseKey, status, currentPeriodEnd, plan;
+  // customer.created/updated carry identity only (no license to mint).
+  // Store ctm:<id> -> email so /api/get-license can resolve by customer id,
+  // and backfill the email onto any license record already indexed for it.
+  if (isV3 && isCustomerEvent) {
+    const c = payload.data || {};
+    const cid = c.id || undefined;
+    const cEmail = c.email || undefined;
+    if (cid && cEmail && cEmail.includes('@')) {
+      try {
+        await env.LICENSES.put(`ctm:${cid}`, cEmail, { expirationTtl: 365 * 24 * 60 * 60 });
+        const linked = await env.LICENSES.get(`ctmkey:${cid}`);
+        if (linked) {
+          const rec = await env.LICENSES.get(linked, { type: 'json' });
+          if (rec && !rec.email) {
+            rec.email = cEmail;
+            rec.updated_at = new Date().toISOString();
+            await env.LICENSES.put(linked, JSON.stringify(rec), { expirationTtl: 365 * 24 * 60 * 60 });
+            await env.LICENSES.put(`email:${cEmail.toLowerCase()}`, linked, { expirationTtl: 365 * 24 * 60 * 60 });
+          }
+        }
+      } catch (_) {}
+    }
+    console.log(`[Prism Worker] Customer event: ${eventName} cid=${cid || '?'}`);
+    return;
+  }
+
+  let subscriptionId, txnId, linkedTxnId, customerId, invoiceId, checkoutId, email, licenseKey, status, currentPeriodEnd, plan;
 
   if (isV3) {
-    // Paddle v3 format
+    // Paddle v3 format — see https://developer.paddle.com/webhooks/transactions/transaction-completed/
     const data = payload.data || {};
-    txnId = isTxn ? data.id : undefined;
-    subscriptionId = data.subscription_id || (!isTxn ? data.id : undefined);
-    email = data.customer_email || data.customer?.email || data.custom_data?.email || data.email || undefined;
-    status = isTxn ? 'active' : (data.status || 'active');
+    if (isTxnEvent) {
+      txnId = data.id || undefined; // txn_...
+      subscriptionId = data.subscription_id || undefined; // sub_... or null
+      customerId = data.customer_id || undefined; // ctm_...
+      invoiceId = data.invoice_id || data.invoice_number || undefined; // inv_...
+      checkoutId = data.checkout?.id || data.checkout_id || undefined; // che_...
+    } else {
+      // subscription.* — data.id is the sub id; transaction_id links the
+      // originating txn so txn polling resolves even before txn.completed.
+      subscriptionId = data.subscription_id || data.id || undefined;
+      linkedTxnId = data.transaction_id || undefined;
+      if (linkedTxnId && !txnId) txnId = linkedTxnId;
+      customerId = data.customer_id || undefined;
+      invoiceId = data.invoice_id || undefined;
+      checkoutId = data.checkout?.id || data.checkout_id || undefined;
+    }
+    email = data.customer_email || data.customer?.email
+      || data.custom_data?.email || data.email || undefined;
+    if (email && /^(inv|txn|sub|ctm)_/i.test(email)) email = undefined; // guard: never treat an id as email
+    status = isTxnComplete ? 'active' : (data.status || 'active');
     currentPeriodEnd = data.next_billed_at || data.next_transaction?.time
       || data.current_billing_period?.ends_at || data.ends_at || null;
     plan = data.custom_data?.plan || 'pro';
@@ -217,14 +283,16 @@ async function handleSubscriptionEvent(payload, env) {
     subscriptionId = payload.subscription_id;
     email = payload.email;
     licenseKey = payload.license_key || undefined;
-    status = isTxn ? 'active' : mapPaddleStatus(payload.status);
+    status = isTxnComplete ? 'active' : mapPaddleStatus(payload.status);
     currentPeriodEnd = payload.next_bill_date || null;
     plan = payload.plan_name || 'pro';
   }
 
-  // If no license key in webhook, generate one from the canonical seed
+  // If no license key in webhook, generate one from the canonical seed.
+  // Priority: customer > subscription > email > txn > invoice — so the
+  // txn event and the later subscription event for the same buyer converge.
   if (!licenseKey) {
-    const seed = subscriptionId || txnId || email;
+    const seed = customerId || subscriptionId || email || txnId || invoiceId;
     if (seed) licenseKey = generateLicenseKey(seed);
   }
 
@@ -242,6 +310,9 @@ async function handleSubscriptionEvent(payload, env) {
   const record = {
     license_key: normalized,
     subscription_id: subscriptionId || (prev && prev.subscription_id) || null,
+    customer_id: customerId || (prev && prev.customer_id) || null,
+    transaction_id: txnId || (prev && prev.transaction_id) || null,
+    invoice_id: invoiceId || (prev && prev.invoice_id) || null,
     email: email || (prev && prev.email) || null,
     status: status || (prev && prev.status) || 'active',
     plan: plan || (prev && prev.plan) || 'pro',
@@ -268,6 +339,33 @@ async function handleSubscriptionEvent(payload, env) {
       expirationTtl: 365 * 24 * 60 * 60,
     });
   }
+  if (customerId) {
+    await env.LICENSES.put(`ctm:${customerId}`, normalized, {
+      expirationTtl: 365 * 24 * 60 * 60,
+    });
+  }
+  if (invoiceId) {
+    await env.LICENSES.put(`inv:${invoiceId}`, normalized, {
+      expirationTtl: 365 * 24 * 60 * 60,
+    });
+  }
+  if (linkedTxnId && linkedTxnId !== txnId) {
+    await env.LICENSES.put(`txn:${linkedTxnId}`, normalized, {
+      expirationTtl: 365 * 24 * 60 * 60,
+    });
+  }
+  // ctmkey: reverse index customer -> key (used to backfill email from
+  // customer.created onto the license). checkout: browser always has che id.
+  if (customerId) {
+    await env.LICENSES.put(`ctmkey:${customerId}`, normalized, {
+      expirationTtl: 365 * 24 * 60 * 60,
+    });
+  }
+  if (checkoutId) {
+    await env.LICENSES.put(`checkout:${checkoutId}`, normalized, {
+      expirationTtl: 365 * 24 * 60 * 60,
+    });
+  }
 
   console.log(`[Prism Worker] Stored license: ${normalized.slice(0, 8)}... status=${status}`);
 }
@@ -288,12 +386,33 @@ async function handleGetLicense(request, env, corsHeaders) {
   const email = url.searchParams.get('email');
   const sub = url.searchParams.get('sub');
   const txn = url.searchParams.get('txn');
+  const customer = url.searchParams.get('customer') || url.searchParams.get('ctm');
+  const checkout = url.searchParams.get('checkout') || url.searchParams.get('che');
+  const inv = url.searchParams.get('inv') || url.searchParams.get('invoice');
   try {
     let key = null;
-    if (email) key = await env.LICENSES.get(`email:${email.toLowerCase()}`);
-    if (!key && sub) key = await env.LICENSES.get(`sub:${sub}`);
-    if (!key && txn) key = await env.LICENSES.get(`txn:${txn}`);
-    if (!key && txn) key = await env.LICENSES.get(`sub:${txn}`); // fallback: txn id may be sub id
+    const tryGet = async (k) => { try { return await env.LICENSES.get(k); } catch (_) { return null; } };
+    if (email && email.includes('@')) key = await tryGet(`email:${email.toLowerCase()}`);
+    if (!key && sub) key = await tryGet(`sub:${sub}`);
+    if (!key && txn) key = await tryGet(`txn:${txn}`);
+    if (!key && txn) key = await tryGet(`sub:${txn}`); // legacy: old build stored txn ids under sub:
+    if (!key && sub) key = await tryGet(`txn:${sub}`); // reverse fallback
+    if (!key && customer) {
+      key = await tryGet(`ctm:${customer}`);
+      if (!key && !customer.startsWith('ctm_')) key = await tryGet(`ctm:ctm_${customer}`);
+    }
+    if (!key && checkout) {
+      key = await tryGet(`checkout:${checkout}`);
+      if (!key && !checkout.startsWith('che_')) key = await tryGet(`checkout:che_${checkout}`);
+    }
+    if (!key && inv) {
+      key = await tryGet(`inv:${inv}`);
+      if (!key && !inv.startsWith('inv_')) key = await tryGet(`inv:inv_${inv}`);
+    }
+    // email param may itself be a ctm id when the callback had no email yet
+    if (!key && email && !email.includes('@')) {
+      key = await tryGet(`ctm:${email}`);
+    }
     if (!key) {
       return new Response(JSON.stringify({ found: false, error: 'No license yet — webhook may be delayed 10-30s. Check email or try again.' }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
     }
@@ -304,16 +423,25 @@ async function handleGetLicense(request, env, corsHeaders) {
   }
 }
 
-function generateLicenseKey(subscriptionId) {
-  // Generate a deterministic license key from subscription ID
-  // Format: PRISM-XXXX-XXXX-XXXX-XXXX
-  const sub = String(subscriptionId);
-  let hash = 0;
-  for (let i = 0; i < sub.length; i++) {
-    const char = sub.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash;
+function generateLicenseKey(seedId) {
+  // Deterministic key from canonical seed (customer/sub/txn id).
+  // Format: PRISM-XXXX-XXXX-XXXX-XXXX (16 hex chars, 64-bit via cyrb53 x2).
+  // Legacy keys PRISM-XXXX-XXXX-0000-0000 still validate via exact lookup.
+  const s = String(seedId);
+  const h1 = cyrb53(s, 0x9e37);
+  const h2 = cyrb53(s, 0x85eb);
+  const hex = (h1.toString(16).padStart(8, '0') + h2.toString(16).padStart(8, '0')).toUpperCase();
+  return `PRISM-${hex.slice(0, 4)}-${hex.slice(4, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}`;
+}
+
+function cyrb53(str, seed = 0) {
+  let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
   }
-  const hex = Math.abs(hash).toString(16).padStart(8, '0').toUpperCase();
-  return `PRISM-${hex.slice(0, 4)}-${hex.slice(4, 8)}-0000-0000`;
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 }
