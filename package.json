@@ -3,6 +3,6 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "build": "node -e \"console.log('Prism static site is ready in website/')\""
+    "build": "node scripts/build-site.js"
   }
 }

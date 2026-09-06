@@ -18,9 +18,9 @@ For the Worker, see [`license-worker/SETUP.md`](license-worker/SETUP.md). Config
 
 - Root directory: `/`
 - Build command: `npm run build`
-- Build output directory: `website`
+- Build output directory: `dist`
 
-The build is intentionally dependency-free; Cloudflare Pages only needs to publish the static `website/` directory.
+The build is intentionally dependency-free; the build script copies the static `website/` directory to `dist/` for Cloudflare Pages.
 
 ## Pricing
 
