@@ -1,6 +1,6 @@
 {
   "extName": { "message": "Prism — ドライブ内検索 & Docsダークモード" },
-  "extDescription": { "message": "Google ドライブ内のファイルを検索 — Docs、Sheets、Slides、PDF、Officeファイル。任意の単語を見つけて段落へジャンプ。画像を反転しないGoogle Docsダークモード。プライベート、OAuth不要。" },
+  "extDescription": { "message": "画像を反転しないDocs/Sheets/Slidesダークモード — Driveファイルの全文検索。段落へジャンプ。プライベート、OAuth不要。" },
   "popupTitle": { "message": "Prism" },
   "popupDesc": { "message": "タイトルだけでなく、Driveファイルの中身を検索。" },
   "popupHow": { "message": "使い方" },

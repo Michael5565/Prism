@@ -1,6 +1,6 @@
 {
   "extName": { "message": "Prism — Recherche Drive & Mode Sombre Docs" },
-  "extDescription": { "message": "Recherchez dans vos fichiers Google Drive — Docs, Sheets, Slides, PDF et Office. Trouvez n'importe quel mot, sautez au paragraphe. Mode sombre sans inverser les images pour Google Docs. Privé, sans OAuth." },
+  "extDescription": { "message": "Mode sombre sans inverser les images pour Docs, Sheets et Slides — recherche dans Drive. Saut au paragraphe. Privé, sans OAuth." },
   "popupTitle": { "message": "Prism" },
   "popupDesc": { "message": "Recherchez à l'intérieur de vos fichiers Drive, pas seulement les titres." },
   "popupHow": { "message": "Comment utiliser" },
