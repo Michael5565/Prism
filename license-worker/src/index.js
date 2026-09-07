@@ -292,6 +292,8 @@ async function handleSubscriptionEvent(payload, env) {
   // customer.created/updated carry identity only (no license to mint).
   // Store ctm:<id> -> email so /api/get-license can resolve by customer id,
   // and backfill the email onto any license record already indexed for it.
+  // Also send the license email if a record already exists but was stored
+  // without an email (transaction.completed arrives before customer.created).
   if (isV3 && isCustomerEvent) {
     const c = payload.data || {};
     const cid = c.id || undefined;
@@ -307,6 +309,8 @@ async function handleSubscriptionEvent(payload, env) {
             rec.updated_at = new Date().toISOString();
             await env.LICENSES.put(linked, JSON.stringify(rec), { expirationTtl: 365 * 24 * 60 * 60 });
             await env.LICENSES.put(`email:${cEmail.toLowerCase()}`, linked, { expirationTtl: 365 * 24 * 60 * 60 });
+            // Send the license email now that we have the address
+            try { await sendLicenseEmail(cEmail, linked, env); } catch (_) {}
           }
         }
       } catch (_) {}
@@ -435,8 +439,30 @@ async function handleSubscriptionEvent(payload, env) {
   console.log(`[Prism Worker] Stored license: ${normalized.slice(0, 8)}... status=${status}`);
 
   // ── Send license key email via Resend (best-effort, non-blocking) ────
-  if (email && email.includes('@')) {
-    try { await sendLicenseEmail(email, normalized, env); } catch (e) { console.warn('[Prism Worker] Resend email failed:', e); }
+  // transaction.completed events carry NO email (only customer_id), so
+  // look up the email from ctm:<customer_id> index (set by customer.created).
+  let sendTo = email;
+  if ((!sendTo || !sendTo.includes('@')) && customerId) {
+    try {
+      const lookup = await env.LICENSES.get(`ctm:${customerId}`);
+      if (lookup && lookup.includes('@')) {
+        sendTo = lookup;
+        // Backfill email onto the license record + index
+        record.email = sendTo;
+        await env.LICENSES.put(normalized, JSON.stringify(record), { expirationTtl: 365 * 24 * 60 * 60 });
+        await env.LICENSES.put(`email:${sendTo.toLowerCase()}`, normalized, { expirationTtl: 365 * 24 * 60 * 60 });
+      }
+    } catch (_) {}
+  }
+  // Also try: a subscription.created event may arrive after customer.created,
+  // so the license record might already have an email from a previous merge.
+  if ((!sendTo || !sendTo.includes('@')) && record.email && record.email.includes('@')) {
+    sendTo = record.email;
+  }
+  if (sendTo && sendTo.includes('@')) {
+    try { await sendLicenseEmail(sendTo, normalized, env); } catch (e) { console.warn('[Prism Worker] Resend email failed:', e); }
+  } else {
+    console.log(`[Prism Worker] No email available for ${normalized.slice(0, 8)}... — skipping email`);
   }
 }
 
