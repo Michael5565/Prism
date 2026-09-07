@@ -43,6 +43,18 @@ export default {
       });
     }
 
+    // POST /api/test-email — send a test email (remove after debugging)
+    if (url.pathname === '/api/test-email' && request.method === 'POST') {
+      try {
+        const { to, key } = await request.json();
+        if (!to || !key) return new Response(JSON.stringify({ error: 'missing to or key' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+        await sendLicenseEmail(to, key, env);
+        return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      } catch (e) {
+        return new Response(JSON.stringify({ error: String(e) }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+      }
+    }
+
     // GET /api/get-license?email=... — retrieve key just after checkout (display on website)
     if (url.pathname === '/api/get-license' && request.method === 'GET') {
       return handleGetLicense(request, env, corsHeaders);
@@ -301,16 +313,23 @@ async function handleSubscriptionEvent(payload, env) {
     if (cid && cEmail && cEmail.includes('@')) {
       try {
         await env.LICENSES.put(`ctm:${cid}`, cEmail, { expirationTtl: 365 * 24 * 60 * 60 });
+        await env.LICENSES.put(`ctmemail:${cid}`, cEmail, { expirationTtl: 365 * 24 * 60 * 60 });
+        // Backfill email onto any existing license record for this customer
         const linked = await env.LICENSES.get(`ctmkey:${cid}`);
         if (linked) {
           const rec = await env.LICENSES.get(linked, { type: 'json' });
-          if (rec && !rec.email) {
-            rec.email = cEmail;
-            rec.updated_at = new Date().toISOString();
-            await env.LICENSES.put(linked, JSON.stringify(rec), { expirationTtl: 365 * 24 * 60 * 60 });
-            await env.LICENSES.put(`email:${cEmail.toLowerCase()}`, linked, { expirationTtl: 365 * 24 * 60 * 60 });
-            // Send the license email now that we have the address
-            try { await sendLicenseEmail(cEmail, linked, env); } catch (_) {}
+          if (rec) {
+            const needsBackfill = !rec.email || rec.email !== cEmail;
+            if (needsBackfill) {
+              rec.email = cEmail;
+              rec.updated_at = new Date().toISOString();
+              await env.LICENSES.put(linked, JSON.stringify(rec), { expirationTtl: 365 * 24 * 60 * 60 });
+              await env.LICENSES.put(`email:${cEmail.toLowerCase()}`, linked, { expirationTtl: 365 * 24 * 60 * 60 });
+            }
+            // Always try to send email — transaction.completed may have
+            // failed because customer.created hadn't arrived yet.
+            console.log(`[Prism Worker] customer.created: sending email for ${linked.slice(0,8)}...`);
+            try { await sendLicenseEmail(cEmail, linked, env); } catch (e) { console.warn('[Prism Worker] Email send failed:', e); }
           }
         }
       } catch (_) {}
@@ -412,6 +431,9 @@ async function handleSubscriptionEvent(payload, env) {
     await env.LICENSES.put(`ctm:${customerId}`, normalized, {
       expirationTtl: 365 * 24 * 60 * 60,
     });
+    await env.LICENSES.put(`ctmkey:${customerId}`, normalized, {
+      expirationTtl: 365 * 24 * 60 * 60,
+    });
   }
   if (invoiceId) {
     await env.LICENSES.put(`inv:${invoiceId}`, normalized, {
@@ -440,29 +462,25 @@ async function handleSubscriptionEvent(payload, env) {
 
   // ── Send license key email via Resend (best-effort, non-blocking) ────
   // transaction.completed events carry NO email (only customer_id), so
-  // look up the email from ctm:<customer_id> index (set by customer.created).
+  // look up the email from ctmemail:<customer_id> (set by customer.created).
+  // Do NOT fall back to another license record's email — each customer has
+  // their own ctmemail: entry, and reusing an old one sends to the wrong address.
   let sendTo = email;
   if ((!sendTo || !sendTo.includes('@')) && customerId) {
     try {
-      const lookup = await env.LICENSES.get(`ctm:${customerId}`);
+      const lookup = await env.LICENSES.get(`ctmemail:${customerId}`);
       if (lookup && lookup.includes('@')) {
         sendTo = lookup;
-        // Backfill email onto the license record + index
         record.email = sendTo;
         await env.LICENSES.put(normalized, JSON.stringify(record), { expirationTtl: 365 * 24 * 60 * 60 });
         await env.LICENSES.put(`email:${sendTo.toLowerCase()}`, normalized, { expirationTtl: 365 * 24 * 60 * 60 });
       }
     } catch (_) {}
   }
-  // Also try: a subscription.created event may arrive after customer.created,
-  // so the license record might already have an email from a previous merge.
-  if ((!sendTo || !sendTo.includes('@')) && record.email && record.email.includes('@')) {
-    sendTo = record.email;
-  }
   if (sendTo && sendTo.includes('@')) {
     try { await sendLicenseEmail(sendTo, normalized, env); } catch (e) { console.warn('[Prism Worker] Resend email failed:', e); }
   } else {
-    console.log(`[Prism Worker] No email available for ${normalized.slice(0, 8)}... — skipping email`);
+    console.log(`[Prism Worker] No email for ${normalized.slice(0, 8)}... (cid=${customerId || '?'}) — will send when customer.created arrives`);
   }
 }
 
