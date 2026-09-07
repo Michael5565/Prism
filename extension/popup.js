@@ -672,6 +672,18 @@ if (activateTrigger && activateBody) {
 const activateBtn = document.getElementById('activateBtn');
 const licenseInput = document.getElementById('licenseInput');
 const licenseError = document.getElementById('activateError');
+const deactivateBtn = document.getElementById('deactivateBtn');
+
+// Generate a stable device UUID per extension install (sent with activation)
+async function getOrCreateDeviceId() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['prismDeviceId'], (res) => {
+      if (res.prismDeviceId) { resolve(res.prismDeviceId); return; }
+      const id = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      chrome.storage.local.set({ prismDeviceId: id }, () => resolve(id));
+    });
+  });
+}
 
 async function handleActivation() {
   if (!licenseInput || !activateBtn) return;
@@ -683,10 +695,11 @@ async function handleActivation() {
   if (licenseError) licenseError.style.display = 'none';
 
   try {
+    const deviceId = await getOrCreateDeviceId();
     const res = await fetch(`${LICENSE_SERVER}/api/validate-license`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ key: rawValue })
+      body: JSON.stringify({ key: rawValue, device_id: deviceId })
     });
     const data = await res.json();
     if (data.valid) {
@@ -724,12 +737,39 @@ async function handleActivation() {
   }
 }
 
+async function handleDeactivate() {
+  if (!deactivateBtn) return;
+  deactivateBtn.textContent = 'Deactivating…';
+  deactivateBtn.disabled = true;
+  try {
+    const res = await chrome.storage.local.get(['prismLicenseKey', 'prismDeviceId']);
+    if (!res.prismLicenseKey || !res.prismDeviceId) {
+      deactivateBtn.textContent = 'Deactivate';
+      deactivateBtn.disabled = false;
+      return;
+    }
+    await fetch(`${LICENSE_SERVER}/api/deactivate-license`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: res.prismLicenseKey, device_id: res.prismDeviceId })
+    });
+    await chrome.storage.local.remove(['prismPremium', 'prismLicenseKey', 'prismUserEmail', 'prismLicenseExpiresAt', 'prismLicenseValidatedAt']);
+    updateStatus();
+    deactivateBtn.textContent = 'Deactivated ✓';
+    setTimeout(() => { deactivateBtn.textContent = 'Deactivate this device'; deactivateBtn.disabled = false; }, 1500);
+  } catch (_) {
+    deactivateBtn.textContent = 'Deactivate';
+    deactivateBtn.disabled = false;
+  }
+}
+
 if (activateBtn) activateBtn.addEventListener('click', handleActivation);
 if (licenseInput) {
   licenseInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); handleActivation(); }
   });
 }
+if (deactivateBtn) deactivateBtn.addEventListener('click', handleDeactivate);
 
 // Initial sync + live updates
 updateStatus();

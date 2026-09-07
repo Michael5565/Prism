@@ -409,6 +409,8 @@
     padding: 9px 11px; font-weight: 500;
   }
   .pro-email { font-size: 11.5px; color: var(--success); margin-top: 2px; font-weight: 400; opacity: 0.85; }
+  .deactivate-btn { background: var(--surface); color: var(--error); border: 1px solid var(--error-bd); box-shadow: none; }
+  .deactivate-btn:hover { background: var(--error-bg); border-color: var(--error); }
 
   .footer {
     display: flex; align-items: center; justify-content: space-between;
@@ -688,6 +690,7 @@
       <div class="pro-confirmed" id="proConfirmed">
         Pro is active
         <div class="pro-email" id="proEmail"></div>
+        <button id="deactivateBtn" class="btn deactivate-btn" style="margin-top:8px;font-size:11.5px;padding:4px 10px;">Deactivate this device</button>
       </div>
       <div id="activateInputGroup">
         <div class="input-row">

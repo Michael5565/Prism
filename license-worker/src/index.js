@@ -26,9 +26,14 @@ export default {
       return handlePaddleWebhook(rawBody, env, corsHeaders);
     }
 
-    // POST /api/validate-license — validates a license key
+    // POST /api/validate-license — validates a license key + device activation
     if (url.pathname === '/api/validate-license' && request.method === 'POST') {
       return handleValidateLicense(request, env, corsHeaders);
+    }
+
+    // POST /api/deactivate-license — removes a device from a license key
+    if (url.pathname === '/api/deactivate-license' && request.method === 'POST') {
+      return handleDeactivateLicense(request, env, corsHeaders);
     }
 
     // GET /api/health — health check
@@ -51,7 +56,7 @@ export default {
 
 async function handleValidateLicense(request, env, corsHeaders) {
   try {
-    const { key } = await request.json();
+    const { key, device_id } = await request.json();
 
     if (!key || typeof key !== 'string') {
       return new Response(
@@ -98,6 +103,36 @@ async function handleValidateLicense(request, env, corsHeaders) {
       );
     }
 
+    // ── Device concurrency limit (max 2 simultaneous activations) ──────
+    if (device_id && typeof device_id === 'string') {
+      const MAX_DEVICES = 2;
+      const devicesKey = `devices:${normalized}`;
+      let devices = [];
+      try { devices = JSON.parse(await env.LICENSES.get(devicesKey)) || []; } catch (_) {}
+      const now = Date.now();
+      // Purge stale entries (older than 30 days without heartbeat)
+      devices = devices.filter((d) => now - (d.lastSeen || 0) < 30 * 24 * 60 * 60 * 1000);
+      const existing = devices.find((d) => d.id === device_id);
+      if (existing) {
+        // Already registered — refresh heartbeat
+        existing.lastSeen = now;
+        await env.LICENSES.put(devicesKey, JSON.stringify(devices), { expirationTtl: 365 * 24 * 60 * 60 });
+      } else if (devices.length >= MAX_DEVICES) {
+        return new Response(
+          JSON.stringify({
+            valid: false,
+            error: 'This key is already activated on 2 devices. Purchase another key for additional devices.',
+            deviceLimit: true,
+          }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      } else {
+        // New device — register it
+        devices.push({ id: device_id, activatedAt: now, lastSeen: now });
+        await env.LICENSES.put(devicesKey, JSON.stringify(devices), { expirationTtl: 365 * 24 * 60 * 60 });
+      }
+    }
+
     return new Response(
       JSON.stringify({
         valid: true,
@@ -110,6 +145,36 @@ async function handleValidateLicense(request, env, corsHeaders) {
   } catch (e) {
     return new Response(
       JSON.stringify({ valid: false, error: 'Server error' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+}
+
+// ─── Device Deactivation ─────────────────────────────────────────────────────
+
+async function handleDeactivateLicense(request, env, corsHeaders) {
+  try {
+    const { key, device_id } = await request.json();
+    if (!key || !device_id) {
+      return new Response(
+        JSON.stringify({ ok: false, error: 'Missing key or device_id' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    const normalized = key.trim().toUpperCase();
+    const devicesKey = `devices:${normalized}`;
+    let devices = [];
+    try { devices = JSON.parse(await env.LICENSES.get(devicesKey)) || []; } catch (_) {}
+    const before = devices.length;
+    devices = devices.filter((d) => d.id !== device_id);
+    await env.LICENSES.put(devicesKey, JSON.stringify(devices), { expirationTtl: 365 * 24 * 60 * 60 });
+    return new Response(
+      JSON.stringify({ ok: true, removed: before - devices.length }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  } catch (e) {
+    return new Response(
+      JSON.stringify({ ok: false, error: 'Server error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
@@ -368,6 +433,23 @@ async function handleSubscriptionEvent(payload, env) {
   }
 
   console.log(`[Prism Worker] Stored license: ${normalized.slice(0, 8)}... status=${status}`);
+
+  // ── Send license key email via Resend (best-effort, non-blocking) ────
+  if (email && email.includes('@')) {
+    try { await sendLicenseEmail(email, normalized, env); } catch (e) { console.warn('[Prism Worker] Resend email failed:', e); }
+  }
+}
+
+async function sendLicenseEmail(to, key, env) {
+  const apiKey = env.RESEND_API_KEY;
+  if (!apiKey) { console.log('[Prism Worker] RESEND_API_KEY unset — skipping email'); return; }
+  const from = env.EMAIL_FROM || 'Prism <noreply@getwalksafe.co.uk>';
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#101828;background:#f6f7f9;margin:0;padding:32px 16px}h2{font-size:20px;margin:0 0 8px}p{font-size:14px;line-height:1.6;margin:0 0 12px;color:#344054}.key-box{background:#f5f7f2;border:1.5px solid #e0e8df;border-radius:10px;padding:14px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:16px;letter-spacing:.04em;text-align:center;margin:20px 0;color:#101828}.footer{margin-top:24px;font-size:12px;color:#98a2b3}</style></head><body><h2>Your Prism Pro license key</h2><p>Thanks for your purchase. Here's your license key — open the Prism extension in Google Drive and choose <b>Enter license key</b> to unlock Pro.</p><div class="key-box">${key}</div><p>This key works on up to 2 devices at once. If you need a third, purchase another key from <a href="https://getwalksafe.co.uk/prismpricing" style="color:#c2760a">getwalksafe.co.uk/prismpricing</a>.</p><p style="font-size:13px;color:#667085">Questions? Reply to this email or contact <a href="mailto:support@getwalksafe.co.uk" style="color:#c2760a">support@getwalksafe.co.uk</a>.</p><div class="footer">Prism — Drive Search · Docs Dark Mode</div></body></html>`;
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to, subject: 'Your Prism Pro license key', html }),
+  });
 }
 
 function mapPaddleStatus(paddleStatus) {
