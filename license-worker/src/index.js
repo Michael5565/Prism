@@ -43,18 +43,6 @@ export default {
       });
     }
 
-    // POST /api/test-email — send a test email (remove after debugging)
-    if (url.pathname === '/api/test-email' && request.method === 'POST') {
-      try {
-        const { to, key } = await request.json();
-        if (!to || !key) return new Response(JSON.stringify({ error: 'missing to or key' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
-        await sendLicenseEmail(to, key, env);
-        return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
-      } catch (e) {
-        return new Response(JSON.stringify({ error: String(e) }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
-      }
-    }
-
     // GET /api/get-license?email=... — retrieve key just after checkout (display on website)
     if (url.pathname === '/api/get-license' && request.method === 'GET') {
       return handleGetLicense(request, env, corsHeaders);
