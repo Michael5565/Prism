@@ -1,6 +1,6 @@
 {
   "extName": { "message": "Prism — Drive-Suche & Docs Dark Mode" },
-  "extDescription": { "message": "Volltextsuche in Google Drive-Dateien (Docs, Sheets, Slides, PDFs) mit Absatz-Sprung und augenschonendem Docs Dark Mode." },
+  "extDescription": { "message": "Durchsuche Google Drive-Dateien — Docs, Sheets, Slides, PDF & Office. Finde jedes Wort, springe zum Absatz. Bildschonender Dark Mode für Google Docs. Privat, ohne OAuth." },
   "popupTitle": { "message": "Prism" },
   "popupDesc": { "message": "Durchsuche deine Drive-Dateien – nicht nur Titel." },
   "popupHow": { "message": "So geht's" },
