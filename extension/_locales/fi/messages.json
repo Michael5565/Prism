@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Etsi Google Drive -tiedostoista"
+  },
+  "extDescription": {
+    "message": "Hae tarkkoja lausekkeita Drive-tiedostoista. Hyppää suoraan kappaleeseen. Vie raportteja. Kuvat turvaava tumma tila maksutta."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Etsi tiedostojen sisällöstä Google Drivessa"
+  },
+  "popupHow": {
+    "message": "Pikaopas"
+  },
+  "popupStep1": {
+    "message": "Avaa drive.google.com tai docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Hae Driven hakukentästä nähdäksesi kappaleet"
+  },
+  "popupStep3": {
+    "message": "Siirry suoraan lauseeseen yhdellä napsautuksella"
+  },
+  "popupOpenDrive": {
+    "message": "Avaa Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Avaa Docs"
+  },
+  "popupStatusFree": {
+    "message": "Ilmainen — $1/$2 hakua käytetty",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktivoitu"
+  },
+  "popupUpgrade": {
+    "message": "Päivitä Prohon"
+  },
+  "popupSettings": {
+    "message": "Lisenssi"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Szukaj w plikach Google Drive"
+  },
+  "extDescription": {
+    "message": "Szukaj dokładnych fraz w plikach Google Drive. Przeskocz prosto do akapitu. Eksportuj raporty. Ciemny motyw dla Docs gratis."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Szukaj w treści plików Google Drive"
+  },
+  "popupHow": {
+    "message": "Szybki start"
+  },
+  "popupStep1": {
+    "message": "Otwórz drive.google.com lub docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Wyszukaj w pasku Drive, aby zobaczyć fragmenty"
+  },
+  "popupStep3": {
+    "message": "Przeskocz jednym kliknięciem do akapitu"
+  },
+  "popupOpenDrive": {
+    "message": "Przejdź do Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Otwórz Docs"
+  },
+  "popupStatusFree": {
+    "message": "Darmowe — użyto $1/$2 wyszukiwań",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Wersja Pro aktywna"
+  },
+  "popupUpgrade": {
+    "message": "Uaktualnij do Pro"
+  },
+  "popupSettings": {
+    "message": "Licencja"
+  }
+}

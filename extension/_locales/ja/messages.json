@@ -1,16 +1,52 @@
 {
-  "extName": { "message": "Prism — ドライブ内検索 & Docsダークモード" },
-  "extDescription": { "message": "画像を反転しないDocs/Sheets/Slidesダークモード — Driveファイルの全文検索。段落へジャンプ。プライベート、OAuth不要。" },
-  "popupTitle": { "message": "Prism" },
-  "popupDesc": { "message": "タイトルだけでなく、Driveファイルの中身を検索。" },
-  "popupHow": { "message": "使い方" },
-  "popupStep1": { "message": "drive.google.com または docs.google.com を開く" },
-  "popupStep2": { "message": "上部のDrive検索バーで検索" },
-  "popupStep3": { "message": "結果はサイドパネルに表示 — Docs、Sheets、Slides、PDF内" },
-  "popupOpenDrive": { "message": "Driveへ移動" },
-  "popupOpenDocs": { "message": "Docsを開く" },
-  "popupStatusFree": { "message": "無料 — $1/$2 回使用" },
-  "popupStatusPro": { "message": "Pro — 有効" },
-  "popupUpgrade": { "message": "アップグレード" },
-  "popupSettings": { "message": "ライセンス" }
+  "extName": {
+    "message": "Prism: Google ドライブ内全文検索"
+  },
+  "extDescription": {
+    "message": "Google ドライブ内のファイルを完全一致フレーズで検索。該当段落へ直接ジャンプ。レポート出力・画像反転なしダークモード搭載。OAuth不要。"
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "ファイル名だけでなく、ファイルの中身を検索"
+  },
+  "popupHow": {
+    "message": "使い方"
+  },
+  "popupStep1": {
+    "message": "drive.google.com または docs.google.com を開く"
+  },
+  "popupStep2": {
+    "message": "上のドライブ検索バーで検索"
+  },
+  "popupStep3": {
+    "message": "サイドパネルに該当箇所とスニペットを表示"
+  },
+  "popupOpenDrive": {
+    "message": "ドライブを開く"
+  },
+  "popupOpenDocs": {
+    "message": "Docsを開く"
+  },
+  "popupStatusFree": {
+    "message": "無料 — $1/$2 回検索済み",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro — 有効"
+  },
+  "popupUpgrade": {
+    "message": "アップグレード"
+  },
+  "popupSettings": {
+    "message": "ライセンス"
+  }
 }

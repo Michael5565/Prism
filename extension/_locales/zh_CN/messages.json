@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Google Drive 文件内容搜索"
+  },
+  "extDescription": {
+    "message": "在 Google 云端硬盘中按精确短语搜索文件内容。一键直达对应段落。导出搜索简报。包含图片安全深色模式，无需 OAuth。"
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "搜索 Google Drive 文件内容 · 深色模式"
+  },
+  "popupHow": {
+    "message": "快速上手"
+  },
+  "popupStep1": {
+    "message": "打开 drive.google.com 或 docs.google.com"
+  },
+  "popupStep2": {
+    "message": "在搜索栏输入关键词查看段落摘要"
+  },
+  "popupStep3": {
+    "message": "一键开启保护图片的 Google 文档深色模式"
+  },
+  "popupOpenDrive": {
+    "message": "进入 Drive"
+  },
+  "popupOpenDocs": {
+    "message": "打开 Docs"
+  },
+  "popupStatusFree": {
+    "message": "免费版 — 已用 $1/$2 次搜索",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "已激活 Pro 版"
+  },
+  "popupUpgrade": {
+    "message": "升级到 Pro"
+  },
+  "popupSettings": {
+    "message": "授权与邮箱"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Google Drive फ़ाइलों में खोजें"
+  },
+  "extDescription": {
+    "message": "Google Drive फ़ाइलों के भीतर सटीक वाक्यांश खोजें। सीधे पैराग्राफ पर जाएं। रिपोर्ट निर्यात करें। इमेज-सुरक्षित डार्क मोड मुफ़्त।"
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Google Drive फ़ाइलों के अंदर खोजें"
+  },
+  "popupHow": {
+    "message": "त्वरित शुरुआत"
+  },
+  "popupStep1": {
+    "message": "drive.google.com या docs.google.com खोलें"
+  },
+  "popupStep2": {
+    "message": "पैराग्राफ देखने के लिए खोज बार में खोजें"
+  },
+  "popupStep3": {
+    "message": "एक क्लिक में सटीक वाक्य पर जाएं"
+  },
+  "popupOpenDrive": {
+    "message": "Drive खोलें"
+  },
+  "popupOpenDocs": {
+    "message": "Docs खोलें"
+  },
+  "popupStatusFree": {
+    "message": "मुफ़्त — $1/$2 खोज उपयोग की गईं",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro सक्रिय"
+  },
+  "popupUpgrade": {
+    "message": "Pro में अपग्रेड करें"
+  },
+  "popupSettings": {
+    "message": "लाइसेंस"
+  }
+}

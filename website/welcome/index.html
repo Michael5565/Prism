@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Prism — Getting Started</title>
+  <meta name="description" content="Prism is ready in your browser. Pin the extension, open Google Drive, and search inside your Docs, Sheets, Slides, and PDFs.">
+  <link rel="canonical" href="https://getwalksafe.co.uk/welcome/">
+  <link rel="icon" type="image/png" href="/assets/prism-icon.png">
+  <link rel="stylesheet" href="/welcome.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="prism-nav">
+    <a class="brand" href="/">
+      <img src="/assets/prism-icon.png" alt="Prism icon">
+      <span>Prism</span>
+    </a>
+    <div class="status-indicator">
+      <span class="status-dot"></span>
+      <span>Ready in Chrome</span>
+    </div>
+    <div class="nav-links">
+      <a class="nav-link" href="#quickstart">Quick start</a>
+      <a class="nav-link" href="#interactive-preview">Preview</a>
+      <a class="nav-link" href="/prismpricing/">Pricing</a>
+    </div>
+    <a class="button drive-action small" href="https://drive.google.com" target="_blank" rel="noopener">
+      Open Google Drive <span>↗</span>
+    </a>
+  </nav>
+
+  <main>
+    <div class="wrap">
+      <!-- Hero -->
+      <section class="hero">
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          <span>GETTING STARTED</span>
+        </div>
+        <h1>Prism is installed.<br><em>Here is how to use it.</em></h1>
+        <p>
+          Prism searches inside the Docs, Sheets, Slides, and PDFs you already see in Google Drive, takes you straight to the exact paragraph, and protects your eyes with image-safe dark mode.
+        </p>
+        <div class="hero-actions">
+          <a class="button drive-action" href="https://drive.google.com" target="_blank" rel="noopener" id="main-open-drive-btn">
+            Open Google Drive <span>↗</span>
+          </a>
+          <a class="button secondary" href="#quickstart">
+            Setup guide <span>↓</span>
+          </a>
+          <a class="button secondary" href="#interactive-preview">
+            Try preview
+          </a>
+        </div>
+        <div class="hero-proof">
+          <span><b>✓</b> Runs locally in browser</span>
+          <span><b>✓</b> Zero document storage</span>
+          <span><b>✓</b> Dark mode included free</span>
+        </div>
+      </section>
+
+      <!-- 2-Step Quickstart -->
+      <section id="quickstart" class="quickstart-section">
+        <div class="section-title">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span>TWO QUICK STEPS</span>
+          </div>
+          <h2>Ready in under a minute.</h2>
+        </div>
+
+        <div class="quickstart-grid">
+          <!-- Card 1: Pin to toolbar -->
+          <div class="step-card">
+            <div class="step-tag">STEP 01</div>
+            <h3>Pin Prism to your toolbar</h3>
+            <p>
+              Chrome hides new extensions by default behind the puzzle icon. Pin Prism now so dark mode controls and searches are always one click away.
+            </p>
+            <div class="pin-illustration">
+              <div class="mock-bar">
+                <div class="mock-bar-left">
+                  <span>Chrome toolbar</span>
+                  <span class="mock-puzzle-step">Extensions menu</span>
+                </div>
+                <span class="mock-pin-pill">Click Pin</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Open Drive -->
+          <div class="step-card">
+            <div class="step-tag">STEP 02</div>
+            <h3>Open Google Drive and search</h3>
+            <p>
+              Head over to Google Drive. Prism adds a search pane that scans through every document, sheet, and presentation visible in your view.
+            </p>
+            <div class="drive-launch-box">
+              <div class="drive-launch-text">
+                <strong>drive.google.com</strong>
+                <span>Open your Drive in a new tab</span>
+              </div>
+              <a class="button drive-action small" href="https://drive.google.com" target="_blank" rel="noopener">
+                Launch Drive <span>↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Interactive Preview Sandbox -->
+      <section id="interactive-preview" class="interactive-section">
+        <div class="section-title">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span>INTERACTIVE PREVIEW</span>
+          </div>
+          <h2>Test how it works right here.</h2>
+        </div>
+
+        <div class="interactive-box">
+          <div class="interactive-tabs">
+            <button class="tab-btn active" data-tab="search-tab">
+              Drive Search Preview
+            </button>
+            <button class="tab-btn" data-tab="dark-tab">
+              Docs Dark Mode Preview
+            </button>
+          </div>
+
+          <!-- Tab 1: Search -->
+          <div id="search-tab" class="tab-content active">
+            <div class="search-controls">
+              <h3>Search inside document bodies</h3>
+              <p>Type any keyword or select a sample query below to see how Prism finds exact sentence matches across multiple file types.</p>
+            </div>
+
+            <input 
+              type="text" 
+              id="preview-search-input" 
+              class="search-input-field" 
+              placeholder="Search inside files (e.g. revenue, roadmap, termination)..."
+              value="revenue"
+            >
+
+            <div class="chips-row">
+              <span class="chip-label">Sample queries:</span>
+              <button class="chip" data-query="revenue">revenue</button>
+              <button class="chip" data-query="roadmap">roadmap</button>
+              <button class="chip" data-query="termination">termination</button>
+              <button class="chip" data-query="audit">audit</button>
+            </div>
+
+            <div id="preview-results-list" class="results-area">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Tab 2: Dark Mode -->
+          <div id="dark-tab" class="tab-content">
+            <div class="theme-grid">
+              <div class="theme-selector-panel">
+                <p style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Select theme:</p>
+                <button class="theme-pill-btn active" data-theme="midnight">
+                  <span class="color-dot" style="background: #111726;"></span>
+                  <span>Midnight Obsidian</span>
+                </button>
+                <button class="theme-pill-btn" data-theme="oled">
+                  <span class="color-dot" style="background: #000000; border-color: #333;"></span>
+                  <span>OLED Pure Black</span>
+                </button>
+                <button class="theme-pill-btn" data-theme="slate">
+                  <span class="color-dot" style="background: #1e293b;"></span>
+                  <span>Nordic Slate</span>
+                </button>
+                <button class="theme-pill-btn" data-theme="light">
+                  <span class="color-dot" style="background: #ffffff; border-color: #bbb;"></span>
+                  <span>Standard Light</span>
+                </button>
+              </div>
+
+              <div id="doc-preview-canvas" class="preview-canvas-box" data-theme="midnight">
+                <div class="canvas-top">
+                  <span>Google Docs — <strong id="current-theme-label">Midnight Obsidian</strong></span>
+                  <span>Prism Dark Engine</span>
+                </div>
+                <div class="canvas-doc-body">
+                  <h4>Q4 Financial & Product Brief</h4>
+                  <p>
+                    Prism inverts the document canvas and adapts typography for comfortable low-light reading. Embedded charts, diagrams, and photos are protected from negative inversion.
+                  </p>
+
+                  <div class="image-protection-demo">
+                    <span class="protection-badge">Image-safe protection active</span>
+                    <div class="demo-chart-bar-visual">
+                      <div class="chart-bar" style="height: 40%;"></div>
+                      <div class="chart-bar" style="height: 65%;"></div>
+                      <div class="chart-bar" style="height: 85%;"></div>
+                      <div class="chart-bar" style="height: 50%;"></div>
+                      <div class="chart-bar" style="height: 95%;"></div>
+                    </div>
+                  </div>
+
+                  <p style="font-size: 12px; color: var(--muted);">
+                    Photos, bar charts, and client logos stay true to colour across all themes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screenshots / Features -->
+      <section class="features-section">
+        <div class="section-title">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span>CORE FEATURES</span>
+          </div>
+          <h2>Everything stays inside Google Workspace.</h2>
+        </div>
+
+        <div class="feature-cards-row">
+          <div class="feature-screenshot-card">
+            <div class="card-img-wrap">
+              <img src="/assets/screenshot_1_search.png" alt="Drive search screenshot" loading="lazy">
+            </div>
+            <div class="card-content">
+              <span>Drive Search</span>
+              <h3>Passage-level matching</h3>
+              <p>Scans visible files in your current Drive view or folder. Click any match to jump straight to the relevant paragraph in a new tab.</p>
+            </div>
+          </div>
+
+          <div class="feature-screenshot-card">
+            <div class="card-img-wrap">
+              <img src="/assets/screenshot_2_darkmode.png" alt="Docs dark mode screenshot" loading="lazy">
+            </div>
+            <div class="card-content">
+              <span>Dark Mode</span>
+              <h3>Image-safe night reading</h3>
+              <p>High-contrast dark mode for Google Docs and Sheets that never turns photos or financial graphs into negative-inverted colours.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Privacy -->
+      <section class="privacy-section">
+        <div class="privacy-box">
+          <div>
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              <span>PRIVACY FIRST</span>
+            </div>
+            <h3>Your files never leave your browser.</h3>
+            <p>
+              Prism runs entirely in your local browser session. Text extraction and caching happen locally on your computer with a strict 1-hour time-to-live.
+            </p>
+          </div>
+          <div class="privacy-points">
+            <div class="privacy-point">
+              <b>✓</b>
+              <span>No Google OAuth permissions or off-device account access.</span>
+            </div>
+            <div class="privacy-point">
+              <b>✓</b>
+              <span>No telemetry trackers, advertising pixels, or analytics scripts.</span>
+            </div>
+            <div class="privacy-point">
+              <b>✓</b>
+              <span>Document content is never transmitted to Prism servers.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Closing CTA -->
+      <section class="closing-banner">
+        <div class="closing-box">
+          <h2>Ready to search your Drive?</h2>
+          <p>
+            Open Google Drive right now to start searching inside your files.
+          </p>
+          <div class="closing-actions">
+            <a class="button drive-action" href="https://drive.google.com" target="_blank" rel="noopener">
+              Open Google Drive <span>↗</span>
+            </a>
+            <a class="button secondary" href="/prismpricing/">
+              View Pro plans <span>→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <a class="brand" href="/" style="justify-content: center; margin-bottom: 10px;">
+        <img src="/assets/prism-icon.png" alt="">
+        <span>Prism</span>
+      </a>
+      <p>Focused work and deep search for Google Workspace.</p>
+      <div style="margin-top: 10px;">
+        <a href="/">Home</a>
+        <a href="/prismpricing/">Pricing</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="mailto:support@getwalksafe.co.uk">Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/welcome.js"></script>
+</body>
+</html>

@@ -1,16 +1,52 @@
 {
-  "extName": { "message": "Prism — Drive-Suche & Docs Dark Mode" },
-  "extDescription": { "message": "Bildschonender Dark Mode für Docs, Sheets und Slides — plus Volltextsuche in Drive-Dateien. Springe zum Absatz. Privat, ohne OAuth." },
-  "popupTitle": { "message": "Prism" },
-  "popupDesc": { "message": "Durchsuche deine Drive-Dateien – nicht nur Titel." },
-  "popupHow": { "message": "So geht's" },
-  "popupStep1": { "message": "Gehe zu drive.google.com oder docs.google.com" },
-  "popupStep2": { "message": "Suche über die Drive-Suchleiste oben" },
-  "popupStep3": { "message": "Ergebnisse erscheinen im Seitenbereich — in Docs, Sheets, Slides & PDFs" },
-  "popupOpenDrive": { "message": "Zu Drive" },
-  "popupOpenDocs": { "message": "Docs öffnen" },
-  "popupStatusFree": { "message": "Kostenlos — $1/$2 Suchen verbraucht" },
-  "popupStatusPro": { "message": "Pro — aktiviert" },
-  "popupUpgrade": { "message": "Upgraden" },
-  "popupSettings": { "message": "Lizenz" }
+  "extName": {
+    "message": "Prism: In Google Drive-Dateien suchen"
+  },
+  "extDescription": {
+    "message": "Genaue Phrasen in Drive-Dateien suchen. Direkt zum Absatz springen. Berichte exportieren. Bildschonender Dark Mode inklusive."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Durchsuche deine Drive-Dateien – nicht nur Titel."
+  },
+  "popupHow": {
+    "message": "So geht's"
+  },
+  "popupStep1": {
+    "message": "Gehe zu drive.google.com oder docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Suche über die Drive-Suchleiste oben"
+  },
+  "popupStep3": {
+    "message": "Ergebnisse erscheinen im Seitenbereich"
+  },
+  "popupOpenDrive": {
+    "message": "Zu Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Docs öffnen"
+  },
+  "popupStatusFree": {
+    "message": "Kostenlos — $1/$2 Suchen",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro — aktiviert"
+  },
+  "popupUpgrade": {
+    "message": "Upgraden"
+  },
+  "popupSettings": {
+    "message": "Lizenz"
+  }
 }

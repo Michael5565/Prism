@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: جستجو در فایل‌های گوگل درایو"
+  },
+  "extDescription": {
+    "message": "عبارات دقیق را در فایل‌های درایو جستجو کنید. پرش مستقیم به بند مربوطه. خروجی گزارش‌ها. حالت تاریک امن برای تصاویر به رایگان."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "جستجو در متن فایل‌های گوگل درایو"
+  },
+  "popupHow": {
+    "message": "شروع سریع"
+  },
+  "popupStep1": {
+    "message": "drive.google.com یا docs.google.com را باز کنید"
+  },
+  "popupStep2": {
+    "message": "در نوار جستجوی درایو عبارت خود را بنویسید"
+  },
+  "popupStep3": {
+    "message": "با یک کلیک به بند متناظر در سند بروید"
+  },
+  "popupOpenDrive": {
+    "message": "باز کردن Drive"
+  },
+  "popupOpenDocs": {
+    "message": "باز کردن Docs"
+  },
+  "popupStatusFree": {
+    "message": "رایگان — $1/$2 جستجو استفاده شده",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "نسخه Pro فعال شد"
+  },
+  "popupUpgrade": {
+    "message": "ارتقا به Pro"
+  },
+  "popupSettings": {
+    "message": "مجوز"
+  }
+}

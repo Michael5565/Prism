@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Keresés a Google Drive fájlokban"
+  },
+  "extDescription": {
+    "message": "Keressen pontos kifejezésekre a Drive fájlokban. Ugorjon a bekezdésre. Exportáljon jelentéseket. Képbiztos sötét mód ingyen."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Keresés a Google Drive fájlok tartalmában"
+  },
+  "popupHow": {
+    "message": "Gyors útmutató"
+  },
+  "popupStep1": {
+    "message": "Nyissa meg a drive.google.com vagy docs.google.com oldalt"
+  },
+  "popupStep2": {
+    "message": "Keressen a Drive keresősávjában a bekezdésekhez"
+  },
+  "popupStep3": {
+    "message": "Ugorjon egyetlen kattintással a találatra"
+  },
+  "popupOpenDrive": {
+    "message": "Drive megnyitása"
+  },
+  "popupOpenDocs": {
+    "message": "Docs megnyitása"
+  },
+  "popupStatusFree": {
+    "message": "Ingyenes — $1/$2 keresés felhasználva",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktiválva"
+  },
+  "popupUpgrade": {
+    "message": "Frissítés Pro verzióra"
+  },
+  "popupSettings": {
+    "message": "Licenc"
+  }
+}

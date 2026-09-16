@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "__MSG_extDescription__",
   "default_locale": "en",
   "permissions": [
@@ -41,13 +41,12 @@
         "content-doc.js"
       ],
       "matches": [
-        "https://docs.google.com/document/*",
-        "https://docs.google.com/spreadsheets/*",
-        "https://docs.google.com/presentation/*",
-        "https://docs.google.com/viewer*",
-        "https://drive.google.com/file/*",
-        "https://drive.google.com/drive/*"
+        "https://docs.google.com/*",
+        "https://drive.google.com/*",
+        "https://drive.usercontent.google.com/*",
+        "https://*.googleusercontent.com/*"
       ],
+      "all_frames": true,
       "run_at": "document_start"
     },
     {
@@ -70,5 +69,16 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/*"
+      ],
+      "matches": [
+        "https://drive.google.com/*",
+        "https://docs.google.com/*"
+      ]
+    }
+  ]
 }

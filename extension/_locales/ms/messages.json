@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Cari Dalam Fail Google Drive"
+  },
+  "extDescription": {
+    "message": "Cari frasa tepat dalam fail Drive. Lompat terus ke perenggan. Eksport laporan carian. Mod gelap selamat untuk gambar percuma."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Cari di dalam kandungan fail Google Drive"
+  },
+  "popupHow": {
+    "message": "Mula Pantas"
+  },
+  "popupStep1": {
+    "message": "Buka drive.google.com atau docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Cari di bar carian Drive untuk melihat petikan"
+  },
+  "popupStep3": {
+    "message": "Lompat terus ke ayat yang sepadan dengan satu klik"
+  },
+  "popupOpenDrive": {
+    "message": "Buka Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Buka Docs"
+  },
+  "popupStatusFree": {
+    "message": "Percuma — $1/$2 carian digunakan",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Diaktifkan"
+  },
+  "popupUpgrade": {
+    "message": "Naik Taraf ke Pro"
+  },
+  "popupSettings": {
+    "message": "Lesen"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Sök i Google Drive-filer"
+  },
+  "extDescription": {
+    "message": "Sök exakta fraser i Drive-filer. Hoppa direkt till stycket. Exportera rapporter. Bildsäkert mörkt läge ingår gratis. Utan OAuth."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Sök i innehållet på dina Drive-filer"
+  },
+  "popupHow": {
+    "message": "Snabbstart"
+  },
+  "popupStep1": {
+    "message": "Öppna drive.google.com eller docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Sök i Drives sökfält för att visa textstycken"
+  },
+  "popupStep3": {
+    "message": "Hoppa direkt till rätt mening med ett klick"
+  },
+  "popupOpenDrive": {
+    "message": "Öppna Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Öppna Docs"
+  },
+  "popupStatusFree": {
+    "message": "Gratis — $1/$2 sökningar",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktiverad"
+  },
+  "popupUpgrade": {
+    "message": "Uppgradera till Pro"
+  },
+  "popupSettings": {
+    "message": "Licens"
+  }
+}

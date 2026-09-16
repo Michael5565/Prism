@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Tìm kiếm nội dung Google Drive"
+  },
+  "extDescription": {
+    "message": "Tìm cụm từ chính xác trong tệp Drive. Nhảy thẳng đến đoạn văn bản. Xuất báo cáo. Tích hợp chế độ tối an toàn cho ảnh miễn phí."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Tìm kiếm bên trong các tệp Google Drive"
+  },
+  "popupHow": {
+    "message": "Bắt đầu nhanh"
+  },
+  "popupStep1": {
+    "message": "Mở drive.google.com hoặc docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Tìm kiếm trên thanh Drive để xem đoạn trích"
+  },
+  "popupStep3": {
+    "message": "Chuyển thẳng đến câu văn tương ứng với 1 cú nhấp"
+  },
+  "popupOpenDrive": {
+    "message": "Mở Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Mở Docs"
+  },
+  "popupStatusFree": {
+    "message": "Miễn phí — Đã dùng $1/$2 lượt tìm",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Đã kích hoạt Pro"
+  },
+  "popupUpgrade": {
+    "message": "Nâng cấp lên Pro"
+  },
+  "popupSettings": {
+    "message": "Bản quyền"
+  }
+}

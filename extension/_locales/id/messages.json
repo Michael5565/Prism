@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Cari di Dalam File Google Drive"
+  },
+  "extDescription": {
+    "message": "Cari frasa persis di dalam file Drive. Lompat langsung ke paragraf. Ekspor laporan. Mode gelap aman foto gratis. Tanpa OAuth."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Cari isi konten file Google Drive"
+  },
+  "popupHow": {
+    "message": "Mulai Cepat"
+  },
+  "popupStep1": {
+    "message": "Buka drive.google.com atau docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Cari di bilah pencarian Drive untuk melihat paragraf"
+  },
+  "popupStep3": {
+    "message": "Lompat ke kalimat yang cocok dengan satu klik"
+  },
+  "popupOpenDrive": {
+    "message": "Buka Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Buka Docs"
+  },
+  "popupStatusFree": {
+    "message": "Gratis — $1/$2 pencarian digunakan",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktif"
+  },
+  "popupUpgrade": {
+    "message": "Tingkatkan ke Pro"
+  },
+  "popupSettings": {
+    "message": "Lisensi"
+  }
+}

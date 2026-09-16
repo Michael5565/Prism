@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: ค้นหาข้อความใน Google Drive"
+  },
+  "extDescription": {
+    "message": "ค้นหาวลีที่ตรงกันทุกประการในไฟล์ Drive กระโดดไปยังย่อหน้าที่ตรงกันทันที ส่งออกรายงาน พร้อมโหมดมืดที่ไม่กลับสีรูปภาพฟรี"
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "ค้นหาเนื้อหาภายในไฟล์ Google Drive"
+  },
+  "popupHow": {
+    "message": "เริ่มต้นใช้งาน"
+  },
+  "popupStep1": {
+    "message": "เปิด drive.google.com หรือ docs.google.com"
+  },
+  "popupStep2": {
+    "message": "ค้นหาในแถบค้นหาของ Drive เพื่อดูย่อหน้าที่ตรงกัน"
+  },
+  "popupStep3": {
+    "message": "คลิกครั้งเดียวเพื่อกระโดดไปยังประโยคที่ตรงกัน"
+  },
+  "popupOpenDrive": {
+    "message": "เปิด Drive"
+  },
+  "popupOpenDocs": {
+    "message": "เปิด Docs"
+  },
+  "popupStatusFree": {
+    "message": "ฟรี — ใช้ไปแล้ว $1/$2 การค้นหา",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "เปิดใช้งาน Pro แล้ว"
+  },
+  "popupUpgrade": {
+    "message": "อัปเกรดเป็น Pro"
+  },
+  "popupSettings": {
+    "message": "ใบอนุญาต"
+  }
+}

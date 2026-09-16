@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Pesquisar em ficheiros do Drive"
+  },
+  "extDescription": {
+    "message": "Pesquise frases exatas no Google Drive. Salte para o parágrafo. Exporte relatórios. Modo escuro para Docs incluído. Sem OAuth."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Pesquise dentro dos seus ficheiros do Drive"
+  },
+  "popupHow": {
+    "message": "Como usar"
+  },
+  "popupStep1": {
+    "message": "Aceda a drive.google.com ou docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Pesquise na barra superior do Drive"
+  },
+  "popupStep3": {
+    "message": "Resultados aparecem no painel lateral"
+  },
+  "popupOpenDrive": {
+    "message": "Ir para o Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Abrir Docs"
+  },
+  "popupStatusFree": {
+    "message": "Grátis — $1/$2 pesquisas",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Ativado"
+  },
+  "popupUpgrade": {
+    "message": "Atualizar para Pro"
+  },
+  "popupSettings": {
+    "message": "Licença"
+  }
+}

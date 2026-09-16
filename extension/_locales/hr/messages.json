@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Pretraživanje Google Drive datoteka"
+  },
+  "extDescription": {
+    "message": "Pretražujte točne fraze u Drive datotekama. Skočite izravno na odlomak. Izvezite izvješća. Siguran tamni način rada besplatno."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Pretražujte unutar Google Drive datoteka"
+  },
+  "popupHow": {
+    "message": "Brzi početak"
+  },
+  "popupStep1": {
+    "message": "Otvorite drive.google.com ili docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Pretražite u traci za pretraživanje Drivea"
+  },
+  "popupStep3": {
+    "message": "Skočite jednim klikom na pronađeni odlomak"
+  },
+  "popupOpenDrive": {
+    "message": "Otvori Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Otvori Docs"
+  },
+  "popupStatusFree": {
+    "message": "Besplatno — iskorišteno $1/$2 pretraživanja",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktivan"
+  },
+  "popupUpgrade": {
+    "message": "Nadogradi na Pro"
+  },
+  "popupSettings": {
+    "message": "Licenca"
+  }
+}

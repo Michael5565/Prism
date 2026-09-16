@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Претрага Google Drive датотека"
+  },
+  "extDescription": {
+    "message": "Претражујте тачне фразе у датотекама. Скочите директно на пасус. Извезите извештаје. Безбедан тамни режим за Docs укључен бесплатно."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Претрага унутар датотека Google Drive-а"
+  },
+  "popupHow": {
+    "message": "Брзи почетак"
+  },
+  "popupStep1": {
+    "message": "Отворите drive.google.com или docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Претражите у траци за претрагу на Drive-у"
+  },
+  "popupStep3": {
+    "message": "Скочите на подударну реченицу једним кликом"
+  },
+  "popupOpenDrive": {
+    "message": "Отвори Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Отвори Docs"
+  },
+  "popupStatusFree": {
+    "message": "Бесплатно — искоришћено $1/$2 претрага",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Активиран"
+  },
+  "popupUpgrade": {
+    "message": "Надогради на Pro"
+  },
+  "popupSettings": {
+    "message": "Лиценца"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Søg i Google Drev-filer"
+  },
+  "extDescription": {
+    "message": "Søg efter præcise sætninger i Drev-filer. Spring til afsnittet. Eksportér rapporter. Billedsikkert mørkt tema inkluderet gratis."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Søg i indholdet af dine Drev-filer"
+  },
+  "popupHow": {
+    "message": "Hurtig start"
+  },
+  "popupStep1": {
+    "message": "Åbn drive.google.com eller docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Søg i Drevs søgefelt for at se tekststykker"
+  },
+  "popupStep3": {
+    "message": "Spring til den matchende sætning med ét klik"
+  },
+  "popupOpenDrive": {
+    "message": "Åbn Drev"
+  },
+  "popupOpenDocs": {
+    "message": "Åbn Docs"
+  },
+  "popupStatusFree": {
+    "message": "Gratis — $1/$2 søgninger brugt",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktiveret"
+  },
+  "popupUpgrade": {
+    "message": "Opgrader til Pro"
+  },
+  "popupSettings": {
+    "message": "Licens"
+  }
+}

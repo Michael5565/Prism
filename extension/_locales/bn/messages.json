@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Google Drive ফাইলের ভেতরে খুঁজুন"
+  },
+  "extDescription": {
+    "message": "Google Drive ফাইলের ভেতরের সঠিক বাক্য খুঁজুন। সরাসরি অনুচ্ছেদে যান। রিপোর্ট এক্সপোর্ট করুন। নিরাপদ ডার্ক মোড সম্পূর্ণ ফ্রি।"
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Google Drive ফাইলের ভেতরে সার্চ করুন"
+  },
+  "popupHow": {
+    "message": "শুরু করুন"
+  },
+  "popupStep1": {
+    "message": "drive.google.com অথবা docs.google.com খুলুন"
+  },
+  "popupStep2": {
+    "message": "অনুচ্ছেদ দেখতে Drive সার্চ বারে খুঁজুন"
+  },
+  "popupStep3": {
+    "message": "এক ক্লিকে মূল বাক্যে চলে যান"
+  },
+  "popupOpenDrive": {
+    "message": "Drive খুলুন"
+  },
+  "popupOpenDocs": {
+    "message": "Docs খুলুন"
+  },
+  "popupStatusFree": {
+    "message": "ফ্রি — $1/$2 সার্চ ব্যবহার হয়েছে",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro সক্রিয়"
+  },
+  "popupUpgrade": {
+    "message": "Pro আপগ্রেড করুন"
+  },
+  "popupSettings": {
+    "message": "লাইসেন্স"
+  }
+}

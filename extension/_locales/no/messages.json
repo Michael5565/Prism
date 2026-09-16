@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Søk i Google Disk-filer"
+  },
+  "extDescription": {
+    "message": "Søk etter nøyaktige fraser i Disk-filer. Hopp direkte til avsnittet. Eksporter rapporter. Bildesikker mørk modus inkludert gratis."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Søk i innholdet på Disk-filene dine"
+  },
+  "popupHow": {
+    "message": "Hurtigstart"
+  },
+  "popupStep1": {
+    "message": "Åpne drive.google.com eller docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Søk i Disks søkefelt for å se avsnitt"
+  },
+  "popupStep3": {
+    "message": "Hopp til den eksakte setningen med ett klikk"
+  },
+  "popupOpenDrive": {
+    "message": "Åpne Disk"
+  },
+  "popupOpenDocs": {
+    "message": "Åpne Docs"
+  },
+  "popupStatusFree": {
+    "message": "Gratis — $1/$2 søk brukt",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktivert"
+  },
+  "popupUpgrade": {
+    "message": "Oppgrader til Pro"
+  },
+  "popupSettings": {
+    "message": "Lisens"
+  }
+}

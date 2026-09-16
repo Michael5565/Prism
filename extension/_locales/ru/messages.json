@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Поиск внутри файлов Google Drive"
+  },
+  "extDescription": {
+    "message": "Поиск точных фраз внутри файлов Google Drive. Переход к нужному абзацу в один клик. Экспорт отчетов. Темная тема без инверсии фото."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Поиск внутри файлов Google Drive · Темная тема"
+  },
+  "popupHow": {
+    "message": "Быстрый старт"
+  },
+  "popupStep1": {
+    "message": "Откройте drive.google.com или docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Введите запрос в строке поиска Google Drive"
+  },
+  "popupStep3": {
+    "message": "Переходите к нужному предложению в один клик"
+  },
+  "popupOpenDrive": {
+    "message": "Перейти в Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Открыть Docs"
+  },
+  "popupStatusFree": {
+    "message": "Бесплатно — $1/$2 поисков",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro активирован"
+  },
+  "popupUpgrade": {
+    "message": "Перейти на Pro"
+  },
+  "popupSettings": {
+    "message": "Лицензия"
+  }
+}

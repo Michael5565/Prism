@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Tafuta Ndani ya Faili za Drive"
+  },
+  "extDescription": {
+    "message": "Tafuta maneno kamili ndani ya faili za Drive. Rukia moja kwa moja kwenye aya. Hamisha ripoti. Hali ya giza salama ya picha bure."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Tafuta ndani ya maudhui ya faili za Drive"
+  },
+  "popupHow": {
+    "message": "Mwongozo wa Haraka"
+  },
+  "popupStep1": {
+    "message": "Fungua drive.google.com au docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Tafuta kwenye upau wa Drive ili kuona vifungu"
+  },
+  "popupStep3": {
+    "message": "Rukia kwenye sentensi husika kwa mbofyo mmoja"
+  },
+  "popupOpenDrive": {
+    "message": "Fungua Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Fungua Docs"
+  },
+  "popupStatusFree": {
+    "message": "Bure — utafutaji $1/$2 umetumiwa",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Imewashwa"
+  },
+  "popupUpgrade": {
+    "message": "Boresha hadi Pro"
+  },
+  "popupSettings": {
+    "message": "Leseni"
+  }
+}

@@ -39,7 +39,14 @@ async function revalidateStoredLicense() {
 }
 
 try {
-  chrome.runtime.onInstalled.addListener(scheduleLicenseRevalidation);
+  chrome.runtime.onInstalled.addListener((details) => {
+    scheduleLicenseRevalidation();
+    if (details && details.reason === 'install') {
+      try {
+        chrome.tabs.create({ url: 'https://getwalksafe.co.uk/welcome/' });
+      } catch (_) {}
+    }
+  });
   chrome.runtime.onStartup.addListener(scheduleLicenseRevalidation);
   chrome.alarms.onAlarm.addListener((alarm) => { if (alarm.name === LICENSE_ALARM) revalidateStoredLicense(); });
   scheduleLicenseRevalidation();
@@ -57,7 +64,7 @@ async function ensureOffscreen() {
       }
     } catch {}
     try {
-      await chrome.offscreen.createDocument({ url: 'offscreen.html', reasons: ['WORKERS'], justification: 'pdf.js text extraction' });
+      await chrome.offscreen.createDocument({ url: 'offscreen.html', reasons: ['DOM_PARSER', 'BLOBS'], justification: 'pdf.js text extraction' });
     } catch (e) {
       // already exists
       if (!String(e.message||'').includes('Only a single')) throw e;
@@ -423,7 +430,10 @@ function extractSnippets(text, query, mimeHint){
       const nextSpan=sentSpans[sentSpans.indexOf(span)+1];
       const before=prevSpan?trimCtx(normalized.substring(prevSpan[0],prevSpan[1]).replace(/\s+/g,' ').trim(),true):'';
       const after=nextSpan?trimCtx(normalized.substring(nextSpan[0],nextSpan[1]).replace(/\s+/g,' ').trim(),false):'';
-      snippets.push({uiText:[before,sentence,after].filter(Boolean).join(' '), exactText:sentence, beforeSentence:before, afterSentence:after, matchOffset:idx, keyword:normalized.substring(idx,idx+term.length)});
+      const textBefore = normalized.slice(0, idx);
+      const ffCount = (textBefore.match(/\f/g) || []).length;
+      const pageNum = ffCount > 0 ? (ffCount + 1) : Math.max(1, Math.floor(idx / 1800) + 1);
+      snippets.push({uiText:[before,sentence,after].filter(Boolean).join(' '), exactText:sentence, beforeSentence:before, afterSentence:after, matchOffset:idx, pageNumber: pageNum, keyword:normalized.substring(idx,idx+term.length)});
     }
     idx=normalized.toLowerCase().indexOf(termLower, idx+term.length);
   }
@@ -460,6 +470,12 @@ chrome.runtime.onMessage.addListener((msg,sender,sendResponse)=>{
   }
   if(msg.type==='open-match'){
     openMatch(msg.fileId, msg.snippet).then(()=>sendResponse({ok:true})).catch(e=>sendResponse({ok:false,error:e.message}));
+    return true;
+  }
+  if(msg.type==='CREATE_TAB'){
+    chrome.tabs.create({ url: msg.url || 'https://docs.new' }, () => {
+      sendResponse({ ok: true });
+    });
     return true;
   }
   if(msg.type==='CLEAR_CACHE'){

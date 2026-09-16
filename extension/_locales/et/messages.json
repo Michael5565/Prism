@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Otsing Google Drive'i failides"
+  },
+  "extDescription": {
+    "message": "Otsige Drive'i failidest täpseid fraase. Hüpake otse lõigule. Eksportige aruandeid. Pildikindel tume režiim tasuta. Ilma OAuthita."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Otsige Google Drive'i failide sisust"
+  },
+  "popupHow": {
+    "message": "Kiirjuhend"
+  },
+  "popupStep1": {
+    "message": "Avage drive.google.com või docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Otsige Drive'i otsinguribalt lõikude nägemiseks"
+  },
+  "popupStep3": {
+    "message": "Hüpake ühe klõpsuga otse vastavale lausele"
+  },
+  "popupOpenDrive": {
+    "message": "Ava Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Ava Docs"
+  },
+  "popupStatusFree": {
+    "message": "Tasuta — kasutatud $1/$2 otsingut",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktiveeritud"
+  },
+  "popupUpgrade": {
+    "message": "Uuenda Pro-le"
+  },
+  "popupSettings": {
+    "message": "Litsents"
+  }
+}

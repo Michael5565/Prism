@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Zoeken in Google Drive-bestanden"
+  },
+  "extDescription": {
+    "message": "Zoek exacte zinnen in Drive-bestanden. Spring naar de alinea. Exporteer rapporten. Veilige donkere modus inbegrepen. Zonder OAuth."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Zoek in de inhoud van Drive-bestanden"
+  },
+  "popupHow": {
+    "message": "Snel aan de slag"
+  },
+  "popupStep1": {
+    "message": "Open drive.google.com of docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Zoek via de Drive-zoekbalk voor alineahits"
+  },
+  "popupStep3": {
+    "message": "Schakel donkere modus in met beeldbehoud"
+  },
+  "popupOpenDrive": {
+    "message": "Naar Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Open Docs"
+  },
+  "popupStatusFree": {
+    "message": "Gratis — $1/$2 zoekopdrachten",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Geactiveerd"
+  },
+  "popupUpgrade": {
+    "message": "Upgrade naar Pro"
+  },
+  "popupSettings": {
+    "message": "Licentie"
+  }
+}

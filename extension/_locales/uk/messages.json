@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Пошук у файлах Google Drive"
+  },
+  "extDescription": {
+    "message": "Шукайте точні фрази у файлах Drive. Миттєвий перехід до абзацу. Експорт звітів. Темна тема без інверсії зображень. Без OAuth."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Пошук всередині файлів Google Drive"
+  },
+  "popupHow": {
+    "message": "Швидкий старт"
+  },
+  "popupStep1": {
+    "message": "Відкрийте drive.google.com або docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Введіть запит у рядок пошуку Drive"
+  },
+  "popupStep3": {
+    "message": "Переходьте до потрібного речення в один клік"
+  },
+  "popupOpenDrive": {
+    "message": "Відкрити Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Відкрити Docs"
+  },
+  "popupStatusFree": {
+    "message": "Безкоштовно — $1/$2 пошуків",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro активовано"
+  },
+  "popupUpgrade": {
+    "message": "Перейти на Pro"
+  },
+  "popupSettings": {
+    "message": "Ліцензія"
+  }
+}

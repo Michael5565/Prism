@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Maghanap sa Mga File ng Drive"
+  },
+  "extDescription": {
+    "message": "Maghanap ng eksaktong parirala sa Drive. Tumalon sa talata. Mag-export ng ulat. May kasamang image-safe dark mode nang libre."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Maghanap sa loob ng mga file ng Google Drive"
+  },
+  "popupHow": {
+    "message": "Mabilisang Pagsisimula"
+  },
+  "popupStep1": {
+    "message": "Buksan ang drive.google.com o docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Maghanap sa search bar para makita ang mga talata"
+  },
+  "popupStep3": {
+    "message": "Tumalon sa tamang pangungusap sa isang click"
+  },
+  "popupOpenDrive": {
+    "message": "Buksan ang Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Buksan ang Docs"
+  },
+  "popupStatusFree": {
+    "message": "Libre — nagamit ang $1/$2 paghahanap",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktibo"
+  },
+  "popupUpgrade": {
+    "message": "Mag-upgrade sa Pro"
+  },
+  "popupSettings": {
+    "message": "Lisensya"
+  }
+}

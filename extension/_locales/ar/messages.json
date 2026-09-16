@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: بحث دقيق داخل ملفات Google Drive"
+  },
+  "extDescription": {
+    "message": "ابحث عن عبارات دقيقة داخل ملفات Drive. انتقل مباشرة إلى الفقرة. تصدير التقارير. وضع داكن آمن للصور مجاناً بدون أذونات OAuth."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "بحث داخل محتوى ملفات Google Drive"
+  },
+  "popupHow": {
+    "message": "البدء السريع"
+  },
+  "popupStep1": {
+    "message": "افتح drive.google.com أو docs.google.com"
+  },
+  "popupStep2": {
+    "message": "ابحث في شريط Drive لعرض مقتطفات الفقرات"
+  },
+  "popupStep3": {
+    "message": "انتقل بنقرة واحدة إلى الجملة المطابقة"
+  },
+  "popupOpenDrive": {
+    "message": "فتح Drive"
+  },
+  "popupOpenDocs": {
+    "message": "فتح Docs"
+  },
+  "popupStatusFree": {
+    "message": "مجاني — تم استخدام $1/$2 عمليات بحث",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "تم تفعيل Pro"
+  },
+  "popupUpgrade": {
+    "message": "الترقية إلى Pro"
+  },
+  "popupSettings": {
+    "message": "الترخيص"
+  }
+}

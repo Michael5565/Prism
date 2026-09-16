@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: በGoogle Drive ፋይሎች ውስጥ ፈልግ"
+  },
+  "extDescription": {
+    "message": "በDrive ፋይሎች ውስጥ ትክክለኛ ሐረጎችን ይፈልጉ። በቀጥታ ወደ አንቀጹ ይዝለሉ። ሪፖርቶችን ያውጡ። ከምስል-ደህንነቱ የተጠበቀ ጨለማ ሁነታ በነጻ ተካቷል።"
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "በGoogle Drive ፋይሎች ይዘት ውስጥ ይፈልጉ"
+  },
+  "popupHow": {
+    "message": "ፈጣን ጅምር"
+  },
+  "popupStep1": {
+    "message": "drive.google.com ወይም docs.google.com ን ይክፈቱ"
+  },
+  "popupStep2": {
+    "message": "የአንቀጽ ቅንጥቦችን ለማየት በDrive መፈለጊያ አሞሌ ይፈልጉ"
+  },
+  "popupStep3": {
+    "message": "በአንድ ጠቅታ ወደ ትክክለኛው ዓረፍተ ነገር ይዝለሉ"
+  },
+  "popupOpenDrive": {
+    "message": "Drive ክፈት"
+  },
+  "popupOpenDocs": {
+    "message": "Docs ክፈት"
+  },
+  "popupStatusFree": {
+    "message": "ነጻ — $1/$2 ፍለጋዎች ጥቅም ላይ ውለዋል",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro ነቅቷል"
+  },
+  "popupUpgrade": {
+    "message": "ወደ Pro ያሻሽሉ"
+  },
+  "popupSettings": {
+    "message": "ፈቃድ"
+  }
+}

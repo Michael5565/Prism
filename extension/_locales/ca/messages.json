@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Cerca dins de fitxers de Drive"
+  },
+  "extDescription": {
+    "message": "Cerca frases exactes en fitxers de Drive. Salta directament al paràgraf. Exporta informes. Mode fosc segur per a imatges gratuït."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Cerca dins del contingut dels fitxers de Drive"
+  },
+  "popupHow": {
+    "message": "Guia ràpida"
+  },
+  "popupStep1": {
+    "message": "Obre drive.google.com o docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Cerca a la barra de Drive per veure paràgrafs"
+  },
+  "popupStep3": {
+    "message": "Salta a la frase coincident amb un sol clic"
+  },
+  "popupOpenDrive": {
+    "message": "Obre Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Obre Docs"
+  },
+  "popupStatusFree": {
+    "message": "Gratis — $1/$2 cerques utilitzades",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Activat"
+  },
+  "popupUpgrade": {
+    "message": "Actualitza a Pro"
+  },
+  "popupSettings": {
+    "message": "Llicència"
+  }
+}

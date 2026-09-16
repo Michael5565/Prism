@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Hľadanie v súboroch Disku Google"
+  },
+  "extDescription": {
+    "message": "Hľadajte presné frázy v súboroch na Disku. Prejdite priamo na odsek. Exportujte správy. Bezpečný tmavý režim zadarmo."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Hľadajte vnútri súborov na Disku Google"
+  },
+  "popupHow": {
+    "message": "Rýchly štart"
+  },
+  "popupStep1": {
+    "message": "Otvorte drive.google.com alebo docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Vyhľadajte vo vyhľadávacom paneli Disku"
+  },
+  "popupStep3": {
+    "message": "Prejdite jedným kliknutím na zhodnú vetu"
+  },
+  "popupOpenDrive": {
+    "message": "Otvoriť Disk"
+  },
+  "popupOpenDocs": {
+    "message": "Otvoriť Docs"
+  },
+  "popupStatusFree": {
+    "message": "Zadarmo — využité $1/$2 hľadaní",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktivované"
+  },
+  "popupUpgrade": {
+    "message": "Prejsť na Pro"
+  },
+  "popupSettings": {
+    "message": "Licencia"
+  }
+}

@@ -1,59 +1,85 @@
 # Prism — Chrome Web Store Listing
 
 ## Name
-Prism — Search Drive & Docs Dark Mode
+Prism: Search Inside Google Drive Files
 
 ## Short description (132 chars max)
-Deep search inside Google Drive files with paragraph jump, plus clean Image-Safe Google Docs Dark Mode.
+Search exact phrases inside Drive files. Jump to the paragraph. Export a cited dossier. Image-safe dark mode free.
 
 ## Detailed Description
 
-**Search inside Google Drive files — Docs, Sheets, Slides, PDFs & Office. Find any word, jump to the paragraph. Image-safe dark mode for Google Docs.**
+**Stop opening file after file. Prism searches the actual text inside your Google Drive — and jumps you straight to the paragraph.**
 
-Stop opening file after file and pressing Ctrl+F. Prism searches the actual text inside your Google Drive files — Google Docs, Google Sheets, Google Slides, PDFs, and Office documents — and shows you exactly where your words appear, with one-click jump to the paragraph.
+Google Drive's search shows file titles, not content. Prism fixes that. Type any word or phrase, and Prism scans the text inside your Docs, Sheets, Slides, PDFs, and Office files — then shows you the exact sentence it found, with one click to jump directly to that line.
 
 ---
 
-### 🔍 What Prism Does
+### 🔍 Exact Phrase & Verbatim Matching
 
-- **Full-Text Search Inside Drive**: Searches every word inside your documents, spreadsheets, presentations, and PDFs. Works on drive.google.com and docs.google.com.
-- **1-Click Jump to Paragraph**: Click any search result to open the document and jump straight to that exact line. No more scrolling.
-- **Image-Safe Dark Mode**: True dark mode for Google Docs, Sheets, and Slides that never turns your images, charts, or photos into negatives.
-- **Multi-Format Support**: Google Docs (.gdoc, .docx), Sheets (.gsheet, .xlsx, .csv), Slides (.gslides, .pptx), and PDFs.
-- **Highlighted Context Snippets**: See the surrounding sentence before opening any document. Know what you'll find.
-- **File-Type Filtering**: Filter results in real-time across Docs, Sheets, Slides, or PDFs with live match counters.
-- **Drive Search Bar Integration**: Works directly with Google Drive's native search — no extra steps, no new workflow.
+Google Drive ignores your quotation marks. Prism enforces them.
+
+Search `"renewal clause"` and Prism returns only documents containing that exact sequence — no fuzzy matches flooding your results. Critical for contracts, legal clauses, project briefs, and compliance work.
+
+---
+
+### 📁 Folder-Scoped Search
+
+Limit your search to the folder you're currently viewing with one click. Stop wading through outdated files from across your entire Drive. Perfect for project folders, shared drives, and department archives.
+
+---
+
+### ↩ 1-Click Paragraph Jump
+
+Click any search result to open the document and jump straight to the exact sentence. No scrolling. No Ctrl+F. Works on Google Docs, Sheets, Slides, and PDF viewer.
+
+---
+
+### 📋 Research Dossier Export
+
+Prism aggregates every matching excerpt, file name, document type, and deep link into a formatted brief. Copy it to clipboard or open it directly in a new Google Doc with one click — saving hours of manual tab switching and note compilation.
+
+---
+
+### Aa Case-Sensitive Search
+
+Match only the casing you specify. Find `"Company"` without surfacing every instance of `"company"`. Essential for legal defined terms, project codenames, acronyms, and stock tickers.
+
+---
+
+### 🌙 Image-Safe Dark Mode — Free
+
+True dark mode for Google Docs, Sheets, and Slides that never inverts your images, charts, or photos. Included free on every install — no subscription required.
 
 ---
 
 ### 🔒 Private by Design
 
 - **No OAuth Scopes**: Prism doesn't request broad Google permissions. It uses your existing browser session only.
-- **No Data Harvesting**: Your documents and search terms are never uploaded to any server.
-- **Local Cache Only**: File text is cached locally in your browser for 1 hour for fast repeat searches, then automatically cleared.
-- **No Analytics, No Ads, No Tracking**: Prism is a tool, not a data collection service.
+- **No Data Harvesting**: Your documents and search terms are never sent to any server.
+- **Local Cache Only**: File text is cached locally in your browser for fast repeat searches, then automatically cleared.
+- **No Analytics, No Ads, No Tracking.**
 
 ---
 
 ### 🚀 How It Works
 
-1. Install the extension and open **drive.google.com** or **docs.google.com**.
+1. Install the extension and open **drive.google.com**.
 2. Type any search term into Google Drive's search bar.
-3. Prism's panel slides open with real-time text matches and contextual snippets.
-4. Click any snippet to jump directly to that sentence inside the document.
+3. Prism's panel opens with real-time matches and context snippets.
+4. Click any snippet to jump directly to that sentence in the document.
 
 ---
 
-### 💳 Free Trial & Pricing
+### 💳 Free & Pro
 
-- **7-Day Free Trial**: Full Pro access — unlimited searches and dark mode. No credit card required.
-- **Pro Unlimited**: $6.99/month or $49/year (save 42%). Unlimited searches across all file types with paragraph jump.
+- **Free**: 5 searches total + image-safe dark mode, always.
+- **Pro Unlimited**: $6.99/month or $49/year (save 42%). Unlimited searches, exact phrase, folder scope, case-sensitive, and dossier export.
 
 ---
 
 ### 📋 Permissions
 
-- `storage`: Caches document text locally for 1 hour and tracks search counts.
+- `storage`: Caches document text locally and tracks search counts.
 - `offscreen`: Fast in-browser PDF text extraction.
 - Host permissions (`drive.google.com`, `docs.google.com`, `*.googleusercontent.com`): Read file contents within your active browser session.
 - License verification (`*.workers.dev`): Activates Pro licenses.
@@ -64,4 +90,4 @@ Stop opening file after file and pressing Ctrl+F. Prism searches the actual text
 Productivity / Search Tools
 
 ### Keywords & Tags
-google drive search, search inside google drive, search google docs, find text in drive, pdf search google drive, full text search drive, jump to paragraph google docs, deep search drive, google sheets search, google slides search, docs dark mode, google docs dark mode, image safe dark mode, productivity tools, chrome extension search
+search inside google drive, google drive full text search, search google docs content, find text in drive files, exact phrase search drive, pdf search google drive, paragraph jump google docs, folder search drive, drive search extension, research dossier export, google docs dark mode, image safe dark mode, drive productivity, chrome extension search, google workspace tools

@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: חיפוש בתוך קבצי Google Drive"
+  },
+  "extDescription": {
+    "message": "חיפוש ביטויים מדויקים בתוך קבצי Drive. קפיצה ישירה לפסקה. ייצוא דוחות. מצב כהה חינמי ובטוח לתמונות. פרטי, ללא OAuth."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "חיפוש בתוך תוכן קבצי Google Drive"
+  },
+  "popupHow": {
+    "message": "התחלה מהירה"
+  },
+  "popupStep1": {
+    "message": "פתח את drive.google.com או docs.google.com"
+  },
+  "popupStep2": {
+    "message": "חפש בסרגל Drive כדי לחשוף פסקאות"
+  },
+  "popupStep3": {
+    "message": "קפיצה בלחיצה אחת למשפט המתאים"
+  },
+  "popupOpenDrive": {
+    "message": "פתח את Drive"
+  },
+  "popupOpenDocs": {
+    "message": "פתח את Docs"
+  },
+  "popupStatusFree": {
+    "message": "חינם — נוצלו $1/$2 חיפושים",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "גרסת Pro פעילה"
+  },
+  "popupUpgrade": {
+    "message": "שדרג ל-Pro"
+  },
+  "popupSettings": {
+    "message": "רישיון"
+  }
+}

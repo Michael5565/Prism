@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Google 드라이브 파일 본문 검색"
+  },
+  "extDescription": {
+    "message": "Google 드라이브 파일 내용에서 정확한 문구를 검색하세요. 해당 단락으로 바로 이동. 보고서 내보내기 및 안전한 다크 모드 무료 제공."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "드라이브 파일 본문 내용 검색 · 다크 모드"
+  },
+  "popupHow": {
+    "message": "시작 가이드"
+  },
+  "popupStep1": {
+    "message": "drive.google.com 또는 docs.google.com 접속"
+  },
+  "popupStep2": {
+    "message": "드라이브 상단 검색창에 검색어 입력"
+  },
+  "popupStep3": {
+    "message": "문서 내 해당 단락으로 원클릭 바로가기"
+  },
+  "popupOpenDrive": {
+    "message": "드라이브로 이동"
+  },
+  "popupOpenDocs": {
+    "message": "문서 열기"
+  },
+  "popupStatusFree": {
+    "message": "무료 — $1/$2회 검색 사용됨",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro 활성화됨"
+  },
+  "popupUpgrade": {
+    "message": "Pro로 업그레이드"
+  },
+  "popupSettings": {
+    "message": "라이선스"
+  }
+}

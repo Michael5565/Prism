@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Meklēšana Google diska failos"
+  },
+  "extDescription": {
+    "message": "Meklējiet precīzas frāzes diska failos. Pārejiet tieši uz rindkopu. Eksportējiet pārskatus. Drošs tumšais režīms bez maksas."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Meklējiet Google diska failu saturā"
+  },
+  "popupHow": {
+    "message": "Ātrais sākums"
+  },
+  "popupStep1": {
+    "message": "Atveriet drive.google.com vai docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Meklējiet diska meklēšanas joslā fragmentus"
+  },
+  "popupStep3": {
+    "message": "Pārejiet uz atrasto teikumu ar vienu klikšķi"
+  },
+  "popupOpenDrive": {
+    "message": "Atvērt Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Atvērt Docs"
+  },
+  "popupStatusFree": {
+    "message": "Bezmaksas — izmantoti $1/$2 meklējumi",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktivizēts"
+  },
+  "popupUpgrade": {
+    "message": "Jaunināt uz Pro"
+  },
+  "popupSettings": {
+    "message": "Licence"
+  }
+}

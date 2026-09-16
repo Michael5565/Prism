@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Google Drive Dosya İçi Arama"
+  },
+  "extDescription": {
+    "message": "Drive dosyaları içinde tam ifade araması yapın. Eşleşen paragrafa atlayın. Raporları dışa aktarın. Güvenli karanlık mod ücretsiz."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Google Drive dosyalarının içeriğinde arama yapın"
+  },
+  "popupHow": {
+    "message": "Hızlı Başlangıç"
+  },
+  "popupStep1": {
+    "message": "drive.google.com veya docs.google.com adresini açın"
+  },
+  "popupStep2": {
+    "message": "Paragraf kesitlerini görmek için Drive'da arayın"
+  },
+  "popupStep3": {
+    "message": "Tek tıkla belgedeki ilgili cümleye atlayın"
+  },
+  "popupOpenDrive": {
+    "message": "Drive'ı Aç"
+  },
+  "popupOpenDocs": {
+    "message": "Docs'u Aç"
+  },
+  "popupStatusFree": {
+    "message": "Ücretsiz — $1/$2 arama kullanıldı",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Etkin"
+  },
+  "popupUpgrade": {
+    "message": "Pro'ya Yükselt"
+  },
+  "popupSettings": {
+    "message": "Lisans"
+  }
+}

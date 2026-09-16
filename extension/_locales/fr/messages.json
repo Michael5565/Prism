@@ -1,16 +1,52 @@
 {
-  "extName": { "message": "Prism — Recherche Drive & Mode Sombre Docs" },
-  "extDescription": { "message": "Mode sombre sans inverser les images pour Docs, Sheets et Slides — recherche dans Drive. Saut au paragraphe. Privé, sans OAuth." },
-  "popupTitle": { "message": "Prism" },
-  "popupDesc": { "message": "Recherchez à l'intérieur de vos fichiers Drive, pas seulement les titres." },
-  "popupHow": { "message": "Comment utiliser" },
-  "popupStep1": { "message": "Allez sur drive.google.com ou docs.google.com" },
-  "popupStep2": { "message": "Cherchez avec la barre de recherche Drive en haut" },
-  "popupStep3": { "message": "Les résultats apparaissent dans le panneau latéral — dans Docs, Sheets, Slides et PDFs" },
-  "popupOpenDrive": { "message": "Aller à Drive" },
-  "popupOpenDocs": { "message": "Ouvrir Docs" },
-  "popupStatusFree": { "message": "Gratuit — $1/$2 recherches utilisées" },
-  "popupStatusPro": { "message": "Pro — activé" },
-  "popupUpgrade": { "message": "Mettre à niveau" },
-  "popupSettings": { "message": "Licence" }
+  "extName": {
+    "message": "Prism : Recherche dans les fichiers Drive"
+  },
+  "extDescription": {
+    "message": "Recherchez des phrases exactes dans Drive. Sautez au paragraphe. Exportez vos dossiers. Mode sombre gratuit pour Docs. Sans OAuth."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Recherche dans les fichiers Drive · Mode sombre"
+  },
+  "popupHow": {
+    "message": "Démarrage rapide"
+  },
+  "popupStep1": {
+    "message": "Ouvrez drive.google.com ou docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Recherchez via la barre Drive pour voir les paragraphes"
+  },
+  "popupStep3": {
+    "message": "Basculez en mode sombre sans inverser les images"
+  },
+  "popupOpenDrive": {
+    "message": "Aller à Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Ouvrir Docs"
+  },
+  "popupStatusFree": {
+    "message": "Gratuit — $1/$2 recherches",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Activé"
+  },
+  "popupUpgrade": {
+    "message": "Passer à Pro"
+  },
+  "popupSettings": {
+    "message": "Licence"
+  }
 }

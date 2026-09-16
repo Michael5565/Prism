@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Search Inside Google Drive Files"
+  },
+  "extDescription": {
+    "message": "Search exact phrases inside Drive files. Jump to the paragraph. Export dossiers. Image-safe dark mode free. Private, no OAuth."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Search Inside Drive Files · Dark Mode"
+  },
+  "popupHow": {
+    "message": "Quick Start"
+  },
+  "popupStep1": {
+    "message": "Open drive.google.com or docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Search Drive's search bar to reveal paragraph snippets"
+  },
+  "popupStep3": {
+    "message": "Toggle Docs Dark Mode with image-safe rendering"
+  },
+  "popupOpenDrive": {
+    "message": "Search in Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Open Docs"
+  },
+  "popupStatusFree": {
+    "message": "Free — $1/$2 searches used",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Activated"
+  },
+  "popupUpgrade": {
+    "message": "Upgrade to Pro"
+  },
+  "popupSettings": {
+    "message": "Licence & Email"
+  }
+}

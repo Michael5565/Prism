@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Αναζήτηση σε αρχεία Google Drive"
+  },
+  "extDescription": {
+    "message": "Αναζητήστε ακριβείς φράσεις στο Drive. Μεταβείτε απευθείας στην παράγραφο. Εξαγωγή αναφορών. Ασφαλής σκοτεινή λειτουργία δωρεάν."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Αναζήτηση περιεχομένου σε αρχεία Google Drive"
+  },
+  "popupHow": {
+    "message": "Γρήγορη εκκίνηση"
+  },
+  "popupStep1": {
+    "message": "Ανοίξτε το drive.google.com ή το docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Κάντε αναζήτηση στη γραμμή του Drive"
+  },
+  "popupStep3": {
+    "message": "Μεταβείτε με 1 κλικ στην αντίστοιχη παράγραφο"
+  },
+  "popupOpenDrive": {
+    "message": "Άνοιγμα Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Άνοιγμα Docs"
+  },
+  "popupStatusFree": {
+    "message": "Δωρεάν — $1/$2 αναζητήσεις",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Ενεργοποιημένο"
+  },
+  "popupUpgrade": {
+    "message": "Αναβάθμιση σε Pro"
+  },
+  "popupSettings": {
+    "message": "Άδεια"
+  }
+}

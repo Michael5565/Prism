@@ -594,15 +594,28 @@ html[data-prism-dark="true"] #prism-dark-quick-toggle:hover {
   border-color: #3a4763;
 }
 
-html:not([data-prism-dark="true"]) #prism-dark-quick-toggle {
+html:not([data-prism-dark="true"]):not([data-prism-shell="edge"]) #prism-dark-quick-toggle {
   background: #ffffff;
   color: #344054;
   border-color: #d0d5dd;
   box-shadow: 0 1px 3px rgba(16, 24, 40, 0.16);
 }
 
-html:not([data-prism-dark="true"]) #prism-dark-quick-toggle:hover {
+html:not([data-prism-dark="true"]):not([data-prism-shell="edge"]) #prism-dark-quick-toggle:hover {
   background: #f3f4f6;
+}
+
+html[data-prism-shell="edge"] #prism-dark-quick-toggle {
+  filter: invert(1) hue-rotate(180deg);
+  background: #1d2433;
+  color: #d0d5dd;
+  border-color: #2a3348;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+html[data-prism-shell="edge"] #prism-dark-quick-toggle:hover {
+  background: #232b3d;
+  border-color: #3a4763;
 }
 
 /* Hidden when the user disables it in the popup */
@@ -1166,15 +1179,31 @@ html[data-prism-shell="edge"] .docs-homescreen-grid-item-thumbnail {
   filter: invert(1) hue-rotate(180deg);
 }
 
-/* Drive file preview: PDF pages render as canvas — let the shell inversion
-   darken them like the rest of the page instead of restoring them to white.
-   (Photo/image file previews stay restored via the img rule above.) */
-html[data-prism-shell="edge"][data-prism-app="preview"] canvas {
-  filter: none;
+/* Drive file preview: PDF and document preview pages render as canvas.
+   Restore them to natural light pages so document preview images are always white/light. */
+html[data-prism-shell="edge"][data-prism-app="preview"] canvas,
+html[data-prism-shell="edge"][data-prism-app="preview"] [role="document"] canvas,
+html[data-prism-shell="edge"][data-prism-app="preview"] .drive-viewer-toolstrip ~ div canvas,
+html[data-prism-shell="edge"][data-prism-app="preview"] img {
+  filter: invert(1) hue-rotate(180deg) !important;
 }
 
 /* Our own search pane: light by default (shell darkens it); if the user
    switched the pane itself dark, counter it back so it isn't double-dark. */
 html[data-prism-shell="edge"] .docs-search-pane-container.dark-theme {
   filter: invert(1) hue-rotate(180deg);
+}
+
+/* Document preview images, thumbnails, and preview wrappers inside the search pane:
+   ALWAYS stay light and natural — never inverted by the outer shell or container filters. */
+html[data-prism-shell="edge"] .docs-search-pane-container img,
+html[data-prism-shell="edge"] .docs-search-pane-container canvas,
+html[data-prism-shell="edge"] .docs-search-pane-container .ds-thumb,
+html[data-prism-shell="edge"] .docs-search-pane-container .ds-thumb-wrap,
+html[data-prism-shell="edge"] .docs-search-pane-container.dark-theme img,
+html[data-prism-shell="edge"] .docs-search-pane-container.dark-theme canvas,
+html[data-prism-shell="edge"] .docs-search-pane-container.dark-theme .ds-thumb,
+html[data-prism-shell="edge"] .docs-search-pane-container.dark-theme .ds-thumb-wrap {
+  filter: none !important;
+  -webkit-filter: none !important;
 }

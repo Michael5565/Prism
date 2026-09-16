@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Căutare în fișierele Google Drive"
+  },
+  "extDescription": {
+    "message": "Căutați fraze exacte în fișierele Drive. Salt direct la paragraf. Exportați rapoarte. Mod întunecat sigur pentru imagini inclus."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Căutați în interiorul fișierelor Google Drive"
+  },
+  "popupHow": {
+    "message": "Ghid rapid"
+  },
+  "popupStep1": {
+    "message": "Deschideți drive.google.com sau docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Căutați în bara Drive pentru a vedea paragrafele"
+  },
+  "popupStep3": {
+    "message": "Salt la propoziția potrivită cu un singur clic"
+  },
+  "popupOpenDrive": {
+    "message": "Deschide Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Deschide Docs"
+  },
+  "popupStatusFree": {
+    "message": "Gratuit — $1/$2 căutări folosite",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Activat"
+  },
+  "popupUpgrade": {
+    "message": "Trecere la Pro"
+  },
+  "popupSettings": {
+    "message": "Licență"
+  }
+}

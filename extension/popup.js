@@ -4,14 +4,111 @@
 // accent hue, page border, quick-toggle, license drawer.
 
 const LICENSE_SERVER = 'https://prism-license-worker.purrapi.workers.dev';
-const TRIAL_DURATION_MS = 7 * 24 * 60 * 60 * 1000;
+const UPGRADE_URL = 'https://getwalksafe.co.uk/prismpricing';
 const DEFAULT_BG = '#1a1a1a';
 const DEFAULT_DOC = '#2b2f36';
 const DEFAULT_TEXT = '#e2e8f0';
-const FREE_SEARCH_LIMIT = 3;
+const FREE_SEARCH_LIMIT = 5;
 const LICENSE_GRACE_MS = 7 * 24 * 60 * 60 * 1000;
+
+function applyPopupTheme(isDark) {
+  if (isDark) {
+    document.documentElement.classList.add('dark-theme');
+    document.body.classList.add('dark-theme');
+  } else {
+    document.documentElement.classList.remove('dark-theme');
+    document.body.classList.remove('dark-theme');
+  }
+}
+
+try {
+  chrome.storage.local.get(['docsDarkMode'], (res) => {
+    applyPopupTheme(res.docsDarkMode !== false);
+  });
+} catch (_) {}
+
 function licenseIsLocallyActive(res) {
-  return !!res.prismPremium && (!res.prismLicenseExpiresAt || Date.now() < res.prismLicenseExpiresAt);
+  return !!(res.isPro || res.prismPremium) && (!res.prismLicenseExpiresAt || Date.now() < res.prismLicenseExpiresAt);
+}
+
+function isUserPro(cb) {
+  chrome.storage.local.get(['isPro', 'prismPremium', 'prismLicenseExpiresAt'], (res) => {
+    cb(licenseIsLocallyActive(res));
+  });
+}
+
+async function getSearchQuota() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(
+      ['isPro', 'prismPremium', 'prismLicenseExpiresAt', 'lifetimeSearchCount'],
+      (res) => {
+        const isPro = licenseIsLocallyActive(res);
+        if (isPro) {
+          return resolve({ isPro: true, allowed: true, count: 0, remaining: Infinity, limit: FREE_SEARCH_LIMIT });
+        }
+        const count = typeof res.lifetimeSearchCount === 'number' ? res.lifetimeSearchCount : 0;
+        const remaining = Math.max(0, FREE_SEARCH_LIMIT - count);
+        return resolve({
+          isPro: false,
+          allowed: remaining > 0,
+          count,
+          remaining,
+          limit: FREE_SEARCH_LIMIT,
+        });
+      }
+    );
+  });
+}
+
+// ── Reusable Upgrade Modal Controller ──
+const upgradeModal = document.getElementById('upgradeModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const modalEnterLicense = document.getElementById('modalEnterLicense');
+
+function openUpgradeModal(reasonText = '') {
+  // Automatically open the pricing & checkout website in a new browser tab
+  try {
+    if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.create) {
+      chrome.tabs.create({ url: UPGRADE_URL });
+    } else {
+      window.open(UPGRADE_URL, '_blank');
+    }
+  } catch (_) {
+    window.open(UPGRADE_URL, '_blank');
+  }
+
+  // Also reveal modal in popup so user has the license key entry ready upon return
+  if (!upgradeModal) return;
+  const desc = document.getElementById('modalSub');
+  if (desc && reasonText) {
+    desc.textContent = reasonText;
+  }
+  upgradeModal.classList.add('open');
+  upgradeModal.setAttribute('aria-hidden', 'false');
+}
+
+function closeUpgradeModal() {
+  if (!upgradeModal) return;
+  upgradeModal.classList.remove('open');
+  upgradeModal.setAttribute('aria-hidden', 'true');
+}
+
+if (closeModalBtn) closeModalBtn.addEventListener('click', closeUpgradeModal);
+if (upgradeModal) {
+  upgradeModal.addEventListener('click', (e) => {
+    if (e.target === upgradeModal) closeUpgradeModal();
+  });
+}
+if (modalEnterLicense) {
+  modalEnterLicense.addEventListener('click', () => {
+    closeUpgradeModal();
+    const body = document.getElementById('activateBody');
+    const caret = document.getElementById('activateCaret');
+    if (body) body.classList.add('visible');
+    if (caret) caret.classList.add('open');
+    const input = document.getElementById('licenseInput');
+    if (input) input.focus();
+  });
 }
 
 // Business presets — one click sets theme + doc + text + accent.
@@ -98,26 +195,32 @@ const searchUsage = document.getElementById('searchUsage');
 const previewBtn = document.getElementById('previewSearchBtn');
 const searchPreview = document.getElementById('searchPreview');
 
-function refreshSearchUsage() {
+async function refreshSearchUsage() {
   if (!searchUsage) return;
-  chrome.storage.local.get(
-    ['prismPremium', 'prismLicenseExpiresAt', 'prismSearchCount', 'prismInstallTime', 'prismSearchEnabled'],
-    (res) => {
-      const enabled = res.prismSearchEnabled !== false;
-      if (!enabled) { searchUsage.innerHTML = 'Search is <strong>paused</strong> — toggle on to resume.'; return; }
-      if (licenseIsLocallyActive(res)) { searchUsage.innerHTML = 'Pro · <strong>unlimited</strong> searches'; return; }
-      const now = Date.now();
-      const start = res.prismInstallTime || now;
-      const remaining = TRIAL_DURATION_MS - (now - start);
-      if (remaining > 0) {
-        const d = Math.max(1, Math.ceil(remaining / 86400000));
-        searchUsage.innerHTML = `Trial · <strong>${d}d left</strong> · unlimited searches`;
-      } else {
-        const used = Math.min(res.prismSearchCount || 0, FREE_SEARCH_LIMIT);
-        searchUsage.innerHTML = `Free · <strong>${used}/${FREE_SEARCH_LIMIT}</strong> searches used`;
-      }
+  chrome.storage.local.get(['prismSearchEnabled'], async (r) => {
+    const enabled = r.prismSearchEnabled !== false;
+    if (!enabled) {
+      searchUsage.innerHTML = 'Search is <strong>paused</strong> — toggle on to resume.';
+      return;
     }
-  );
+    const quota = await getSearchQuota();
+    if (quota.isPro) {
+      searchUsage.innerHTML = 'Pro · <strong>unlimited</strong> searches';
+      return;
+    }
+    if (quota.remaining > 0) {
+      searchUsage.innerHTML = `Free searches remaining: <strong>${quota.remaining}/${quota.limit}</strong>`;
+    } else {
+      searchUsage.innerHTML = `
+        <div class="search-limit-banner">
+          <div class="limit-msg">You've used your ${FREE_SEARCH_LIMIT} free searches. Upgrade to Pro for unlimited search.</div>
+          <button type="button" class="btn accent sm full" id="quotaUpgradeBtn" style="margin-top:4px;font-size:11.5px;padding:4px 8px;">Upgrade to Pro →</button>
+        </div>
+      `;
+      const btn = document.getElementById('quotaUpgradeBtn');
+      if (btn) btn.addEventListener('click', () => openUpgradeModal(`You've used your ${FREE_SEARCH_LIMIT} free searches. Upgrade to Pro for unlimited search.`));
+    }
+  });
 }
 
 try {
@@ -147,10 +250,14 @@ function applyPreset(name) {
   const p = BUSINESS_PRESETS[name];
   if (!p) return;
   chrome.storage.local.set({
+    docsDarkMode: true,
     docsDarkColor: p.bg, docsDocColor: p.doc, docsTextColor: p.text,
     docsVariant: 'midnight', docsAccentHue: p.hue, docsShowBorder: p.border,
     prismThemePreset: name,
   });
+  if (darkToggle) darkToggle.checked = true;
+  const darkCard = document.getElementById('darkCard');
+  if (darkCard) darkCard.classList.toggle('disabled', false);
   syncPaletteUI(p.bg); syncDocUI(p.doc); syncTextUI(p.text);
   syncHueUI(p.hue);
   if (document.getElementById('borderToggle')) document.getElementById('borderToggle').checked = p.border;
@@ -176,7 +283,20 @@ function syncPresetUI(cur) {
   }
 }
 document.querySelectorAll('#presetGrid .preset-card').forEach((b) => {
-  b.addEventListener('click', () => applyPreset(b.dataset.preset));
+  b.addEventListener('click', () => {
+    const preset = b.dataset.preset;
+    if (preset === 'executive') {
+      applyPreset('executive');
+      return;
+    }
+    isUserPro((pro) => {
+      if (pro) {
+        applyPreset(preset);
+      } else {
+        openUpgradeModal(`The ${BUSINESS_PRESETS[preset]?.label || 'custom'} theme preset is a Pro feature.`);
+      }
+    });
+  });
 });
 const resetBtn = document.getElementById('resetThemeBtn');
 if (resetBtn) resetBtn.addEventListener('click', () => applyPreset('executive'));
@@ -197,23 +317,12 @@ if (advToggle && advBody) {
   });
 }
 
-// 2. Status / trial
+// 2. Status / subscription plan
 function updateStatus() {
   chrome.storage.local.get(
-    ['prismPremium', 'prismLicenseKey', 'prismUserEmail', 'prismInstallTime', 'prismLicenseExpiresAt'],
+    ['isPro', 'prismPremium', 'prismLicenseKey', 'prismUserEmail', 'prismLicenseExpiresAt'],
     (res) => {
       const isPro = licenseIsLocallyActive(res);
-      const now = Date.now();
-      let installTime = res.prismInstallTime;
-      if (!installTime) {
-        installTime = now;
-        chrome.storage.local.set({ prismInstallTime: now });
-      }
-
-      const remainingMs = TRIAL_DURATION_MS - (now - installTime);
-      const isTrial = remainingMs > 0;
-      const daysLeft = Math.max(1, Math.ceil(remainingMs / (24 * 60 * 60 * 1000)));
-
       const badge = document.getElementById('statusBadge');
       const statusText = document.getElementById('statusText');
       const upgradeLink = document.getElementById('upgradeLink');
@@ -234,25 +343,15 @@ function updateStatus() {
         if (activateTitle) activateTitle.textContent = 'Pro License Active';
         const idStr = res.prismUserEmail || (res.prismLicenseKey ? `${res.prismLicenseKey.slice(0, 10)}…` : 'Activated');
         if (proEmail) proEmail.textContent = `Connected: ${idStr}`;
-      } else if (isTrial) {
-        badge.classList.add('trial');
-        statusText.textContent = `Trial • ${daysLeft}d left`;
+      } else {
+        badge.classList.add('free');
+        statusText.textContent = 'Free Plan';
         if (proConfirmed) proConfirmed.style.display = 'none';
         if (inputGroup) inputGroup.style.display = 'block';
         if (activateTitle) activateTitle.textContent = 'Activate Pro (License Key)';
         if (upgradeLink) {
           upgradeLink.style.display = 'inline';
           upgradeLink.textContent = 'Upgrade to Pro →';
-        }
-      } else {
-        badge.classList.add('expired');
-        statusText.textContent = 'Trial Expired';
-        if (proConfirmed) proConfirmed.style.display = 'none';
-        if (inputGroup) inputGroup.style.display = 'block';
-        if (activateTitle) activateTitle.textContent = 'Activate Pro (License Key)';
-        if (upgradeLink) {
-          upgradeLink.style.display = 'inline';
-          upgradeLink.textContent = 'Unlock Pro →';
         }
       }
     }
@@ -278,40 +377,24 @@ chrome.storage.local.get(
   }
 );
 
-// Effective dark state = switch ON and entitled (trial or Pro).
+// Effective dark state: 1 default, polished dark mode theme is 100% free forever for all users.
 function syncDarkToggle() {
-  chrome.storage.local.get(['docsDarkMode', 'prismPremium', 'prismLicenseExpiresAt', 'prismInstallTime'], (res) => {
-    const ok = licenseIsLocallyActive(res) || (Date.now() - (res.prismInstallTime || Date.now())) < TRIAL_DURATION_MS;
-    const on = res.docsDarkMode !== false && ok;
+  chrome.storage.local.get(['docsDarkMode'], (res) => {
+    const on = res.docsDarkMode !== false;
     if (darkToggle) darkToggle.checked = on;
     const darkCard = document.getElementById('darkCard');
     if (darkCard) darkCard.classList.toggle('disabled', !on);
+    applyPopupTheme(on);
   });
 }
 
 if (darkToggle) {
   darkToggle.addEventListener('change', () => {
-    if (!darkToggle.checked) {
-      chrome.storage.local.set({ docsDarkMode: false });
-      const darkCard = document.getElementById('darkCard');
-      if (darkCard) darkCard.classList.toggle('disabled', true);
-      return;
-    }
-    // Enabling: require trial or Pro, else revert + open activation.
-    chrome.storage.local.get(['prismPremium', 'prismLicenseExpiresAt', 'prismInstallTime'], (res) => {
-      const ok = licenseIsLocallyActive(res) || (Date.now() - (res.prismInstallTime || Date.now())) < TRIAL_DURATION_MS;
-      if (ok) {
-        chrome.storage.local.set({ docsDarkMode: true });
-        const darkCard = document.getElementById('darkCard');
-        if (darkCard) darkCard.classList.toggle('disabled', false);
-      } else {
-        darkToggle.checked = false;
-        const body = document.getElementById('activateBody');
-        const caret = document.getElementById('activateCaret');
-        if (body) body.classList.add('visible');
-        if (caret) caret.classList.add('open');
-      }
-    });
+    const on = darkToggle.checked;
+    chrome.storage.local.set({ docsDarkMode: on });
+    const darkCard = document.getElementById('darkCard');
+    if (darkCard) darkCard.classList.toggle('disabled', !on);
+    applyPopupTheme(on);
   });
 }
 if (borderToggle) {
@@ -411,10 +494,17 @@ function syncPaletteUI(activeColor) {
 }
 
 function setDarkColor(color) {
-  const norm = (color || '').trim().toLowerCase();
-  if (!/^#[0-9a-f]{6}$/i.test(norm)) return;
-  chrome.storage.local.set({ docsDarkColor: norm });
-  syncPaletteUI(norm);
+  isUserPro((pro) => {
+    if (!pro) {
+      syncPaletteUI(DEFAULT_BG);
+      openUpgradeModal('Custom dark background colors are exclusive to Prism Pro.');
+      return;
+    }
+    const norm = (color || '').trim().toLowerCase();
+    if (!/^#[0-9a-f]{6}$/i.test(norm)) return;
+    chrome.storage.local.set({ docsDarkColor: norm });
+    syncPaletteUI(norm);
+  });
 }
 
 if (paletteGrid) {
@@ -480,10 +570,17 @@ function syncDocUI(activeColor) {
 }
 
 function setDocColor(color) {
-  const norm = (color || '').trim().toLowerCase();
-  if (!/^#[0-9a-f]{6}$/i.test(norm)) return;
-  chrome.storage.local.set({ docsDocColor: norm });
-  syncDocUI(norm);
+  isUserPro((pro) => {
+    if (!pro) {
+      syncDocUI(DEFAULT_DOC);
+      openUpgradeModal('Custom document surface colors are exclusive to Prism Pro.');
+      return;
+    }
+    const norm = (color || '').trim().toLowerCase();
+    if (!/^#[0-9a-f]{6}$/i.test(norm)) return;
+    chrome.storage.local.set({ docsDocColor: norm });
+    syncDocUI(norm);
+  });
 }
 
 if (docPaletteGrid) {
@@ -549,10 +646,17 @@ function syncTextUI(activeColor) {
 }
 
 function setTextColor(color) {
-  const norm = (color || '').trim().toLowerCase();
-  if (!/^#[0-9a-f]{6}$/i.test(norm)) return;
-  chrome.storage.local.set({ docsTextColor: norm });
-  syncTextUI(norm);
+  isUserPro((pro) => {
+    if (!pro) {
+      syncTextUI(DEFAULT_TEXT);
+      openUpgradeModal('Custom text colors are exclusive to Prism Pro.');
+      return;
+    }
+    const norm = (color || '').trim().toLowerCase();
+    if (!/^#[0-9a-f]{6}$/i.test(norm)) return;
+    chrome.storage.local.set({ docsTextColor: norm });
+    syncTextUI(norm);
+  });
 }
 
 if (textPaletteGrid) {
@@ -604,14 +708,43 @@ function syncHueUI(hue) {
 
 if (accentHueInput) {
   accentHueInput.addEventListener('input', () => {
-    const h = parseInt(accentHueInput.value, 10) || 0;
-    syncHueUI(h);
-    chrome.storage.local.set({ docsAccentHue: h });
+    isUserPro((pro) => {
+      if (!pro) {
+        syncHueUI(225);
+        openUpgradeModal('Accent hue customization is exclusive to Prism Pro.');
+        return;
+      }
+      const h = parseInt(accentHueInput.value, 10) || 0;
+      syncHueUI(h);
+      chrome.storage.local.set({ docsAccentHue: h });
+    });
   });
   accentHueInput.addEventListener('change', () => {
-    chrome.storage.local.set({ docsAccentHue: parseInt(accentHueInput.value, 10) || 0 });
+    isUserPro((pro) => {
+      if (!pro) {
+        syncHueUI(225);
+        return;
+      }
+      chrome.storage.local.set({ docsAccentHue: parseInt(accentHueInput.value, 10) || 0 });
+    });
   });
 }
+
+function interceptColorInput(input, featureName) {
+  if (!input) return;
+  input.addEventListener('click', (e) => {
+    isUserPro((pro) => {
+      if (!pro) {
+        e.preventDefault();
+        input.blur();
+        openUpgradeModal(`Custom ${featureName} is exclusive to Prism Pro.`);
+      }
+    });
+  });
+}
+interceptColorInput(colorPicker, 'theme color picker');
+interceptColorInput(docColorPicker, 'document surface color picker');
+interceptColorInput(textColorPicker, 'text color picker');
 
 // 9. Surfaces (Docs editor is always themed; Slides editor + PDF viewer
 // stay light by design — no toggles for them)
@@ -704,6 +837,7 @@ async function handleActivation() {
     const data = await res.json();
     if (data.valid) {
       await chrome.storage.local.set({
+        isPro: true,
         prismPremium: true,
         prismLicenseKey: rawValue,
         prismUserEmail: data.email || '',
@@ -753,7 +887,7 @@ async function handleDeactivate() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key: res.prismLicenseKey, device_id: res.prismDeviceId })
     });
-    await chrome.storage.local.remove(['prismPremium', 'prismLicenseKey', 'prismUserEmail', 'prismLicenseExpiresAt', 'prismLicenseValidatedAt']);
+    await chrome.storage.local.remove(['isPro', 'prismPremium', 'prismLicenseKey', 'prismUserEmail', 'prismLicenseExpiresAt', 'prismLicenseValidatedAt']);
     updateStatus();
     deactivateBtn.textContent = 'Deactivated ✓';
     setTimeout(() => { deactivateBtn.textContent = 'Deactivate this device'; deactivateBtn.disabled = false; }, 1500);
@@ -776,8 +910,8 @@ updateStatus();
 syncDarkToggle();
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area !== 'local') return;
-  if (changes.prismPremium || changes.prismLicenseExpiresAt || changes.prismInstallTime) { updateStatus(); refreshSearchUsage(); syncDarkToggle(); }
-  if (changes.prismSearchCount || changes.prismSearchEnabled) refreshSearchUsage();
+  if (changes.isPro || changes.prismPremium || changes.prismLicenseExpiresAt) { updateStatus(); refreshSearchUsage(); }
+  if (changes.lifetimeSearchCount || changes.dailySearchCount || changes.lastSearchDate || changes.prismSearchCount || changes.prismSearchEnabled) refreshSearchUsage();
   if (changes.prismSearchEnabled && searchToggle) {
     searchToggle.checked = changes.prismSearchEnabled.newValue !== false;
     if (searchCard) searchCard.classList.toggle('disabled', changes.prismSearchEnabled.newValue === false);

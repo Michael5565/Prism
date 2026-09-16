@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Google Drive ફાઇલોમાં શોધો"
+  },
+  "extDescription": {
+    "message": "Google Drive ફાઇલોમાં ચોક્કસ શબ્દસમૂહો શોધો. સીધા ફકરા પર જાઓ. રિપોર્ટ્સ નિકાસ કરો. છબી-સુરક્ષિત ડાર્ક મોડ મફતમાં શામેલ છે."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Google Drive ફાઇલોની અંદર શોધો"
+  },
+  "popupHow": {
+    "message": "ઝડપી શરૂઆત"
+  },
+  "popupStep1": {
+    "message": "drive.google.com અથવા docs.google.com ખોલો"
+  },
+  "popupStep2": {
+    "message": "ફકરાઓ જોવા માટે Drive સર્ચ બારમાં શોધો"
+  },
+  "popupStep3": {
+    "message": "એક ક્લિકમાં મેળ ખાતા વાક્ય પર જાઓ"
+  },
+  "popupOpenDrive": {
+    "message": "Drive ખોલો"
+  },
+  "popupOpenDocs": {
+    "message": "Docs ખોલો"
+  },
+  "popupStatusFree": {
+    "message": "મફત — $1/$2 શોધો વપરાઈ",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro સક્રિય થયેલ છે"
+  },
+  "popupUpgrade": {
+    "message": "Pro માં અપગ્રેડ કરો"
+  },
+  "popupSettings": {
+    "message": "લાઇસન્સ"
+  }
+}

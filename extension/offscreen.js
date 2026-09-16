@@ -13,8 +13,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       for (let i = 1; i <= doc.numPages; i++) {
         const page = await doc.getPage(i);
         const content = await page.getTextContent();
-        // join with space, preserve page breaks
+        // join with space, preserve page breaks with form-feed
         const pageText = content.items.map(it => it.str).join(' ');
+        if (i > 1) text += '\f';
         text += pageText + '\n';
         // avoid huge PDFs
         if (text.length > 500000) break;

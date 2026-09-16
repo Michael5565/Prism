@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Търсене във файлове на Google Drive"
+  },
+  "extDescription": {
+    "message": "Търсете точни фрази във файлове в Drive. Прескачайте направо до параграфа. Експорт на доклади. Тъмен режим за Docs безплатно."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Търсене в съдържанието на Google Drive"
+  },
+  "popupHow": {
+    "message": "Бърз старт"
+  },
+  "popupStep1": {
+    "message": "Отворете drive.google.com или docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Търсете в лентата на Drive за точни пасажи"
+  },
+  "popupStep3": {
+    "message": "Преминете към съответното изречение с един клик"
+  },
+  "popupOpenDrive": {
+    "message": "Към Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Към Docs"
+  },
+  "popupStatusFree": {
+    "message": "Безплатно — $1/$2 търсения",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Активиран"
+  },
+  "popupUpgrade": {
+    "message": "Надграждане до Pro"
+  },
+  "popupSettings": {
+    "message": "Лиценз"
+  }
+}

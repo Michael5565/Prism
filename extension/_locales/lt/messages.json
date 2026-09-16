@@ -1,0 +1,52 @@
+{
+  "extName": {
+    "message": "Prism: Paieška „Google disko“ failuose"
+  },
+  "extDescription": {
+    "message": "Ieškokite tikslių frazių disko failuose. Pereikite prie pastraipos. Eksportuokite ataskaitas. Saugus tamsusis režimas nemokamai."
+  },
+  "popupTitle": {
+    "message": "Prism"
+  },
+  "popupDesc": {
+    "message": "Ieškokite „Google disko“ failų turinyje"
+  },
+  "popupHow": {
+    "message": "Greitoji pradžia"
+  },
+  "popupStep1": {
+    "message": "Atidarykite drive.google.com arba docs.google.com"
+  },
+  "popupStep2": {
+    "message": "Ieškokite disko paieškos juostoje pastraipų"
+  },
+  "popupStep3": {
+    "message": "Vienu spustelėjimu pereikite prie sakinio"
+  },
+  "popupOpenDrive": {
+    "message": "Atidaryti Drive"
+  },
+  "popupOpenDocs": {
+    "message": "Atidaryti Docs"
+  },
+  "popupStatusFree": {
+    "message": "Nemokama — panaudota $1/$2 paieškų",
+    "placeholders": {
+      "c": {
+        "content": "$1"
+      },
+      "t": {
+        "content": "$2"
+      }
+    }
+  },
+  "popupStatusPro": {
+    "message": "Pro Aktyvuota"
+  },
+  "popupUpgrade": {
+    "message": "Naujovinti į Pro"
+  },
+  "popupSettings": {
+    "message": "Licencija"
+  }
+}
