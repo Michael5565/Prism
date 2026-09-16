@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
   ensureDriveLinks();
 });
 
+const DRIVE_SEARCH_URL = 'https://drive.google.com/drive/u/0/search?q=welcome';
+
 function ensureDriveLinks() {
-  // Guarantee all drive buttons reliably open drive.google.com in a new tab
-  const driveButtons = document.querySelectorAll('a[href="https://drive.google.com"]');
+  const driveButtons = document.querySelectorAll('a[href*="drive.google.com"]');
   driveButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
-      // Allow default navigation, but also ensure window.open fallback if needed
       if (!e.defaultPrevented) {
-        window.open('https://drive.google.com', '_blank');
+        window.open(DRIVE_SEARCH_URL, '_blank');
         e.preventDefault();
       }
     });
@@ -131,7 +131,7 @@ function initSearchPreview() {
       `;
 
       card.querySelector('.jump-btn').addEventListener('click', () => {
-        window.open('https://drive.google.com', '_blank');
+        window.open(DRIVE_SEARCH_URL, '_blank');
       });
 
       list.appendChild(card);
