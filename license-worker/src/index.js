@@ -487,13 +487,26 @@ async function handleSubscriptionEvent(payload, env) {
 
 async function sendLicenseEmail(to, key, env) {
   const apiKey = env.RESEND_API_KEY;
-  if (!apiKey) { console.log('[Prism Worker] RESEND_API_KEY unset — skipping email'); return; }
-  const from = env.EMAIL_FROM || 'Prism <noreply@getwalksafe.co.uk>';
-  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#101828;background:#f6f7f9;margin:0;padding:32px 16px}h2{font-size:20px;margin:0 0 8px}p{font-size:14px;line-height:1.6;margin:0 0 12px;color:#344054}.key-box{background:#f5f7f2;border:1.5px solid #e0e8df;border-radius:10px;padding:14px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:16px;letter-spacing:.04em;text-align:center;margin:20px 0;color:#101828}.footer{margin-top:24px;font-size:12px;color:#98a2b3}</style></head><body><h2>Your Prism Pro license key</h2><p>Thanks for your purchase. Here's your license key — open the Prism extension in Google Drive and choose <b>Enter license key</b> to unlock Pro.</p><div class="key-box">${key}</div><p>This key works on up to 2 devices at once. If you need a third, purchase another key from <a href="https://getwalksafe.co.uk/prismpricing" style="color:#c2760a">getwalksafe.co.uk/prismpricing</a>.</p><p style="font-size:13px;color:#667085">Questions? Reply to this email or contact <a href="mailto:support@getwalksafe.co.uk" style="color:#c2760a">support@getwalksafe.co.uk</a>.</p><div class="footer">Prism — Drive Search · Docs Dark Mode</div></body></html>`;
+  if (!apiKey) { console.log('[Worker] RESEND_API_KEY unset — skipping email'); return; }
+
+  const isVelo = key.startsWith('VELO-');
+  const appName = isVelo ? 'Velo' : 'Prism';
+  const from = env.EMAIL_FROM || (isVelo ? 'Velo <noreply@getwalksafe.co.uk>' : 'Prism <noreply@getwalksafe.co.uk>');
+  const pricingUrl = isVelo ? 'https://getwalksafe.co.uk/velopricing' : 'https://getwalksafe.co.uk/prismpricing';
+  const instructions = isVelo
+    ? 'open the Velo extension popup in your browser and choose <b>Lizenzschlüssel eingeben / Enter license key</b> to unlock PRO.'
+    : 'open the Prism extension in Google Drive and choose <b>Enter license key</b> to unlock Pro.';
+
+  const accentColor = isVelo ? '#0891b2' : '#c2760a';
+  const bgBox = isVelo ? '#f0fdfa' : '#f5f7f2';
+  const borderBox = isVelo ? '#22d3ee' : '#e0e8df';
+
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#101828;background:#f6f7f9;margin:0;padding:32px 16px}h2{font-size:20px;margin:0 0 8px}p{font-size:14px;line-height:1.6;margin:0 0 12px;color:#344054}.key-box{background:${bgBox};border:1.5px solid ${borderBox};border-radius:10px;padding:14px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:18px;font-weight:700;letter-spacing:.04em;text-align:center;margin:20px 0;color:${accentColor}}.footer{margin-top:24px;font-size:12px;color:#98a2b3}</style></head><body><h2>Your ${appName} PRO license key</h2><p>Thanks for your purchase. Here's your license key — ${instructions}</p><div class="key-box">${key}</div><p>This key works on up to 2 devices at once. Manage your subscription or purchase additional keys at <a href="${pricingUrl}" style="color:${accentColor}">${pricingUrl}</a>.</p><p style="font-size:13px;color:#667085">Questions? Reply to this email or contact <a href="mailto:support@getwalksafe.co.uk" style="color:${accentColor}">support@getwalksafe.co.uk</a>.</p><div class="footer">${appName} PRO</div></body></html>`;
+
   await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from, to, subject: 'Your Prism Pro license key', html }),
+    body: JSON.stringify({ from, to, subject: `Your ${appName} PRO license key`, html }),
   });
 }
 
