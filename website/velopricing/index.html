@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Velo PRO — Schnellleser mit Audio & ORP</title>
+  <meta name="description" content="Holen Sie sich Velo PRO: RSVP Schnellleser mit natürlicher Sprachausgabe, Multi-Word Chunking, Ghost Context und bis zu 900+ WPM.">
+  <link rel="canonical" href="https://getwalksafe.co.uk/velopricing/">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root {
+      --brand: #22d3ee;
+      --brand-2: #0284c7;
+      --accent-coral: #ff4336;
+      --lime: #34d399;
+    }
+    .velo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(34, 211, 238, 0.12);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      color: var(--brand);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+    .reticle-preview {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: ui-monospace, SFMono-Regular, monospace;
+      font-size: 26px;
+      font-weight: 700;
+      margin: 18px 0;
+      padding: 14px;
+      border-radius: 12px;
+      background: #080d16;
+      border: 1px solid #1c2a42;
+    }
+    .reticle-preview .prefix { color: #f8fafc; }
+    .reticle-preview .pivot { color: var(--accent-coral); text-shadow: 0 0 10px rgba(255, 67, 54, 0.5); }
+    .reticle-preview .suffix { color: #f8fafc; }
+    .plan-annual {
+      border: 1px solid rgba(34, 211, 238, 0.45);
+      background: radial-gradient(400px 220px at 80% 0, rgba(34, 211, 238, 0.15), transparent 70%), #111a2b;
+      max-width: 480px;
+      margin: 20px auto 40px;
+    }
+    .btn-buy {
+      background: linear-gradient(135deg, #22d3ee, #0284c7) !important;
+      color: #041122 !important;
+      font-size: 16px !important;
+      padding: 15px 24px !important;
+      box-shadow: 0 12px 28px rgba(34, 211, 238, 0.3) !important;
+    }
+    .btn-buy:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <nav class="prism-nav">
+    <a class="brand" href="/velopricing/">
+      <span style="font-weight:900; background:linear-gradient(135deg,#22d3ee,#0284c7); -webkit-background-clip:text; background-clip:text; color:transparent; font-size:24px;">Velo</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="#features">Funktionen</a>
+      <a class="nav-link" href="#plans">Preise</a>
+      <a class="nav-link" href="#faq">FAQ</a>
+      <a class="nav-link" href="/privacy.html">Datenschutz</a>
+    </div>
+    <a class="button small btn-buy" href="#plans">Velo PRO holen <span>→</span></a>
+  </nav>
+
+  <main>
+    <section class="page-hero">
+      <div class="velo-badge">VELO PRO · ANNUAL ACCESS</div>
+      <h1>3x schneller lesen. <em style="background:linear-gradient(110deg,#a5f3fc,#22d3ee,#38bdf8); -webkit-background-clip:text; background-clip:text; color:transparent;">Mit Stimme & Fokus.</em></h1>
+      <p>Maximale Lese-Effizienz mit RSVP-Retikelfokus, synchronisierter Sprachausgabe, Multi-Wort-Chunking und Ghost Context. 100% lokal und datensicher im Browser.</p>
+
+      <div class="reticle-preview">
+        <span class="prefix">Schnell</span><span class="pivot">l</span><span class="suffix">esen</span>
+      </div>
+
+      <!-- License Key Success Panel -->
+      <div id="success-panel" class="success-panel" hidden>
+        <h3 style="color:#22d3ee; margin-top:0;">Ihr Velo PRO Lizenzschlüssel ist bereit!</h3>
+        <p>Kopieren Sie Ihren Schlüssel und fügen Sie ihn in das Velo-Erweiterungsfenster ein:</p>
+        <div class="key-box">
+          <input id="success-key" readonly placeholder="VELO-XXXX-XXXX-XXXX-XXXX">
+          <button id="success-copy" type="button">Kopieren</button>
+        </div>
+        <button id="success-retry" class="button small secondary" type="button">Schlüssel erneut abrufen</button>
+        <p id="success-email" style="margin-top:12px; font-size:13px; color:#94a3b8;">Ihr Schlüssel wird generiert – bitte dieses Fenster kurz geöffnet lassen.</p>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="plans" style="padding: 10px 20px 40px;">
+      <article class="plan plan-annual featured">
+        <div class="save">BESTER PREIS</div>
+        <div class="plan-tag">JAHRESABO · PRO</div>
+        <h2>Velo PRO</h2>
+        <div class="price">$19.99 <small>/ Jahr</small></div>
+        <p>Nur ~$1.66 pro Monat, jährlich abgerechnet. Jederzeit mit 1 Klick kündbar.</p>
+        <ul>
+          <li><strong>Synchronisierte Sprachausgabe (TTS):</strong> Worte synchron mitlesen & hören</li>
+          <li><strong>High-Speed Modus:</strong> Volle Geschwindigkeit bis zu 900+ WPM</li>
+          <li><strong>Multi-Wort-Chunking:</strong> 2–3 Worte pro Blitz für Fortgeschrittene</li>
+          <li><strong>Ghost Context:</strong> Transparente Umfeldworte in der Peripherie</li>
+          <li><strong>1-Klick Artikelerkennung:</strong> Ganze Webseiten oder Claude/ChatGPT-Texte</li>
+          <li><strong>Keine Serverbindung:</strong> 100% lokal & privat auf Ihrem Gerät</li>
+          <li><strong>Bis zu 2 Geräte:</strong> Auf Laptop und Desktop nutzbar</li>
+        </ul>
+        <a id="paddle-buy" class="button btn-buy" href="#" style="width:100%; text-align:center;">Velo PRO aktivieren <span>→</span></a>
+      </article>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+      <h2>Häufige Fragen (FAQ)</h2>
+      <details open>
+        <summary>Wie aktiviere ich meinen PRO-Schlüssel?</summary>
+        <p>Nach dem Checkout wird Ihr persönlicher Schlüssel (z.&nbsp;B. <code>VELO-XXXX-XXXX-XXXX-XXXX</code>) direkt hier auf dem Bildschirm angezeigt und per E-Mail zugesendet. Klicken Sie im Velo-Browser-Popup auf „Lizenzschlüssel eingeben“ und fügen Sie ihn ein.</p>
+      </details>
+      <details>
+        <summary>Werden meine gelesenen Texte an Server übertragen?</summary>
+        <p>Nein. Velo arbeitet vollständig clientseitig in Ihrem Browser. Die Sprachausgabe nutzt die Web Speech API Ihres Betriebssystems. Es werden zu keinem Zeitpunkt Dokumente oder gelesene Texte an externe Server übertragen.</p>
+      </details>
+      <details>
+        <summary>Auf wie vielen Geräten kann ich Velo PRO nutzen?</summary>
+        <p>Jede Lizenz kann gleichzeitig auf bis zu 2 persönlichen Computern (z.&nbsp;B. Arbeits-PC und privates Notebook) aktiviert werden.</p>
+      </details>
+      <details>
+        <summary>Kann ich mein Abo jederzeit kündigen?</summary>
+        <p>Ja. In jeder E-Mail-Rechnung von Paddle befindet sich ein direkter Link zur Abonnementverwaltung. Sie können mit einem Klick kündigen, und Ihr Pro-Zugang bleibt bis zum Ende des bezahlten Jahreszeitraums aktiv.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <span style="font-weight:bold; color:#22d3ee;">Velo</span> · 
+    <span>Fokussiertes Schnelllesen für Wissensarbeiter und Studierende.</span>
+    <div style="margin-top:8px;">
+      <a href="/privacy.html">Datenschutz</a>
+      <a href="mailto:support@getwalksafe.co.uk">Support & Kontakt</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <script>
+    const WORKER = 'https://prism-license-worker.purrapi.workers.dev';
+    const annualPriceId = 'pri_01m351v77g5t56z28ra7j19abs';
+
+    let checkoutIds = {}, lastEmail = '', isComplete = false;
+    const message = document.getElementById('success-email');
+
+    function showKey(key, email) {
+      const panel = document.getElementById('success-panel');
+      panel.hidden = false;
+      panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (key) {
+        document.getElementById('success-key').value = key;
+        message.textContent = email
+          ? 'Verknüpft mit ' + email + ' — fügen Sie diesen Schlüssel in Velo ein.'
+          : 'Schlüssel bereit — fügen Sie diesen Schlüssel in Velo ein.';
+      } else {
+        message.textContent = 'Zahlung bestätigt — Ihr Schlüssel wird vorbereitet. Bitte dieses Fenster kurz geöffnet lassen.';
+      }
+    }
+
+    async function pollKey(ids) {
+      ids = ids || {};
+      const q = new URLSearchParams();
+      if (ids.txn && String(ids.txn).startsWith('txn_')) q.set('txn', ids.txn);
+      const che0 = ids.checkout || ids.che || '';
+      if (che0 && String(che0).startsWith('che_')) q.set('checkout', che0);
+      const ctm0 = ids.customer || ids.ctm || '';
+      if (ctm0 && String(ctm0).startsWith('ctm_')) q.set('customer', ctm0);
+      if (ids.sub && String(ids.sub).startsWith('sub_')) q.set('sub', ids.sub);
+      if (ids.inv && String(ids.inv).startsWith('inv_')) q.set('inv', ids.inv);
+      if (ids.email && String(ids.email).indexOf('@') > 0) q.set('email', ids.email);
+      const ref = ids.txn || ids.sub || che0 || ctm0 || '';
+
+      for (let i = 0; i < 30; i++) {
+        try {
+          const res = await fetch(WORKER + '/api/get-license?' + q.toString());
+          const data = await res.json();
+          if (data.found && data.key) {
+            showKey(data.key, (data.email && data.email.indexOf('@') > 0) ? data.email : (ids.email || ''));
+            return;
+          }
+        } catch (_) {}
+        message.textContent = 'Schlüssel wird vorbereitet (' + ((i + 1) * 3) + 's)… bitte kurz warten.';
+        await new Promise(r => setTimeout(r, 3000));
+      }
+
+      message.textContent = 'Zahlung erfolgreich! Falls der Schlüssel hier nicht erscheint, prüfen Sie Ihre E-Mail oder kontaktieren Sie support@getwalksafe.co.uk mit Referenz: ' + (ref || 'Velo-Order');
+    }
+
+    function completed(data = {}) {
+      if (isComplete) return;
+      isComplete = true;
+      data = data || {};
+      const customer = data.customer || {};
+      lastEmail = customer.email || data.customer_email || data.email || '';
+      const txnId = data.transaction_id || data.txn || '';
+      const rawId = data.id || '';
+      const cheId = /^che_/i.test(rawId) ? rawId : ((data.checkout && data.checkout.id) || data.checkout_id || '');
+      const ctmId = customer.id || data.customer_id || '';
+      const subId = data.subscription_id || (data.subscription && data.subscription.id) || '';
+      const invId = data.invoice_id || data.invoice_number || '';
+
+      checkoutIds = {
+        email: lastEmail,
+        txn: /^txn_/i.test(txnId) ? txnId : '',
+        checkout: cheId,
+        che: cheId,
+        customer: /^ctm_/i.test(ctmId) ? ctmId : '',
+        sub: subId,
+        inv: invId
+      };
+
+      showKey('', lastEmail);
+      setTimeout(() => pollKey(checkoutIds), 3000);
+    }
+
+    function openCheckout() {
+      if (typeof Paddle === 'undefined' || !Paddle.Checkout) {
+        alert('Paddle Checkout konnte nicht geladen werden. Bitte deaktivieren Sie Ihren Werbeblocker und laden Sie die Seite neu.');
+        return;
+      }
+      Paddle.Checkout.open({
+        items: [{ priceId: annualPriceId, quantity: 1 }],
+        customData: { app: 'velo', plan: 'pro' }
+      });
+    }
+
+    document.getElementById('paddle-buy').onclick = e => {
+      e.preventDefault();
+      openCheckout();
+    };
+
+    document.getElementById('success-copy').onclick = () => {
+      const input = document.getElementById('success-key');
+      if (!input.value) return;
+      navigator.clipboard.writeText(input.value);
+      const button = document.getElementById('success-copy');
+      button.textContent = 'Kopiert ✓';
+      button.classList.add('copied');
+      setTimeout(() => {
+        button.textContent = 'Kopieren';
+        button.classList.remove('copied');
+      }, 1600);
+    };
+
+    document.getElementById('success-retry').onclick = () => pollKey(checkoutIds);
+
+    Paddle.Initialize({
+      token: 'live_b984682f2c9e400793fb4183162',
+      eventCallback: event => {
+        if (event?.name === 'checkout.completed') {
+          completed(event.data || event);
+        }
+      }
+    });
+
+    window.addEventListener('message', event => {
+      if (event.data?.event === 'checkout.completed') {
+        completed(event.data);
+      }
+    });
+
+    if (new URL(location).searchParams.get('success') === '1') {
+      showKey('', '');
+    }
+  </script>
+</body>
+</html>

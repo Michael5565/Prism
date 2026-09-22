@@ -327,10 +327,18 @@ async function handleSubscriptionEvent(payload, env) {
   }
 
   let subscriptionId, txnId, linkedTxnId, customerId, invoiceId, checkoutId, email, licenseKey, status, currentPeriodEnd, plan;
+  let isVelo = false;
 
   if (isV3) {
     // Paddle v3 format — see https://developer.paddle.com/webhooks/transactions/transaction-completed/
     const data = payload.data || {};
+    const items = data.items || [];
+    const lineItems = data.details?.line_items || [];
+    isVelo = (data.custom_data?.app === 'velo')
+      || items.some(it => it.price?.id === 'pri_01m351v77g5t56z28ra7j19abs')
+      || lineItems.some(it => it.price_id === 'pri_01m351v77g5t56z28ra7j19abs')
+      || (data.custom_data?.product === 'velo');
+
     if (isTxnEvent) {
       txnId = data.id || undefined; // txn_...
       subscriptionId = data.subscription_id || undefined; // sub_... or null
@@ -356,6 +364,8 @@ async function handleSubscriptionEvent(payload, env) {
     plan = data.custom_data?.plan || 'pro';
   } else {
     // Paddle v2 format
+    isVelo = (payload.custom_data?.app === 'velo')
+      || (payload.price_id === 'pri_01m351v77g5t56z28ra7j19abs');
     subscriptionId = payload.subscription_id;
     email = payload.email;
     licenseKey = payload.license_key || undefined;
@@ -364,12 +374,14 @@ async function handleSubscriptionEvent(payload, env) {
     plan = payload.plan_name || 'pro';
   }
 
+  const keyPrefix = isVelo ? 'VELO' : 'PRISM';
+
   // If no license key in webhook, generate one from the canonical seed.
   // Priority: customer > subscription > email > txn > invoice — so the
   // txn event and the later subscription event for the same buyer converge.
   if (!licenseKey) {
     const seed = customerId || subscriptionId || email || txnId || invoiceId;
-    if (seed) licenseKey = generateLicenseKey(seed);
+    if (seed) licenseKey = generateLicenseKey(seed, keyPrefix);
   }
 
   if (!licenseKey) {
@@ -392,6 +404,7 @@ async function handleSubscriptionEvent(payload, env) {
     email: email || (prev && prev.email) || null,
     status: status || (prev && prev.status) || 'active',
     plan: plan || (prev && prev.plan) || 'pro',
+    app: isVelo ? 'velo' : (prev && prev.app) || (normalized.startsWith('VELO-') ? 'velo' : 'prism'),
     current_period_end: currentPeriodEnd || (prev && prev.current_period_end) || null,
     updated_at: new Date().toISOString(),
   };
@@ -537,15 +550,14 @@ async function handleGetLicense(request, env, corsHeaders) {
   }
 }
 
-function generateLicenseKey(seedId) {
+function generateLicenseKey(seedId, prefix = 'PRISM') {
   // Deterministic key from canonical seed (customer/sub/txn id).
-  // Format: PRISM-XXXX-XXXX-XXXX-XXXX (16 hex chars, 64-bit via cyrb53 x2).
-  // Legacy keys PRISM-XXXX-XXXX-0000-0000 still validate via exact lookup.
+  // Format: PREFIX-XXXX-XXXX-XXXX-XXXX (16 hex chars, 64-bit via cyrb53 x2).
   const s = String(seedId);
   const h1 = cyrb53(s, 0x9e37);
   const h2 = cyrb53(s, 0x85eb);
   const hex = (h1.toString(16).padStart(8, '0') + h2.toString(16).padStart(8, '0')).toUpperCase();
-  return `PRISM-${hex.slice(0, 4)}-${hex.slice(4, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}`;
+  return `${prefix}-${hex.slice(0, 4)}-${hex.slice(4, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}`;
 }
 
 function cyrb53(str, seed = 0) {
