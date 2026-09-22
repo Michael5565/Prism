@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Velo — Privacy Policy</title>
+  <meta name="description" content="Privacy Policy for Velo RSVP Speed Reader. We collect no personal data, no browsing history, and no website content.">
+  <link rel="canonical" href="https://getwalksafe.co.uk/veloprivacy/">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .legal {
+      max-width: 820px;
+      margin: 30px auto 90px;
+      padding: 0 28px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .legal h1, .legal h2, .legal h3 {
+      color: var(--text);
+    }
+    .legal h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      margin: 15px 0 12px;
+      letter-spacing: -0.04em;
+    }
+    .legal h2 {
+      font-size: 24px;
+      margin: 40px 0 12px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+    }
+    .legal h3 {
+      font-size: 18px;
+      margin: 24px 0 8px;
+      color: #e2e8f0;
+    }
+    .legal strong {
+      color: var(--text);
+    }
+    .legal code {
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #172238;
+      color: #ff8a80;
+      font-size: 0.9em;
+    }
+    .legal table {
+      width: 100%;
+      margin: 18px 0;
+      border-collapse: collapse;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #101827;
+    }
+    .legal th, .legal td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #ffffff0b;
+      font-size: 14px;
+      text-align: left;
+    }
+    .legal th {
+      color: #ff8a80;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      background: #172238;
+    }
+    .legal a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+    .legal a:hover {
+      text-decoration: underline;
+    }
+    .highlight-card {
+      background: rgba(255, 67, 54, 0.08);
+      border: 1px solid rgba(255, 67, 54, 0.3);
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin: 25px 0 35px;
+    }
+    .highlight-card h3 {
+      margin-top: 0;
+      color: #ff8a80;
+    }
+    .highlight-card p {
+      margin: 0;
+      color: #fce7f3;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="prism-nav">
+    <a class="brand" href="/"><span style="color:#ff4336;font-weight:900;margin-right:4px;">VELO</span> Speed Reader</a>
+    <div class="nav-links">
+      <a class="nav-link" href="/velopricing/">Pricing</a>
+    </div>
+    <a class="button small" href="/velopricing/" style="background:linear-gradient(135deg,#ff4336,#ff8c00);color:#ffffff;border:none;">Get Velo PRO <span>→</span></a>
+  </nav>
+
+  <main class="legal">
+    <div class="eyebrow" style="color:#ff4336;"><span style="background:#ff4336;"></span> TRANSPARENCY & PRIVACY</div>
+    <h1>Privacy Policy for<br><em>Velo Speed Reader</em></h1>
+    <p>Last updated: 22 September 2026 &middot; Contact: <a href="mailto:support@getwalksafe.co.uk">support@getwalksafe.co.uk</a></p>
+
+    <div class="highlight-card">
+      <h3>Zero Data Collection Architecture</h3>
+      <p>
+        Velo is built on a strict privacy-first foundation. All text parsing, RSVP speed-reading, and calculations execute <strong>100% locally on your computer</strong>. We do not collect your personal data, we do not log your browsing history, and we never transmit the content of articles you read to external servers.
+      </p>
+    </div>
+
+    <h2>1. Data We Do NOT Collect</h2>
+    <p>In compliance with the Google Chrome Web Store Developer Program Policies:</p>
+    <ul>
+      <li><strong>No Personally Identifiable Information:</strong> We do not collect names, email addresses, phone numbers, or passwords.</li>
+      <li><strong>No Web Browsing History:</strong> We do not log URLs, page titles, or timestamps of websites you visit.</li>
+      <li><strong>No Website Content:</strong> Selected text or extracted article passages are held only ephemerally in browser RAM while the RSVP reader is active. It is completely discarded upon closing the reader.</li>
+      <li><strong>No Keystroke or Mouse Tracking:</strong> Playback shortcuts (such as Space, Esc, Alt+R, Alt+P) are processed purely within the client tab.</li>
+    </ul>
+
+    <h2>2. Data Stored Locally (Your Device Only)</h2>
+    <p>
+      Velo uses the Chrome <code>storage</code> API (specifically <code>chrome.storage.local</code>) solely to remember your personal reading preferences:
+    </p>
+    <ul>
+      <li><code>wpm</code>: Target reading speed (100 to 900 WPM).</li>
+      <li><code>theme</code>: Dark or Light mode preference.</li>
+      <li><code>wordsPerStep</code>: Single word vs. 2 or 3-word phrase chunking.</li>
+      <li><code>audioEnabled</code>: Audio voice narration toggle state.</li>
+      <li><code>licenseKey</code>: Encrypted license token for offline PRO feature access (validated against our secure worker without transmitting reading data).</li>
+    </ul>
+
+    <h2>3. Chrome Permissions & Justification</h2>
+    <table>
+      <tr>
+        <th>PERMISSION</th>
+        <th>PURPOSE & JUSTIFICATION</th>
+      </tr>
+      <tr>
+        <td><code>storage</code></td>
+        <td>Persist user reading preferences and theme configuration locally.</td>
+      </tr>
+      <tr>
+        <td><code>activeTab</code></td>
+        <td>Access highlighted text on the current tab when triggered by the user via shortcuts or popup.</td>
+      </tr>
+      <tr>
+        <td><code>contextMenus</code></td>
+        <td>Provide a right-click "Read with Velo RSVP" option on selected text.</td>
+      </tr>
+      <tr>
+        <td><code>scripting</code></td>
+        <td>Mount the isolated Shadow DOM RSVP speed reader on the active webpage.</td>
+      </tr>
+      <tr>
+        <td><code>&lt;all_urls&gt;</code></td>
+        <td>Allow speed-reading on any website chosen by the user (Wikipedia, news, research docs). All text is processed 100% locally.</td>
+      </tr>
+    </table>
+
+    <h2>4. Payments & Billing Information</h2>
+    <p>
+      Payments for Velo PRO ($19.99/year) are processed exclusively by our Merchant of Record, <strong>Paddle</strong>. Paddle handles all checkout operations in a PCI-DSS compliant environment. We never receive or store your credit card numbers, billing addresses, or payment credentials.
+    </p>
+
+    <h2>5. Limited Use & Third-Party Sharing</h2>
+    <p>
+      We strictly adhere to Chrome Web Store Limited Use requirements:
+    </p>
+    <ul>
+      <li>We do not sell, rent, or transfer user data to data brokers or third parties.</li>
+      <li>We do not use or transfer user data for personalized advertising or creditworthiness assessment.</li>
+      <li>We do not utilize any remote code, external CDN scripts, or tracking telemetry SDKs.</li>
+    </ul>
+
+    <h2>6. Contact Us</h2>
+    <p>
+      If you have questions regarding this Privacy Policy, please contact our support team at:
+    </p>
+    <p>
+      <strong>Email:</strong> <a href="mailto:support@getwalksafe.co.uk">support@getwalksafe.co.uk</a><br>
+      <strong>Support Website:</strong> <a href="https://getwalksafe.co.uk">https://getwalksafe.co.uk</a>
+    </p>
+  </main>
+
+  <footer>
+    <a class="brand" href="/"><span style="color:#ff4336;font-weight:900;margin-right:4px;">VELO</span> Speed Reader</a>
+    <span>Cognitive RSVP Speed Reading Extension for Chrome.</span>
+    <div>
+      <a href="/velopricing/">Pricing</a>
+      <a href="mailto:support@getwalksafe.co.uk">Support</a>
+    </div>
+  </footer>
+</body>
+</html>
