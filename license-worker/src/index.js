@@ -48,9 +48,61 @@ export default {
       return handleGetLicense(request, env, corsHeaders);
     }
 
+    // POST /api/feedback — receives uninstall and user feedback
+    if (url.pathname === '/api/feedback' && request.method === 'POST') {
+      return handleFeedback(request, env, corsHeaders);
+    }
+
+    // POST /api/activate-by-email — look up license key by purchase email, return key + record for auto-activation
+    if (url.pathname === '/api/activate-by-email' && request.method === 'POST') {
+      return handleActivateByEmail(request, env, corsHeaders);
+    }
+
     return new Response('Not found', { status: 404, headers: corsHeaders });
   },
 };
+
+// ─── Email-based Activation ───────────────────────────────────────────────────
+// Accepts {email, device_id} and returns {valid, key, email, plan, currentPeriodEnd}.
+// The extension uses this so users on a new device just type their purchase email.
+
+async function handleActivateByEmail(request, env, corsHeaders) {
+  try {
+    const { email, device_id } = await request.json();
+    if (!email || typeof email !== 'string' || !email.includes('@')) {
+      return new Response(
+        JSON.stringify({ valid: false, error: 'Please enter a valid email address.' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    const normalized_email = email.trim().toLowerCase();
+    const key = await env.LICENSES.get(`email:${normalized_email}`);
+    if (!key) {
+      return new Response(
+        JSON.stringify({ valid: false, error: 'No Prism Pro subscription found for that email. Check your purchase email address or contact support@getwalksafe.co.uk.' }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    // Delegate to existing validate handler logic (expiry, status, device limit)
+    const validateReq = new Request(new URL('/api/validate-license', request.url).toString(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key, device_id: device_id || undefined }),
+    });
+    const validateRes = await handleValidateLicense(validateReq, env, corsHeaders);
+    const data = await validateRes.json();
+    // Attach the key to the response so the extension can store it
+    return new Response(
+      JSON.stringify({ ...data, key: data.valid ? key : undefined }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  } catch (e) {
+    return new Response(
+      JSON.stringify({ valid: false, error: 'Server error' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+}
 
 // ─── License Validation ──────────────────────────────────────────────────────
 
@@ -583,4 +635,32 @@ function cyrb53(str, seed = 0) {
   h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
   h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
   return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+}
+
+// ─── Feedback Handler ────────────────────────────────────────────────────────
+
+async function handleFeedback(request, env, corsHeaders) {
+  const payload = await request.json().catch(() => ({}));
+  const id = `feedback:${Date.now()}:${Math.random().toString(36).slice(2, 8)}`;
+  const data = {
+    id,
+    reason: payload.reason || 'unspecified',
+    comments: (payload.comments || '').slice(0, 2000),
+    email: (payload.email || '').slice(0, 150),
+    version: payload.version || '',
+    receivedAt: new Date().toISOString(),
+  };
+  try {
+    await env.LICENSES.put(id, JSON.stringify(data));
+    console.log('[Prism Worker] Feedback saved:', id, data.reason);
+    return new Response(JSON.stringify({ ok: true, id }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  } catch (err) {
+    console.error('[Prism Worker] Feedback KV error:', err.message, err.stack);
+    return new Response(JSON.stringify({ ok: false, error: err.message, id }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
 }
