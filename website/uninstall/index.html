@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prism — We're Sorry to See You Go</title>
+  <meta name="description" content="Prism uninstall feedback. Tell us what we can improve in Google Drive search and Docs dark mode.">
+  <link rel="canonical" href="https://getwalksafe.co.uk/uninstall/">
+  <link rel="icon" type="image/png" href="/assets/prism-icon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .uninstall-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    .uninstall-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .uninstall-header h1 {
+      font-size: clamp(34px, 5vw, 52px);
+      line-height: 1.1;
+      margin: 12px 0 16px;
+    }
+    .uninstall-header h1 em {
+      font-style: normal;
+      background: linear-gradient(110deg, #d7e2ff, var(--brand), #a998ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .uninstall-header p {
+      max-width: 580px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 16.5px;
+      line-height: 1.6;
+    }
+    .feedback-card {
+      background: linear-gradient(145deg, #152037, #0e1625);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      margin-bottom: 32px;
+      position: relative;
+    }
+    .step-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--brand);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .form-question {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 640px) {
+      .reasons-grid {
+        grid-template-columns: 1fr;
+      }
+      .uninstall-wrap {
+        padding: 24px 16px 60px;
+      }
+      .feedback-card {
+        padding: 22px 18px;
+      }
+    }
+    .reason-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #111a2b;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      text-align: left;
+    }
+    .reason-option:hover {
+      border-color: #6384db;
+      background: #142036;
+      transform: translateY(-1px);
+    }
+    .reason-option.selected {
+      border-color: var(--brand);
+      background: #182847;
+      box-shadow: 0 0 0 1px var(--brand), 0 8px 20px rgba(138, 169, 255, 0.15);
+    }
+    .reason-option input[type="radio"] {
+      margin-top: 3px;
+      accent-color: var(--brand);
+      cursor: pointer;
+    }
+    .reason-text {
+      flex: 1;
+    }
+    .reason-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .reason-sub {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .form-group {
+      margin-top: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .form-group label span {
+      font-weight: 400;
+      color: var(--faint);
+      font-size: 12.5px;
+    }
+    textarea.feedback-input, input.feedback-input {
+      width: 100%;
+      background: #090f1b;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.5;
+      outline: none;
+      transition: border-color 0.18s;
+      resize: vertical;
+    }
+    textarea.feedback-input:focus, input.feedback-input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 2px rgba(138, 169, 255, 0.2);
+    }
+    textarea.feedback-input {
+      min-height: 90px;
+    }
+    .submit-row {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-submit {
+      border: 1px solid #91aeff66;
+      border-radius: 11px;
+      padding: 13px 26px;
+      background: linear-gradient(135deg, var(--brand), #6b82ee);
+      color: #08101f;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.18s ease;
+    }
+    .btn-submit:hover:not(:disabled) {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px rgba(84, 116, 218, 0.4);
+    }
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .privacy-notice {
+      font-size: 12px;
+      color: var(--faint);
+    }
+    /* Success State */
+    .success-box {
+      text-align: center;
+      padding: 30px 16px;
+    }
+    .success-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(216, 255, 138, 0.15);
+      border: 1px solid var(--lime);
+      color: var(--lime);
+      font-size: 26px;
+      margin-bottom: 18px;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .success-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .success-desc {
+      color: var(--muted);
+      font-size: 14.5px;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    /* Reinstall Banner */
+    .recovery-banner {
+      background: radial-gradient(450px 220px at 85% 0, #586eea2e, transparent 70%), #111a2b;
+      border: 1px solid #7e98e64d;
+      border-radius: 20px;
+      padding: 28px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .recovery-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .recovery-top h2 {
+      font-size: 22px;
+      margin: 0 0 6px;
+    }
+    .recovery-top p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .recovery-points {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .point-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #cad6ea;
+    }
+    .point-item b {
+      color: var(--lime);
+    }
+    .recovery-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="prism-nav">
+    <a class="brand" href="/">
+      <img src="/assets/prism-icon.png" alt="Prism logo">
+      <span>Prism</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/prismpricing/">Pricing</a>
+      <a class="nav-link" href="/privacy.html">Privacy</a>
+    </div>
+    <a class="button small secondary" href="mailto:support@getwalksafe.co.uk">
+      Support <span>✉</span>
+    </a>
+  </nav>
+
+  <main class="uninstall-wrap">
+    <!-- Header -->
+    <header class="uninstall-header">
+      <div class="eyebrow">
+        <span></span> WE'RE SORRY TO SEE YOU GO
+      </div>
+      <h1>Help us make Prism <em>better.</em></h1>
+      <p>
+        Prism has been uninstalled. Your honest feedback helps us fix bugs, build better tools, and adjust pricing. Takes less than a minute.
+      </p>
+    </header>
+
+    <!-- Feedback Card -->
+    <section class="feedback-card" id="feedbackContainer">
+      <form id="feedbackForm">
+        <div class="step-label">Step 1 of 2</div>
+        <h2 class="form-question">What was the main reason you uninstalled Prism?</h2>
+
+        <div class="reasons-grid">
+          <label class="reason-option" for="reason-price">
+            <input type="radio" id="reason-price" name="uninstallReason" value="price_too_high">
+            <div class="reason-text">
+              <div class="reason-title">💰 Price too high / wanted free</div>
+              <div class="reason-sub">Looking for a free tool or lower pricing options</div>
+            </div>
+          </label>
+
+          <label class="reason-option" for="reason-search">
+            <input type="radio" id="reason-search" name="uninstallReason" value="search_not_helpful">
+            <div class="reason-text">
+              <div class="reason-title">🔍 Didn't find my files</div>
+              <div class="reason-sub">Search didn't find the exact text or snippets needed</div>
+            </div>
+          </label>
+
+          <label class="reason-option" for="reason-temporary">
+            <input type="radio" id="reason-temporary" name="uninstallReason" value="one_time_task">
+            <div class="reason-text">
+              <div class="reason-title">⏱️ Finished my quick task</div>
+              <div class="reason-sub">Only needed it for a single one-time search</div>
+            </div>
+          </label>
+
+          <label class="reason-option" for="reason-performance">
+            <input type="radio" id="reason-performance" name="uninstallReason" value="technical_issue">
+            <div class="reason-text">
+              <div class="reason-title">⚡ Slow or had bugs</div>
+              <div class="reason-sub">Faced performance delays or an error during use</div>
+            </div>
+          </label>
+
+          <label class="reason-option" for="reason-darkmode">
+            <input type="radio" id="reason-darkmode" name="uninstallReason" value="dark_mode_issue">
+            <div class="reason-text">
+              <div class="reason-title">🌙 Dark mode issues</div>
+              <div class="reason-sub">Colors or formatting in Docs didn't look right</div>
+            </div>
+          </label>
+
+          <label class="reason-option" for="reason-complicated">
+            <input type="radio" id="reason-complicated" name="uninstallReason" value="confusing_ui">
+            <div class="reason-text">
+              <div class="reason-title">🧩 Confusing to use</div>
+              <div class="reason-sub">Hard to figure out how to search or navigate</div>
+            </div>
+          </label>
+
+          <label class="reason-option" for="reason-other" style="grid-column: 1 / -1;">
+            <input type="radio" id="reason-other" name="uninstallReason" value="other">
+            <div class="reason-text">
+              <div class="reason-title">💬 Something else</div>
+              <div class="reason-sub">Another reason not listed above</div>
+            </div>
+          </label>
+        </div>
+
+        <div class="step-label">Step 2 of 2</div>
+        <div class="form-group">
+          <label for="feedbackComments">
+            What could we have done differently? <span>(optional)</span>
+          </label>
+          <textarea
+            id="feedbackComments"
+            class="feedback-input"
+            rows="3"
+            placeholder="Tell us what feature was missing, what bug occurred, or what would have convinced you to stay..."
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="feedbackEmail">
+            Your email address <span>(optional — only if you'd like a personal reply)</span>
+          </label>
+          <input
+            type="email"
+            id="feedbackEmail"
+            class="feedback-input"
+            placeholder="name@example.com"
+          >
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span>Send Feedback</span>
+            <span>→</span>
+          </button>
+          <span class="privacy-notice">Your feedback is submitted privately and securely.</span>
+        </div>
+      </form>
+
+      <!-- Success Panel (Hidden by default) -->
+      <div id="successPanel" class="success-box" style="display:none;">
+        <div class="success-icon">✓</div>
+        <h3 class="success-title">Thank you for your feedback!</h3>
+        <p class="success-desc">
+          Your thoughts have been sent directly to our development team. We read every response to build a better tool for Google Workspace users.
+        </p>
+      </div>
+    </section>
+
+    <!-- Changed Your Mind / Recovery Card -->
+    <section class="recovery-banner">
+      <div class="recovery-top">
+        <div>
+          <h2>Changed your mind?</h2>
+          <p>
+            You can reinstall Prism in one click anytime. Docs Dark Mode is 100% free forever, and Prism Pro offers flexible monthly pricing.
+          </p>
+        </div>
+      </div>
+
+      <div class="recovery-points">
+        <div class="point-item">
+          <b>✓</b> <span>Docs Dark Mode is 100% free forever</span>
+        </div>
+        <div class="point-item">
+          <b>✓</b> <span>Flexible Pro pricing from just $6.99/mo</span>
+        </div>
+        <div class="point-item">
+          <b>✓</b> <span>Zero document storage — 100% local</span>
+        </div>
+      </div>
+
+      <div class="recovery-actions">
+        <a
+          class="button"
+          href="https://chromewebstore.google.com/detail/prism-%E2%80%94-search-drive-docs/lehdcdoilgdkheeogafndcgidakdbjpg"
+          target="_blank"
+          rel="noopener"
+        >
+          Reinstall Prism from Chrome Web Store <span>↗</span>
+        </a>
+        <a class="button secondary" href="/prismpricing/">
+          View Pro plans ($6.99/mo) <span>→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <a class="brand" href="/" style="justify-content:center; margin-bottom:10px;">
+      <img src="/assets/prism-icon.png" alt="Prism">
+      <span>Prism</span>
+    </a>
+    <p>Focused work and deep search for Google Workspace.</p>
+    <div style="margin-top:10px;">
+      <a href="/">Home</a>
+      <a href="/prismpricing/">Pricing</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="mailto:support@getwalksafe.co.uk">Support</a>
+    </div>
+  </footer>
+
+  <script>
+    const WORKER_URL = 'https://prism-license-worker.purrapi.workers.dev';
+    const form = document.getElementById('feedbackForm');
+    const successPanel = document.getElementById('successPanel');
+    const submitBtn = document.getElementById('submitBtn');
+    const options = document.querySelectorAll('.reason-option');
+
+    // Visual selection highlighting on radio cards
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        options.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        const radio = opt.querySelector('input[type="radio"]');
+        if (radio) radio.checked = true;
+      });
+    });
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const selectedRadio = document.querySelector('input[name="uninstallReason"]:checked');
+      const reason = selectedRadio ? selectedRadio.value : 'unspecified';
+      const comments = document.getElementById('feedbackComments').value.trim();
+      const email = document.getElementById('feedbackEmail').value.trim();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const version = urlParams.get('v') || 'unknown';
+
+      submitBtn.disabled = true;
+      submitBtn.querySelector('span').textContent = 'Sending...';
+
+      const payload = {
+        type: 'uninstall_feedback',
+        reason,
+        comments,
+        email,
+        version,
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        await fetch(`${WORKER_URL}/api/feedback`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.warn('Feedback send error:', err);
+      }
+
+      // Always present clean success state
+      form.style.display = 'none';
+      successPanel.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

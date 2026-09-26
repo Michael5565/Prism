@@ -348,7 +348,7 @@ function updateStatus() {
         statusText.textContent = 'Free Plan';
         if (proConfirmed) proConfirmed.style.display = 'none';
         if (inputGroup) inputGroup.style.display = 'block';
-        if (activateTitle) activateTitle.textContent = 'Activate Pro (License Key)';
+        if (activateTitle) activateTitle.textContent = 'Activate Pro (purchase email)';
         if (upgradeLink) {
           upgradeLink.style.display = 'inline';
           upgradeLink.textContent = 'Upgrade to Pro →';
@@ -820,8 +820,14 @@ async function getOrCreateDeviceId() {
 
 async function handleActivation() {
   if (!licenseInput || !activateBtn) return;
-  const rawValue = (licenseInput.value || '').trim().toUpperCase();
-  if (!rawValue) return;
+  const rawValue = (licenseInput.value || '').trim().toLowerCase();
+  if (!rawValue || !rawValue.includes('@')) {
+    if (licenseError) {
+      licenseError.textContent = 'Please enter your purchase email address.';
+      licenseError.style.display = 'block';
+    }
+    return;
+  }
 
   activateBtn.textContent = 'Checking…';
   activateBtn.disabled = true;
@@ -829,18 +835,18 @@ async function handleActivation() {
 
   try {
     const deviceId = await getOrCreateDeviceId();
-    const res = await fetch(`${LICENSE_SERVER}/api/validate-license`, {
+    const res = await fetch(`${LICENSE_SERVER}/api/activate-by-email`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ key: rawValue, device_id: deviceId })
+      body: JSON.stringify({ email: rawValue, device_id: deviceId })
     });
     const data = await res.json();
     if (data.valid) {
       await chrome.storage.local.set({
         isPro: true,
         prismPremium: true,
-        prismLicenseKey: rawValue,
-        prismUserEmail: data.email || '',
+        prismLicenseKey: data.key || '',
+        prismUserEmail: data.email || rawValue,
         prismLicenseValidatedAt: Date.now(),
         ...(data.currentPeriodEnd ? { prismLicenseExpiresAt: Date.parse(data.currentPeriodEnd) + LICENSE_GRACE_MS } : {})
       });
@@ -855,7 +861,7 @@ async function handleActivation() {
       }, 1200);
     } else {
       if (licenseError) {
-        licenseError.textContent = data.error || 'Invalid license key. Please check and retry.';
+        licenseError.textContent = data.error || 'No Prism Pro account found for that email. Check your purchase email or contact support.';
         licenseError.style.display = 'block';
       }
       activateBtn.textContent = 'Activate';

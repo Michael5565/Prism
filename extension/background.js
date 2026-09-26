@@ -38,18 +38,35 @@ async function revalidateStoredLicense() {
   } catch (_) {}
 }
 
+const UNINSTALL_URL = 'https://getwalksafe.co.uk/uninstall/';
+
+function setUninstallFeedbackURL() {
+  try {
+    const version = (chrome.runtime.getManifest && chrome.runtime.getManifest().version) || '1.0.14';
+    const uninstallUrl = `${UNINSTALL_URL}?v=${encodeURIComponent(version)}`;
+    chrome.runtime.setUninstallURL(uninstallUrl);
+  } catch (err) {
+    console.warn('[Prism:bg] setUninstallURL error', err);
+  }
+}
+
 try {
   chrome.runtime.onInstalled.addListener((details) => {
     scheduleLicenseRevalidation();
+    setUninstallFeedbackURL();
     if (details && details.reason === 'install') {
       try {
         chrome.tabs.create({ url: 'https://getwalksafe.co.uk/welcome/' });
       } catch (_) {}
     }
   });
-  chrome.runtime.onStartup.addListener(scheduleLicenseRevalidation);
+  chrome.runtime.onStartup.addListener(() => {
+    scheduleLicenseRevalidation();
+    setUninstallFeedbackURL();
+  });
   chrome.alarms.onAlarm.addListener((alarm) => { if (alarm.name === LICENSE_ALARM) revalidateStoredLicense(); });
   scheduleLicenseRevalidation();
+  setUninstallFeedbackURL();
 } catch (_) {}
 
 // --- pdf.js offscreen for robust PDF extraction (MV3) ---
@@ -486,6 +503,29 @@ chrome.runtime.onMessage.addListener((msg,sender,sendResponse)=>{
     chrome.storage.local.get(null,(data)=>{
       const n=Object.keys(data).filter(k=>k.startsWith('doc_')).length;
       sendResponse({success:true, count:n});
+    });
+    return true;
+  }
+  // ACTIVATE_PRO — sent by the pricing page (getwalksafe.co.uk) after checkout completes.
+  // Activates Pro on this device without requiring the user to copy/paste a license key.
+  if (msg.type === 'ACTIVATE_PRO') {
+    const { key, email, currentPeriodEnd } = msg;
+    if (!key || typeof key !== 'string' || !key.startsWith('PRISM-')) {
+      sendResponse({ ok: false, error: 'Invalid key' });
+      return true;
+    }
+    const LICENSE_GRACE_MS_BG = 7 * 24 * 60 * 60 * 1000;
+    const data = {
+      isPro: true,
+      prismPremium: true,
+      prismLicenseKey: key.trim().toUpperCase(),
+      prismUserEmail: email || '',
+      prismLicenseValidatedAt: Date.now(),
+      ...(currentPeriodEnd ? { prismLicenseExpiresAt: Date.parse(currentPeriodEnd) + LICENSE_GRACE_MS_BG } : {})
+    };
+    chrome.storage.local.set(data, () => {
+      console.log('[Prism:bg] ACTIVATE_PRO: activated', key.slice(0, 10));
+      sendResponse({ ok: true });
     });
     return true;
   }

@@ -930,7 +930,7 @@
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
-        <span id="activateTitle">Activate Pro (license key)</span>
+        <span id="activateTitle">Activate Pro (purchase email)</span>
       </span>
       <span class="caret" id="activateCaret">▾</span>
     </button>
@@ -943,12 +943,12 @@
       </div>
       <div id="activateInputGroup">
         <div class="input-row">
-          <input type="text" id="licenseInput" class="text-input"
-            placeholder="License key (PRISM-XXXX-XXXX)"
-            spellcheck="false" autocomplete="off">
+          <input type="email" id="licenseInput" class="text-input"
+            placeholder="Purchase email address"
+            spellcheck="false" autocomplete="email">
           <button id="activateBtn" class="btn-activate">Activate</button>
         </div>
-        <div class="activate-hint">Paste the license key from your purchase email or checkout page. One key unlocks both Search &amp; Dark Mode.</div>
+        <div class="activate-hint">Enter the email you used to buy Prism Pro. Works on any device — no key copy-paste needed.</div>
         <div class="activate-error" id="activateError"></div>
       </div>
     </div>
@@ -997,7 +997,7 @@
         Upgrade to Pro →
       </a>
       <button type="button" class="modal-link-btn" id="modalEnterLicense">
-        Already have a license key? Activate here
+        Already have a Pro account? Activate with your email
       </button>
     </div>
   </div>

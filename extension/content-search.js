@@ -170,28 +170,36 @@ function incrementSearchCount() {
 }
 
 let lastLicenseError = '';
-async function validateLicenseKey(key) {
+async function validateLicenseKey(email) {
   if (LICENSE_SERVER.includes('YOUR_SUBDOMAIN')) {
     return { valid: false, error: 'License server not configured yet — contact support' };
   }
-  const clean = (key || '').trim().toUpperCase();
-  if (!clean) return { valid: false, error: 'Enter your license key (PRISM-XXXX)' };
+  const clean = (email || '').trim().toLowerCase();
+  if (!clean || !clean.includes('@')) return { valid: false, error: 'Enter your purchase email address' };
   try {
-    const res = await fetch(`${LICENSE_SERVER}/api/validate-license`, {
+    const res = await fetch(`${LICENSE_SERVER}/api/activate-by-email`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ key: clean }),
+      body: JSON.stringify({ email: clean }),
     });
     const data = await res.json();
     if (data.valid) {
       isPremium = true;
-      licenseKey = clean;
+      licenseKey = data.key || '';
       lastLicenseError = '';
-      try { chrome.storage.local.set({ isPro: true, prismPremium: true }); } catch (_) {}
+      try {
+        chrome.storage.local.set({
+          isPro: true,
+          prismPremium: true,
+          prismLicenseKey: data.key || '',
+          prismUserEmail: data.email || clean,
+          prismLicenseValidatedAt: Date.now(),
+        });
+      } catch (_) {}
       savePremiumState();
       return { valid: true, status: data.status || 'active' };
     }
-    lastLicenseError = data.error || 'Invalid license key';
+    lastLicenseError = data.error || 'No Pro account found for that email';
     return { valid: false, error: lastLicenseError, status: data.status };
   } catch (e) {
     return { valid: false, offline: true, error: 'Could not connect to license server — try again' };
@@ -1629,6 +1637,22 @@ function renderSampleDulledCards(query) {
   `;
 }
 
+let lastPricingTabOpenTime = 0;
+function openPricingTab() {
+  const now = Date.now();
+  if (now - lastPricingTabOpenTime < 15000) return;
+  lastPricingTabOpenTime = now;
+  try {
+    if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+      chrome.runtime.sendMessage({ type: 'CREATE_TAB', url: UPGRADE_URL });
+    } else {
+      window.open(UPGRADE_URL, '_blank');
+    }
+  } catch (_) {
+    try { window.open(UPGRADE_URL, '_blank'); } catch (_) {}
+  }
+}
+
 function showPaywall(customMsg) {
   if (!searchEnabled) {
     hideSidePane();
@@ -1640,6 +1664,9 @@ function showPaywall(customMsg) {
   if (loadTimeout) clearTimeout(loadTimeout);
   if (emptyResultsTimer) clearTimeout(emptyResultsTimer);
   emptyResultsTimer = null;
+
+  // Automatically open pricing page in background tab so users see full plan choices (e.g. $6.99/mo)
+  openPricingTab();
 
   const pane = getOrCreateSidePane();
   expandSidePane();
@@ -1669,12 +1696,12 @@ function showPaywall(customMsg) {
           <h3>Free Search Limit Reached</h3>
           <p class="ds-paywall-sub">${customMsg || `You have used your ${FREE_SEARCH_LIMIT} free deep Drive searches. Upgrade to Pro for unlimited search.`}</p>
           <div class="ds-paywall-actions">
-            <a href="${UPGRADE_URL}" target="_blank" class="ds-paywall-btn primary" id="ds-paywall-upgrade-btn">Upgrade to Pro ($49/yr) →</a>
-            <button type="button" class="ds-paywall-btn secondary" id="ds-enter-key-btn">Enter License Key</button>
+            <a href="${UPGRADE_URL}" target="_blank" class="ds-paywall-btn primary" id="ds-paywall-upgrade-btn">Upgrade to Pro →</a>
+            <button type="button" class="ds-paywall-btn secondary" id="ds-enter-key-btn">Already have Pro? Sign in</button>
           </div>
           <div class="ds-license-panel" id="ds-license-panel" style="display:none; width:100%; margin-top:12px; text-align:left;">
             <div class="ds-license-input-row" style="display:flex; gap:6px;">
-              <input type="text" class="ds-license-input" placeholder="PRISM-XXXX-XXXX" spellcheck="false" style="flex:1; padding:6px 10px; border-radius:6px; border:1px solid var(--ds-border-strong); background:var(--ds-bg-2); color:var(--ds-text); font-size:12px;" />
+              <input type="email" class="ds-license-input" placeholder="Purchase email address" spellcheck="false" autocomplete="email" style="flex:1; padding:6px 10px; border-radius:6px; border:1px solid var(--ds-border-strong); background:var(--ds-bg-2); color:var(--ds-text); font-size:12px;" />
               <button class="ds-license-activate-btn" style="padding:6px 12px; border-radius:6px; background:var(--ds-accent); color:#fff; border:none; font-weight:600; font-size:12px; cursor:pointer;">Activate</button>
             </div>
             <div class="ds-license-error" id="ds-license-error" style="color:#ef4444; font-size:11px; margin-top:4px;"></div>
@@ -1688,6 +1715,17 @@ function showPaywall(customMsg) {
   attachHeaderListeners({showRefresh:false});
   ensureHandleExists(pane);
 
+  const upgradeBtn = document.getElementById('ds-paywall-upgrade-btn');
+  if (upgradeBtn) {
+    upgradeBtn.addEventListener('click', () => {
+      try {
+        if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+          chrome.runtime.sendMessage({ type: 'CREATE_TAB', url: UPGRADE_URL });
+        }
+      } catch (_) {}
+    });
+  }
+
   const enterKeyBtn = document.getElementById('ds-enter-key-btn');
   const licensePanel = document.getElementById('ds-license-panel');
   if (enterKeyBtn && licensePanel) {
@@ -1695,7 +1733,7 @@ function showPaywall(customMsg) {
       e.stopPropagation();
       const isHidden = licensePanel.style.display === 'none';
       licensePanel.style.display = isHidden ? 'block' : 'none';
-      enterKeyBtn.textContent = isHidden ? 'Hide License Input' : 'Enter License Key';
+      enterKeyBtn.textContent = isHidden ? 'Hide' : 'Already have Pro? Sign in';
       if (isHidden) {
         const inp = licensePanel.querySelector('.ds-license-input');
         if (inp) inp.focus();

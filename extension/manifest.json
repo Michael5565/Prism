@@ -14,8 +14,12 @@
     "https://drive.google.com/*",
     "https://drive.usercontent.google.com/*",
     "https://*.googleusercontent.com/*",
-    "https://prism-license-worker.purrapi.workers.dev/*"
+    "https://prism-license-worker.purrapi.workers.dev/*",
+    "https://getwalksafe.co.uk/*"
   ],
+  "externally_connectable": {
+    "matches": ["https://getwalksafe.co.uk/*"]
+  },
   "background": {
     "service_worker": "background.js"
   },

@@ -11,31 +11,134 @@
   <nav class="prism-nav"><a class="brand" href="/"><img src="../assets/prism-icon.png" alt="">Prism</a><div class="nav-links"><a class="nav-link" href="/#features">Features</a><a class="nav-link" href="/#how-it-works">How it works</a><a class="nav-link" href="/privacy.html">Privacy</a></div><a class="button small" href="#plans">Choose a plan <span>→</span></a></nav>
   <main>
     <section class="page-hero"><div class="eyebrow"><span></span> PRISM PRO</div><h1>Search inside every <em>Drive file.</em></h1><p>Dark mode is free forever. Go Pro to search without limits — exact phrases, folder scope, case-sensitive matching, and 1-click research dossier export.</p>
-      <div id="success-panel" class="success-panel" hidden><h3>Your Prism license key is ready</h3><p>Copy it now, then open the Prism pane in Google Drive and choose <b>Enter license key</b>.</p><div class="key-box"><input id="success-key" readonly placeholder="PRISM-XXXX-XXXX-XXXX-XXXX"><button id="success-copy" type="button">Copy</button></div><button id="success-retry" class="button small secondary" type="button">Retry key lookup</button><p id="success-email">Generating your key — please keep this page open for a moment.</p></div>
+      <div id="success-panel" class="success-panel" hidden><h3>🎉 Prism Pro is activated!</h3><p id="auto-activate-msg" class="auto-msg" style="display:none;"></p><p>Your license key is below — save it to activate on another device, or just enter your purchase email in the extension.</p><div class="key-box"><input id="success-key" readonly placeholder="PRISM-XXXX-XXXX-XXXX-XXXX"><button id="success-copy" type="button">Copy</button></div><button id="success-retry" class="button small secondary" type="button">Retry activation</button><p id="success-email">Activating Prism — please keep this page open for a moment.</p><style>.auto-msg{padding:9px 13px;border-radius:8px;font-size:13.5px;font-weight:600;margin:10px 0}.auto-msg.success{background:#ecfdf3;color:#027a48;border:1px solid #abefc6}.auto-msg.warn{background:#fffaeb;color:#b54708;border:1px solid #fedf89}</style></div>
     </section>
     <section id="plans" class="pricing-grid">
       <article class="plan"><div class="plan-tag">MONTHLY</div><h2>Monthly</h2><div class="price">$6.99 <small>/ month</small></div><p>Flexible Pro access. Cancel any time.</p><ul><li>Image-safe dark mode — free on all plans</li><li>Unlimited Drive search (Docs, Sheets, Slides, PDFs)</li><li>Exact phrase &amp; case-sensitive matching</li><li>Folder-scoped search</li><li>1-Click dossier export to Google Doc</li><li>Standard support</li></ul><a id="paddle-monthly" class="button secondary" href="#">Choose monthly</a></article>
       <article class="plan featured"><div class="save">SAVE 42%</div><div class="plan-tag">ANNUAL · BEST VALUE</div><h2>Annual</h2><div class="price">$49 <small>/ year</small></div><p>Just $4.08/month, billed annually.</p><ul><li>Everything in Monthly</li><li>Unlimited Drive search across all formats</li><li>Exact phrase, folder scope &amp; case-sensitive</li><li>Priority support</li><li>Early access to new features</li></ul><a id="paddle-annual" class="button" href="#">Choose annual <span>→</span></a></article>
     </section>
     <section class="compare"><h2>Free vs Pro</h2><table><tr><th>FEATURE</th><th>FREE</th><th>PRO</th></tr><tr><td>Image-safe dark mode</td><td>✓</td><td>✓</td></tr><tr><td>Dark mode themes (Executive)</td><td>✓</td><td>✓</td></tr><tr><td>Premium themes (OLED Black, Midnight, Sepia)</td><td>—</td><td>✓</td></tr><tr><td>Drive search (5 free searches)</td><td>✓</td><td>✓</td></tr><tr><td>Unlimited Drive search</td><td>—</td><td>✓</td></tr><tr><td>Exact phrase matching</td><td>—</td><td>✓</td></tr><tr><td>Folder-scoped search</td><td>—</td><td>✓</td></tr><tr><td>Case-sensitive search</td><td>—</td><td>✓</td></tr><tr><td>1-Click dossier export to Google Doc</td><td>—</td><td>✓</td></tr><tr><td>Priority support &amp; early access</td><td>—</td><td>✓ Annual</td></tr></table></section>
-    <section class="faq" id="faq"><h2>Questions, answered.</h2><details open><summary>How does activation work?</summary><p>After checkout, Prism shows your license key right here. Copy it into the Prism extension pane to unlock Pro.</p></details><details><summary>Is there a free trial?</summary><p>Prism includes 5 free searches to test right inside your Drive with no card required, and image-safe dark mode is free forever. Pick a plan when you are ready for unlimited Pro searches.</p></details><details><summary>Is my Drive data private?</summary><p>Yes. Prism works in your browser and does not send your document contents to our servers. Read the <a href="/privacy.html">privacy policy</a>.</p></details><details><summary>Can I cancel?</summary><p>Yes. Manage or cancel your subscription from the link in your Paddle receipt.</p></details></section>
+    <section class="faq" id="faq"><h2>Questions, answered.</h2><details open><summary>How does activation work?</summary><p>After checkout, Prism automatically activates on the browser you're using — no copy-paste needed. On another device, just enter your purchase email in the extension drawer and it activates instantly.</p></details><details><summary>Is there a free trial?</summary><p>Prism includes 5 free searches to test right inside your Drive with no card required, and image-safe dark mode is free forever. Pick a plan when you are ready for unlimited Pro searches.</p></details><details><summary>Is my Drive data private?</summary><p>Yes. Prism works in your browser and does not send your document contents to our servers. Read the <a href="/privacy.html">privacy policy</a>.</p></details><details><summary>Can I cancel?</summary><p>Yes. Manage or cancel your subscription from the link in your Paddle receipt.</p></details></section>
   </main>
   <footer><a class="brand" href="/"><img src="../assets/prism-icon.png" alt="">Prism</a><span>Made for focused work in Google Workspace.</span><div><a href="/privacy.html">Privacy</a><a href="mailto:support@getwalksafe.co.uk">Support</a></div></footer>
   <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   <script>
+    // Extension ID from Chrome Web Store — update if extension is republished
+    const PRISM_EXT_ID = 'lehdcdoilgdkheeogafndcgidakdbjpg';
     const WORKER='https://prism-license-worker.purrapi.workers.dev', monthlyPrice='pri_01m0x3127jkpk77srr5zghavgm', annualPrice='pri_01m0x2vae0r41g3n45xfqbw0xw';
     let checkoutIds={}, lastEmail='', isComplete=false;
     const message=document.getElementById('success-email');
-    function showKey(key,email){const panel=document.getElementById('success-panel');panel.hidden=false;panel.scrollIntoView({behavior:'smooth',block:'center'});if(key){document.getElementById('success-key').value=key;message.textContent=email?'Linked to '+email+' — paste it into Prism to unlock.':'Key ready — paste it into Prism to unlock.'}else message.textContent='Payment received — generating your key. Please keep this page open.'}
-    async function pollKey(ids){ids=ids||{};const q=new URLSearchParams();if(ids.txn&&String(ids.txn).startsWith('txn_'))q.set('txn',ids.txn);const che0=ids.checkout||ids.che||'';if(che0&&String(che0).startsWith('che_'))q.set('checkout',che0);const ctm0=ids.customer||ids.ctm||'';if(ctm0&&String(ctm0).startsWith('ctm_'))q.set('customer',ctm0);if(ids.sub&&String(ids.sub).startsWith('sub_'))q.set('sub',ids.sub);if(ids.inv&&String(ids.inv).startsWith('inv_'))q.set('inv',ids.inv);if(ids.email&&String(ids.email).indexOf('@')>0)q.set('email',ids.email);const ref=ids.txn||ids.sub||che0||ctm0||'';for(let i=0;i<30;i++){try{const res=await fetch(WORKER+'/api/get-license?'+q);const data=await res.json();if(data.found&&data.key){showKey(data.key,(data.email&&data.email.indexOf('@')>0)?data.email:(ids.email||''));return}}catch{} message.textContent='Preparing your key ('+((i+1)*3)+'s)… please keep this page open.';await new Promise(r=>setTimeout(r,3000))}message.textContent='Your payment is complete, but the key is still being prepared. Use Retry key lookup in a moment or contact support with your Paddle receipt.'+(ref?(' Ref: '+ref):'')}
-    function completed(data={}){if(isComplete)return;isComplete=true;data=data||{};const customer=data.customer||{};lastEmail=customer.email||data.customer_email||data.email||'';const txnId=data.transaction_id||data.txn||'';const rawId=data.id||'';const cheId=/^che_/i.test(rawId)?rawId:((data.checkout&&data.checkout.id)||data.checkout_id||'');const ctmId=customer.id||data.customer_id||'';const subId=data.subscription_id||(data.subscription&&data.subscription.id)||'';const invId=data.invoice_id||data.invoice_number||'';checkoutIds={email:lastEmail,txn:/^txn_/i.test(txnId)?txnId:'',checkout:cheId,che:cheId,customer:/^ctm_/i.test(ctmId)?ctmId:'',sub:subId,inv:invId};showKey('',lastEmail);setTimeout(()=>pollKey(checkoutIds),4000)}
-    function openCheckout(priceId){if(typeof Paddle==='undefined'||!Paddle.Checkout){message.textContent='Checkout could not load. Disable your ad blocker and reload the page.';showKey('','');return}Paddle.Checkout.open({items:[{priceId,quantity:1}]})}
-    document.getElementById('paddle-monthly').onclick=e=>{e.preventDefault();openCheckout(monthlyPrice)};document.getElementById('paddle-annual').onclick=e=>{e.preventDefault();openCheckout(annualPrice)};
-    document.getElementById('success-copy').onclick=()=>{const input=document.getElementById('success-key');if(!input.value)return;navigator.clipboard.writeText(input.value);const button=document.getElementById('success-copy');button.textContent='Copied ✓';button.classList.add('copied');setTimeout(()=>{button.textContent='Copy';button.classList.remove('copied')},1600)};
-    document.getElementById('success-retry').onclick=()=>pollKey(checkoutIds);
-    Paddle.Initialize({token:'live_b984682f2c9e400793fb4183162',eventCallback:event=>{if(event?.name==='checkout.completed')completed(event.data||event)}});
-    window.addEventListener('message',event=>{if(event.data?.event==='checkout.completed')completed(event.data)});
-    if(new URL(location).searchParams.get('success')==='1')showKey('','');
+
+    // Try to activate Pro on THIS device silently via chrome.runtime.sendMessage
+    function tryAutoActivate(key, email, currentPeriodEnd) {
+      try {
+        if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+          chrome.runtime.sendMessage(
+            PRISM_EXT_ID,
+            { type: 'ACTIVATE_PRO', key, email, currentPeriodEnd },
+            (response) => {
+              const success = response && response.ok;
+              const autoMsg = document.getElementById('auto-activate-msg');
+              if (autoMsg) {
+                if (success) {
+                  autoMsg.textContent = '✓ Prism Pro is now active in this browser — no key needed!';
+                  autoMsg.className = 'auto-msg success';
+                } else {
+                  autoMsg.textContent = 'Auto-activate failed — copy the key below and paste it into the Prism extension.';
+                  autoMsg.className = 'auto-msg warn';
+                }
+                autoMsg.style.display = 'block';
+              }
+            }
+          );
+        }
+      } catch (_) {}
+    }
+
+    function showKey(key, email, currentPeriodEnd) {
+      const panel = document.getElementById('success-panel');
+      panel.hidden = false;
+      panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (key) {
+        document.getElementById('success-key').value = key;
+        message.textContent = email
+          ? 'Linked to ' + email + ' — your extension is now active.'
+          : 'Prism Pro is ready.';
+        tryAutoActivate(key, email, currentPeriodEnd);
+      } else {
+        message.textContent = 'Payment received — activating Prism. Please keep this page open.';
+      }
+    }
+
+    async function pollKey(ids) {
+      ids = ids || {};
+      const q = new URLSearchParams();
+      if (ids.txn && String(ids.txn).startsWith('txn_')) q.set('txn', ids.txn);
+      const che0 = ids.checkout || ids.che || '';
+      if (che0 && String(che0).startsWith('che_')) q.set('checkout', che0);
+      const ctm0 = ids.customer || ids.ctm || '';
+      if (ctm0 && String(ctm0).startsWith('ctm_')) q.set('customer', ctm0);
+      if (ids.sub && String(ids.sub).startsWith('sub_')) q.set('sub', ids.sub);
+      if (ids.inv && String(ids.inv).startsWith('inv_')) q.set('inv', ids.inv);
+      if (ids.email && String(ids.email).indexOf('@') > 0) q.set('email', ids.email);
+      const ref = ids.txn || ids.sub || che0 || ctm0 || '';
+      for (let i = 0; i < 30; i++) {
+        try {
+          const res = await fetch(WORKER + '/api/get-license?' + q);
+          const data = await res.json();
+          if (data.found && data.key) {
+            const resolvedEmail = (data.email && data.email.indexOf('@') > 0) ? data.email : (ids.email || '');
+            showKey(data.key, resolvedEmail, data.currentPeriodEnd);
+            return;
+          }
+        } catch (_) {}
+        message.textContent = 'Activating (' + ((i + 1) * 3) + 's)… please keep this page open.';
+        await new Promise(r => setTimeout(r, 3000));
+      }
+      message.textContent = 'Your payment is complete, but activation is still processing. Use Retry or contact support with your Paddle receipt.' + (ref ? (' Ref: ' + ref) : '');
+    }
+
+    function completed(data = {}) {
+      if (isComplete) return;
+      isComplete = true;
+      data = data || {};
+      const customer = data.customer || {};
+      lastEmail = customer.email || data.customer_email || data.email || '';
+      const txnId = data.transaction_id || data.txn || '';
+      const rawId = data.id || '';
+      const cheId = /^che_/i.test(rawId) ? rawId : ((data.checkout && data.checkout.id) || data.checkout_id || '');
+      const ctmId = customer.id || data.customer_id || '';
+      const subId = data.subscription_id || (data.subscription && data.subscription.id) || '';
+      const invId = data.invoice_id || data.invoice_number || '';
+      checkoutIds = { email: lastEmail, txn: /^txn_/i.test(txnId) ? txnId : '', checkout: cheId, che: cheId, customer: /^ctm_/i.test(ctmId) ? ctmId : '', sub: subId, inv: invId };
+      showKey('', lastEmail);
+      setTimeout(() => pollKey(checkoutIds), 4000);
+    }
+
+    function openCheckout(priceId) {
+      if (typeof Paddle === 'undefined' || !Paddle.Checkout) {
+        message.textContent = 'Checkout could not load. Disable your ad blocker and reload the page.';
+        showKey('', '');
+        return;
+      }
+      Paddle.Checkout.open({ items: [{ priceId, quantity: 1 }] });
+    }
+
+    document.getElementById('paddle-monthly').onclick = e => { e.preventDefault(); openCheckout(monthlyPrice); };
+    document.getElementById('paddle-annual').onclick = e => { e.preventDefault(); openCheckout(annualPrice); };
+    document.getElementById('success-copy').onclick = () => {
+      const input = document.getElementById('success-key');
+      if (!input.value) return;
+      navigator.clipboard.writeText(input.value);
+      const button = document.getElementById('success-copy');
+      button.textContent = 'Copied ✓';
+      button.classList.add('copied');
+      setTimeout(() => { button.textContent = 'Copy'; button.classList.remove('copied'); }, 1600);
+    };
+    document.getElementById('success-retry').onclick = () => pollKey(checkoutIds);
+    Paddle.Initialize({ token: 'live_b984682f2c9e400793fb4183162', eventCallback: event => { if (event?.name === 'checkout.completed') completed(event.data || event); } });
+    window.addEventListener('message', event => { if (event.data?.event === 'checkout.completed') completed(event.data); });
+    if (new URL(location).searchParams.get('success') === '1') showKey('', '');
   </script>
 </body>
 </html>
