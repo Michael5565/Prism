@@ -42,7 +42,7 @@ const UNINSTALL_URL = 'https://getwalksafe.co.uk/uninstall/';
 
 function setUninstallFeedbackURL() {
   try {
-    const version = (chrome.runtime.getManifest && chrome.runtime.getManifest().version) || '1.0.14';
+    const version = (chrome.runtime.getManifest && chrome.runtime.getManifest().version) || '1.0.15';
     const uninstallUrl = `${UNINSTALL_URL}?v=${encodeURIComponent(version)}`;
     chrome.runtime.setUninstallURL(uninstallUrl);
   } catch (err) {
